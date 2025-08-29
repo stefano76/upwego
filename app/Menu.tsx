@@ -1,14 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
 import type { JSX } from "react";
 import { useState, useEffect } from "react";
+import MenuItems from "./MenuItems";
+
+type MenuItem = {
+  title: string;
+  slug: string;
+};
 
 type MenuProps = {
   menuOpen: boolean;
+  menuItems: MenuItem[];
 };
 
-export default function Menu({ menuOpen }: MenuProps): JSX.Element {
+export default function Menu({ menuOpen, menuItems }: MenuProps): JSX.Element {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -48,25 +54,7 @@ export default function Menu({ menuOpen }: MenuProps): JSX.Element {
           />
         </label>
       )}
-      <nav className="p-4">
-        <ul className="flex flex-col gap-2">
-          <li>
-            <Link href="/" className="text-lg text-[var(--foreground)] hover:underline">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link href="/about" className="text-lg text-[var(--foreground)] hover:underline">
-              About
-            </Link>
-          </li>
-          <li>
-            <Link href="/contact" className="text-lg text-[var(--foreground)] hover:underline">
-              Contact
-            </Link>
-          </li>
-        </ul>
-      </nav>
+      <MenuItems menuItems={menuItems} />
     </div>
   );
 }

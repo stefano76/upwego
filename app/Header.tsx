@@ -4,7 +4,16 @@ import type { JSX } from "react";
 import Menu from "./Menu";
 import MenuToggle from "./MenuToggle";
 
-export default function Header(): JSX.Element {
+type MenuItem = {
+  title: string;
+  slug: string;
+};
+
+type HeaderProps = {
+  menuItems: MenuItem[];
+};
+
+export default function Header({ menuItems }: HeaderProps): JSX.Element {
   const [isDark, setIsDark] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
@@ -30,7 +39,7 @@ export default function Header(): JSX.Element {
         <h1 className="text-[24px] font-bold tracking-tight text-[var(--foreground)]">Upwego</h1>
         <MenuToggle menuOpen={menuOpen} toggleMenu={toggleMenu} isDark={isDark} />
       </header>
-      <Menu menuOpen={menuOpen} />
+      <Menu menuOpen={menuOpen} menuItems={menuItems} />
     </div>
   );
 }
