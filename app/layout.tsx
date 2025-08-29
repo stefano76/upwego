@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Nunito, Merriweather } from "next/font/google";
 import "./globals.css";
 import GetHeader from "./server/GetHeader";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const fontBody = Nunito({
   subsets: ["latin"],
+  weight: ["300"], // 300 is Light weight
+  variable: "--font-body",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fontHeading = Merriweather({
   subsets: ["latin"],
+  weight: ["300", "400", "700"], // Light, Regular, and Bold
+  variable: "--font-heading",
 });
 
 export const metadata: Metadata = {
@@ -25,9 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${fontBody.variable} ${fontHeading.variable} antialiased`}>
         {/* Global Header */}
         <GetHeader />
         {children}

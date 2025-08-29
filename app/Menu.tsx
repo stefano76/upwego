@@ -12,9 +12,10 @@ type MenuItem = {
 type MenuProps = {
   menuOpen: boolean;
   menuItems: MenuItem[];
+  onClose: () => void;
 };
 
-export default function Menu({ menuOpen, menuItems }: MenuProps): JSX.Element {
+export default function Menu({ menuOpen, menuItems, onClose }: MenuProps): JSX.Element {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -37,22 +38,30 @@ export default function Menu({ menuOpen, menuItems }: MenuProps): JSX.Element {
   };
 
   return (
-    <div className={`main-menu-container fixed bg-[var(--background)] w-screen h-[calc(100vh-72px)] right-[-100vw] top-[72px] overflow-x-hidden
+    <div className={`main-menu-container fixed bg-[#ccc] w-screen h-[100vh] right-[-100vw] top-[0] overflow-x-hidden pt-30
       ${menuOpen ? "-translate-x-full" : "translate-x-0"} transition-transform duration-1000 ease-in-out`}>
       {mounted && (
-        <label className="flex items-center cursor-pointer ml-4">
-          <input
-            type="checkbox"
-            checked={isDark}
-            onChange={toggleTheme}
-            className="sr-only"
-            aria-label="Toggle dark mode"
-          />
-          <FontAwesomeIcon
-            icon={isDark ? faSun : faMoon}
-            className={`text-xl ${isDark ? "text-white" : "text-gray-800"} transition-colors`}
-          />
-        </label>
+        <div>
+          <label className="flex items-center cursor-pointer ml-4">
+            <input
+              type="checkbox"
+              checked={isDark}
+              onChange={toggleTheme}
+              className="sr-only"
+              aria-label="Toggle dark mode"
+            />
+            <FontAwesomeIcon
+              icon={isDark ? faSun : faMoon}
+              className={`text-xl ${isDark ? "text-white" : "text-gray-800"} transition-colors`}
+            />
+          </label>
+          <button
+            className="absolute top-4 right-7 text-5xl"
+            onClick={onClose}
+          >
+            &times;
+          </button>
+        </div>
       )}
       <MenuItems menuItems={menuItems} />
     </div>

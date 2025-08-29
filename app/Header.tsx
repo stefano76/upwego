@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import type { JSX } from "react";
 import Menu from "./Menu";
-import MenuToggle from "./MenuToggle";
+import MenuOpenButton from "./MenuToggle";
 
 type MenuItem = {
   title: string;
@@ -31,15 +31,16 @@ export default function Header({ menuItems }: HeaderProps): JSX.Element {
     document.documentElement.classList.toggle("dark", darkMode);
   }, []);
 
-  const toggleMenu = () => setMenuOpen((open) => !open);
+  const openMenu = () => setMenuOpen(true);
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <div className="header-container">
       <header className="p-4 flex items-center justify-between">
         <h1 className="text-[24px] font-bold tracking-tight text-[var(--foreground)]">Upwego</h1>
-        <MenuToggle menuOpen={menuOpen} toggleMenu={toggleMenu} isDark={isDark} />
+        <MenuOpenButton menuOpen={menuOpen} openMenu={openMenu} isDark={isDark} />
       </header>
-      <Menu menuOpen={menuOpen} menuItems={menuItems} />
+      <Menu menuOpen={menuOpen} menuItems={menuItems} onClose={closeMenu} />
     </div>
   );
 }
