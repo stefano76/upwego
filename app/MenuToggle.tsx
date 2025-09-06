@@ -15,13 +15,13 @@ export default function MenuOpenButton({ menuOpen, openMenu, isDark }: MenuToggl
         onClick={openMenu}
       >
         <span
-          className={`block h-[2px] ${isDark ? "bg-white" : "bg-gray-800"} rounded w-[20px]`}
+          className={`block h-[2px] ${isDark ? "bg-white" : "bg-gray-800"} rounded w-9`}
         />
         <span
-          className={`block h-[2px] ${isDark ? "bg-white" : "bg-gray-800"} rounded my-1 w-[20px]`}
+          className={`block h-[2px] ${isDark ? "bg-white" : "bg-gray-800"} rounded my-2 w-9`}
         />
         <span
-          className={`block h-[2px] ${isDark ? "bg-white" : "bg-gray-800"} rounded w-[20px]`}
+          className={`block h-[2px] ${isDark ? "bg-white" : "bg-gray-800"} rounded w-9`}
         />
       </button>
     </div>
