@@ -46,11 +46,11 @@ export default async function Home() {
 
       <section id="home-about" className="min-h-[100vh] w-full flex flex-col justify-center">
         <div className="relative z-10 container-padding flex justify-end items-center">
-          <AnimatedLinesAbout 
+          {/* <AnimatedLinesAbout 
             className="w-1/3 h-auto absolute top-1/2 left-0 translate-y-[-50%]"
             duration={2.5}
             delay={0.5}
-          />
+          /> */}
           {Object.entries(blocks["home-about"] || {}).map(([blockId, block]: [string, any]) => (
             <div key={blockId} className="home-about-content w-1/2">
               <div className="text-xl medium-large:text-2xl max-h-sm:text-base">{documentToReactComponents(block.text)}</div>
