@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
-import { Nunito, Merriweather } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import GetHeader from "./server/GetHeader";
 
-const fontBody = Nunito({
+const fontBody = Inter({
   subsets: ["latin"],
-  weight: ["300"], // 300 is Light weight
+  weight: ["300", "400"], // Light, Regular
   variable: "--font-body",
 });
 
-const fontHeading = Merriweather({
+const fontHeading = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "700"], // Light, Regular, and Bold
+  weight: ["700"], // Bold
   variable: "--font-heading",
 });
 
 export const metadata: Metadata = {
   title: "Upwego Digital",
-  description: "The agency for a new digital era",
+  description: "Designing momentum. Together.",
 };
 
 export default function RootLayout({

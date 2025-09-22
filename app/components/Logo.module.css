@@ -1,0 +1,12 @@
+.logoElement {
+  fill: white;
+}
+
+/* Use global classes for theme switching */
+:global(.header-container.light) .logoElement {
+  fill: theme('colors.brand.primary');
+}
+
+:global(.header-container.dark) .logoElement {
+  fill: white;
+}

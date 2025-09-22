@@ -1,10 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import type { JSX } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import Menu from "./Menu";
 import MenuOpenButton from "./MenuToggle";
+import Logo from "./components/Logo";
 
 type MenuItem = {
   title: string;
@@ -16,55 +15,54 @@ type HeaderProps = {
 };
 
 export default function Header({ menuItems }: HeaderProps): JSX.Element {
-  const [isDark, setIsDark] = useState<boolean>(false);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
-
-  /**
-   * Initialize dark mode based on localStorage.
-   * This way the theme persists across page reloads.
-   */
-  useEffect(() => {
-    // Check localStorage or system preference
-    const darkMode = window.localStorage.getItem("theme") === "dark";
-      /*  ||
-      (!window.localStorage.getItem("theme") &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches); */
-    setIsDark(darkMode);
-    document.documentElement.classList.toggle("dark", darkMode);
-  }, []);
+  const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
 
   const openMenu = () => setMenuOpen(true);
   const closeMenu = () => setMenuOpen(false);
 
-  const toggleTheme = () => {
-    const newMode = !isDark;
-    setIsDark(newMode);
-    document.documentElement.classList.toggle("dark", newMode);
-    window.localStorage.setItem("theme", newMode ? "dark" : "light");
-  };
+  useEffect(() => {
+    // Check if we're on the homepage and the home-intro section exists
+    const isHomepage = window.location.pathname === '/';
+    const homeIntroSection = document.getElementById('home-intro');
+    
+    if (isHomepage && homeIntroSection) {
+      setShouldAnimate(true);
+    }
+  }, []);
 
   return (
-    <div className="header-container">
-      <header className="p-4 flex items-center justify-between">
-        <label className="flex items-center cursor-pointer">
-          <input
-            type="checkbox"
-            checked={isDark}
-            onChange={toggleTheme}
-            className="sr-only"
-            aria-label="Toggle dark mode"
-          />
-          <FontAwesomeIcon
-            icon={isDark ? faSun : faMoon}
-            className={`text-xl ${isDark ? "text-white" : "text-gray-800"} transition-colors`}
-          />
-        </label>
-        <h1 className="text-[24px] font-bold tracking-tight text-[var(--foreground)]">Upwego</h1>
-        <MenuOpenButton menuOpen={menuOpen} openMenu={openMenu} isDark={isDark} />
-        {/* <div className="flex items-center gap-4">
-        </div> */}
+    <div className={`header-container fixed top-0 z-50 w-full dark ${shouldAnimate ? 'animate-header-in' : ''}`}>
+      <header className="flex items-center justify-between py-8 container-padding">
+        <Logo
+          width={180}
+          height={31}
+          className="w-[180px] h-[31px]"
+        />
+        
+        {/* Desktop: Horizontal menu */}
+        <nav className="hidden desktop:flex items-center space-x-6">
+          {menuItems.map((item) => (
+            <a
+              key={item.slug}
+              href={item.slug === '' || item.slug === '/' ? '/' : `/${item.slug}`}
+              className="text-[var(--foreground)] hover:text-[var(--brand-secondary)] transition-colors"
+            >
+              {item.title}
+            </a>
+          ))}
+        </nav>
+        
+        {/* Mobile: Burger button */}
+        <div className="desktop:hidden">
+          <MenuOpenButton menuOpen={menuOpen} openMenu={openMenu} isDark={false} />
+        </div>
       </header>
-      <Menu menuOpen={menuOpen} menuItems={menuItems} onClose={closeMenu} />
+      
+      {/* Mobile: Slide-out menu */}
+      <div className="desktop:hidden">
+        <Menu menuOpen={menuOpen} menuItems={menuItems} onClose={closeMenu} />
+      </div>
     </div>
   );
 }

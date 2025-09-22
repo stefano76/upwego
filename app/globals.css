@@ -3,15 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --background: #f2f2f2;
-  --foreground: #171717;
+  --background: theme('colors.brand.primary');
+  --foreground: theme('colors.brand.tertiary');
+  --brand-secondary: theme('colors.brand.secondary');
   --font-body: var(--font-body);
   --font-heading: var(--font-heading);
+  --container-padding: 1rem;
 }
 
-.dark {
-  --background: #434c5e;
-  --foreground: #ededed;
+@media (min-width: theme('screens.tablet')) {
+  :root {
+    --container-padding: 2rem;
+  }
+}
+
+@media (min-width: theme('screens.small')) {
+  :root {
+    --container-padding: 3rem;
+  }
 }
 
 body {
@@ -22,5 +31,12 @@ body {
 
 /* Heading styles */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading), Georgia, serif;
+  font-family: var(--font-heading), Arial, Helvetica, sans-serif;
 }
+
+/* Container utility class */
+.container-padding {
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+}
+

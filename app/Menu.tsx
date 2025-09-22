@@ -16,11 +16,11 @@ type MenuProps = {
 export default function Menu({ menuOpen, menuItems, onClose }: MenuProps): JSX.Element {
 
   const menuVariants = tv({
-    base: "main-menu-container fixed bg-[#ccc] w-screen h-[100vh] right-[-100vw] top-[0] overflow-x-hidden pt-30 transition-transform duration-1000 ease-in-out",
+    base: "main-menu-container fixed bg-[#ccc] w-screen h-[100vh] right-0 top-[0] overflow-x-hidden pt-30 transition-transform duration-1000 ease-in-out",
     variants: {
       menuOpen: {
-        true: "-translate-x-full",
-        false: "translate-x-0",
+        true: "translate-x-0",
+        false: "translate-x-full",
       },
     },
   });
