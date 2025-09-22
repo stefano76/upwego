@@ -33,7 +33,7 @@ const AnimatedLinesAbout: React.FC<AnimatedLinesAbout> = ({
         <motion.path 
           d="M0 5H200C203.978 5 207.794 6.58035 210.607 9.3934C213.42 12.2064 215 16.0218 215 20C215 23.9782 213.42 27.7936 210.607 30.6066C207.794 33.4197 203.978 35 200 35H0" 
           stroke={strokeColor} 
-          strokeWidth="10"
+          strokeWidth={strokeWidth}
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{ 
@@ -55,7 +55,7 @@ const AnimatedLinesAbout: React.FC<AnimatedLinesAbout> = ({
         <motion.path 
           d="M0 5H200C205.5 5 210 7.5 212.5 12.5C215 17.5 215 22.5 212.5 27.5C210 32.5 205.5 35 200 35C194.5 35 190 37.5 187.5 42.5C185 47.5 185 52.5 187.5 57.5C190 62.5 194.5 65 200 65H0" 
           stroke={strokeColor} 
-          strokeWidth="10"
+          strokeWidth={strokeWidth}
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{ 

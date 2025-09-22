@@ -6,7 +6,7 @@ type MenuToggleProps = {
   isDark: boolean;
 };
 
-export default function MenuOpenButton({ menuOpen, openMenu, isDark }: MenuToggleProps): JSX.Element {
+export default function MenuOpenButton({ openMenu, isDark }: MenuToggleProps): JSX.Element {
   return (
     <div className="flex items-center gap-4">
       <button

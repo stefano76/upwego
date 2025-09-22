@@ -1,9 +1,9 @@
 import { getAllBlocksData } from "@/lib/home";
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS } from '@contentful/rich-text-types';
+import Image from 'next/image';
 import ScrollDisabler from './components/ScrollDisabler';
 import ScrollDownButton from './components/ScrollDownButton';
-import AnimatedLinesAbout from './components/AnimatedLinesAbout';
 
 export default async function Home() {
   const blocks = await getAllBlocksData();
@@ -31,7 +31,7 @@ export default async function Home() {
         }
       `}</style>
       <section id="home-intro" className="min-h-[100vh] w-full flex flex-col justify-center relative overflow-hidden">
-        <img src="/img/u-strips-vertical.svg" alt="Upwego" className="w-[30vw] absolute bottom-[30vh] right-[15vw] opacity-0 animate-u-combined" />
+        <Image src="/img/u-strips-vertical.svg" alt="Upwego" width={600} height={800} className="w-[30vw] absolute bottom-[30vh] right-[15vw] opacity-0 animate-u-combined" />
         <div className="absolute top-0 left-0 w-full h-[300px] bg-gradient-to-b from-brand-primary from-0% via-brand-primary via-40% to-transparent"></div>
         <div className="relative z-10 container-padding">
           {Object.entries(blocks["home-intro"] || {}).map(([blockId, block]: [string, any]) => (

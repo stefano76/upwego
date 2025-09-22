@@ -4,6 +4,7 @@ import { Document } from "@contentful/rich-text-types";
 
 // Block content type
 type BlockFields = {
+  id?: string;
   name?: string;
   title?: Document;
   text?: Document;
@@ -15,6 +16,7 @@ type BlockSkeleton = EntrySkeletonType<BlockFields, "block">;
 
 // Section content type
 type SectionFields = {
+  id?: string;
   type?: string;
   page: Entry<any>;
   title?: Document;
@@ -69,7 +71,7 @@ export async function getAllSectionFields() {
 
 export async function getAllBlocksData() {
   const sections = await getHomeSections();
-  const allSections: any = {};
+  const allSections: Record<string, Record<string, any>> = {};
   
   sections.forEach((section: any) => {
     if (section.fields.blocks) {
