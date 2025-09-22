@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import client from "./contentful";
 import { Entry, EntrySkeletonType } from "contentful";
 import { Document } from "@contentful/rich-text-types";

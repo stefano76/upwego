@@ -55,7 +55,7 @@ export default function Header({ menuItems }: HeaderProps): JSX.Element {
         
         {/* Mobile: Burger button */}
         <div className="desktop:hidden">
-          <MenuOpenButton menuOpen={menuOpen} openMenu={openMenu} isDark={false} />
+          <MenuOpenButton openMenu={openMenu} isDark={false} />
         </div>
       </header>
       

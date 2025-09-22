@@ -1,7 +1,6 @@
 import type { JSX } from "react";
 
 type MenuToggleProps = {
-  menuOpen: boolean;
   openMenu: () => void;
   isDark: boolean;
 };
