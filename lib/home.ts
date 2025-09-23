@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import client from "./contentful";
+import getContentfulClient from "./contentful";
 import { Entry, EntrySkeletonType } from "contentful";
 import { Document } from "@contentful/rich-text-types";
 
@@ -37,6 +37,7 @@ type PageSkeleton = EntrySkeletonType<PageFields, "page">;
 
 export async function getHomeContent() {
   try {
+    const client = getContentfulClient();
     const res = await client.getEntries<PageSkeleton>({
       content_type: "page",
       "fields.slug": "/",

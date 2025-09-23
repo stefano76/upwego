@@ -1,4 +1,4 @@
-import client from "./contentful";
+import getContentfulClient from "./contentful";
 import { Entry, EntrySkeletonType } from "contentful";
 
 type MenuItemFields = {
@@ -11,6 +11,7 @@ type MenuItemSkeleton = EntrySkeletonType<MenuItemFields, "menuItem">;
 
 export async function getMenuItems() {
   try {
+    const client = getContentfulClient();
     const res = await client.getEntries<MenuItemSkeleton>({
       content_type: "menuItem",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

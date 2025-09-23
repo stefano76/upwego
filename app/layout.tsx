@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import GetHeader from "./server/GetHeader";
+import LayoutWrapper from "./components/LayoutWrapper";
 
 const fontBody = Inter({
   subsets: ["latin"],
@@ -28,9 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${fontBody.variable} ${fontHeading.variable} antialiased`}>
-        {/* Global Header */}
-        <GetHeader />
-        {children}
+        <LayoutWrapper>
+          {children}
+        </LayoutWrapper>
       </body>
     </html>
   );
