@@ -24,7 +24,7 @@ export default function Header({ menuItems }: HeaderProps): JSX.Element {
 
   return (
     <div className={`header-container fixed top-0 z-50 w-full dark ${shouldAnimate ? 'animate-header-in opacity-0' : 'opacity-100'}`}>
-      <header className="flex items-center justify-between py-8 container-padding">
+      <header className="flex items-center justify-between py-8 container">
         <Logo
           width={180}
           height={31}

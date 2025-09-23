@@ -35,8 +35,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Container utility class */
-.container-padding {
+.container {
   padding-left: var(--container-padding);
   padding-right: var(--container-padding);
+  max-width: theme('screens.large');
+  margin: 0 auto;
 }
-

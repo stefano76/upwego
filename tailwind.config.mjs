@@ -23,7 +23,7 @@ export default {
         'max-h-xl': { 'raw': '(max-height: 1280px)' }
       },
         animation: {
-          'u-combined': 'fadeInDown 5s ease-in-out forwards 2s, pulseOpacity 10s ease-in-out infinite 7s',
+          'u-intro': 'fadeInDown 5s ease-in-out forwards 2s, pulseOpacity 10s ease-in-out infinite 7s',
           'header-in': 'fadeIn 3s ease-in-out forwards 1s',
           'fade-in-delayed': 'fadeIn 3s ease-in-out forwards 2s',
         },
@@ -33,7 +33,7 @@ export default {
             '100%': { opacity: '1' },
           },
           fadeInDown: {
-            '0%': { opacity: '0', transform: 'translateY(-20%)' },
+            '0%': { opacity: '0', transform: 'translateY(-5%)' },
             '100%': { opacity: '1', transform: 'translateY(0)' },
           },
           pulseOpacity: {
