@@ -39,7 +39,7 @@ export default function Home() {
 
   if (!blocks) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-b from-brand-primary to-brand-secondary">
+      <div className="min-h-screen w-full flex items-center justify-center bg-brand-primary">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
       </div>
     );

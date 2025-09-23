@@ -72,7 +72,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-b from-brand-primary to-brand-secondary">
+      <div className="min-h-screen w-full flex items-center justify-center bg-brand-primary">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
       </div>
     );

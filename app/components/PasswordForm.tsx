@@ -21,7 +21,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({
     setIsLoading(true);
     setError('');
 
-    const correctPassword = process.env.NEXT_PUBLIC_UPWEGO_PASSWORD || 'upwego2024';
+    const correctPassword = process.env.NEXT_PUBLIC_UPWEGO_PASSWORD;
     
     setTimeout(() => {
       if (password === correctPassword) {
@@ -35,7 +35,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({
   };
 
   return (
-    <div className={`min-h-screen w-full flex items-center justify-center bg-gradient-to-b from-brand-primary to-brand-secondary ${className}`}>
+    <div className={`min-h-screen w-full flex items-center justify-center bg-brand-primary ${className}`}>
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -43,7 +43,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({
         className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4"
       >
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Welcome to Upwego</h1>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">Welcome</h1>
           <p className="text-gray-600">Please enter the password to continue</p>
         </div>
 
@@ -57,7 +57,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all duration-200"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all duration-200 text-black"
               placeholder="Enter password"
               required
               disabled={isLoading}
@@ -94,7 +94,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({
 
         <div className="mt-6 text-center">
           <p className="text-xs text-gray-500">
-            Protected content • Upwego 2024
+            Protected content
           </p>
         </div>
       </motion.div>
