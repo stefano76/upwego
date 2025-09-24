@@ -84,7 +84,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
 
   return (
     <AnimationProvider>
-      <div className="relative">
+      <div className="relative main">
         {/* Header - only shown when authenticated */}
         <Header menuItems={menuItems} />
         

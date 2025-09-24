@@ -18,7 +18,7 @@ export default function MenuItems({ menuItems = [] }: MenuItemsProps) {
         <ul className="flex flex-col gap-2">
           {menuItems.map(item => (
             <li key={item.slug}>
-              <Link href={`/${item.slug}`} className="text-lg text-[var(--foreground)] hover:underline">
+              <Link href={`/${item.slug}`} className={`text-lg text-[var(--foreground)] ${item.slug === '#contact' ? 'btn-secondary' : 'hover:underline'}`}>
                 {item.title}
               </Link>
             </li>

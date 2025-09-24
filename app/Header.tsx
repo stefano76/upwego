@@ -24,7 +24,7 @@ export default function Header({ menuItems }: HeaderProps): JSX.Element {
 
   return (
     <div className={`header-container fixed top-0 z-50 w-full dark ${shouldAnimate ? 'animate-header-in opacity-0' : 'opacity-100'}`}>
-      <header className="flex items-center justify-between py-8 container">
+      <header className="flex items-center justify-between py-8 container bg-brand-primary">
         <Logo
           width={180}
           height={31}
@@ -32,12 +32,15 @@ export default function Header({ menuItems }: HeaderProps): JSX.Element {
         />
         
         {/* Desktop: Horizontal menu */}
-        <nav className="hidden desktop:flex items-center space-x-6">
+        <nav className="hidden desktop:flex items-center gap-6 space-x-6 desktop-nav-menu">
           {menuItems.map((item) => (
             <a
               key={item.slug}
               href={item.slug === '' || item.slug === '/' ? '/' : `/${item.slug}`}
-              className="text-[var(--foreground)] hover:text-[var(--brand-secondary)] transition-colors"
+              className={`text-[var(--foreground)] transition-colors font-normal
+                ${item.slug === '#contact' ? 'btn-secondary' : 'hover:text-[var(--brand-secondary)]'}
+                ${typeof window !== "undefined" && window.location.pathname === "/" && (item.slug === "" || item.slug === "/") ? " active" : ""}
+                ${typeof window !== "undefined" && (window.location.pathname === "/" + item.slug) ? ' active' : ''}`}
             >
               {item.title}
             </a>

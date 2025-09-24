@@ -41,3 +41,23 @@ h1, h2, h3, h4, h5, h6 {
   max-width: theme('screens.large');
   margin: 0 auto;
 }
+
+.btn-secondary {
+  background-color: var(--brand-secondary);
+  color: theme('colors.brand.primary');
+  padding: 0.5rem 3rem;
+  border-radius: 10rem;
+  transition: opacity 0.3s ease;
+}
+
+.btn-secondary:hover {
+  opacity: 0.7;
+}
+
+.desktop-nav-menu a.active {
+  color: theme('colors.brand.secondary');
+}
+
+/* .main {
+  max-width: theme('screens.large');
+} */

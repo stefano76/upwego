@@ -71,20 +71,13 @@ export default function Home() {
             bottom: 10vh;          
           }
         }
-        
-        @media (min-height: 1024px) {
+
+        @media (min-width: 1440px) and (min-height: 900px) and (min-aspect-ratio: 4/3) {
           .u-strips-responsive {
             bottom: auto;
-            top: -250px;
+            top: -400px;
           }
         }
-        
-        /* @media (min-height: 1440px) {
-          .u-strips-responsive {
-            bottom: auto;
-            top: -20vw;
-          }
-        } */
       `}</style>
       <section id="home-intro" className="min-h-[100vh] w-full flex flex-col justify-start items-center relative overflow-hidden">
         <div className="absolute h-full w-full top-0 left-1/2 translate-x-[-50%] max-w-screen-large">
@@ -110,12 +103,14 @@ export default function Home() {
       </section>
 
       <section id="home-about" className="min-h-[100vh] w-full flex flex-col justify-center">
-        <div className="relative z-10 container flex justify-end items-center">
+        <div className="relative z-10 container flex justify-between items-center">
           {/* <AnimatedLinesAbout 
             className="w-1/3 h-auto absolute top-1/2 left-0 translate-y-[-50%]"
             duration={2.5}
             delay={0.5}
           /> */}
+          {/* <img src="/img/u-strips-horizontal.svg" alt="About Us" className="absolute top-1/2 left-12 translate-y-[-50%] w-[40%]" /> */}
+          <iframe src='https://outlook.office.com/book/Test@upwegodigital.com/?ismsaljsauthenabled' width='40%' height='100%' scrolling='yes' style={{border: '0'}}></iframe>
           {Object.entries(blocks["home-about"] || {}).map(([blockId, block]: [string, any]) => (
             <div key={blockId} className="home-about-content w-1/2">
               <div className="text-xl medium-large:text-2xl max-h-sm:text-base">{documentToReactComponents(block.text)}</div>
