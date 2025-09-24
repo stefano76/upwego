@@ -18,6 +18,10 @@ const fontHeading = Inter({
 export const metadata: Metadata = {
   title: "Upwego Digital",
   description: "Designing momentum. Together.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function RootLayout({
