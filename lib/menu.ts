@@ -1,43 +1,32 @@
-import getContentfulClient from "./contentful";
-import { Entry, EntrySkeletonType } from "contentful";
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
 
-type MenuItemFields = {
+interface MenuItemFields {
   title: string;
   slug: string;
   order: number;
-};
+}
 
-type MenuItemSkeleton = EntrySkeletonType<MenuItemFields, "menuItem">;
-
-export async function getMenuItems() {
+export async function getMenuItems(): Promise<MenuItemFields[]> {
   try {
-    const client = getContentfulClient();
-    const res = await client.getEntries<MenuItemSkeleton>({
-      content_type: "menuItem",
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      order: ["fields.order"] as any
-    });
-
-    return res.items
-      .map((item: Entry<MenuItemSkeleton>) => {
-        const title = item.fields.title;
-        const slug = item.fields.slug;
-        const order = item.fields.order;
-
-        // Ensure we have valid data
-        if (!title || !slug || typeof order !== 'number') {
-          return null;
-        }
-
-        return {
-          title: typeof title === 'string' ? title : title['en-US'] || '',
-          slug: typeof slug === 'string' ? slug : slug['en-US'] || '',
-          order: typeof order === 'number' ? order : order['en-US'] || 0,
-        };
-      })
-      .filter((item): item is NonNullable<typeof item> => item !== null);
+    const filePath = path.join(process.cwd(), 'content', 'menu', 'items.md');
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const { data } = matter(fileContents);
+    
+    // Extract items from frontmatter and sort by order
+    const items = data.items || [];
+    return items.sort((a: MenuItemFields, b: MenuItemFields) => a.order - b.order);
   } catch (error) {
     console.error('Error fetching menu items:', error);
-    return [];
+    // Fallback to hardcoded data if file reading fails
+    return [
+      { title: "Home", slug: "/", order: 1 },
+      { title: "Process", slug: "process", order: 2 },
+      { title: "About", slug: "about", order: 3 },
+      { title: "Services", slug: "services", order: 4 },
+      { title: "Linkedin", slug: "https://linkedin.com/company/upwego", order: 5 },
+      { title: "Contact us", slug: "#contact", order: 6 }
+    ];
   }
 }

@@ -3,9 +3,11 @@
 @tailwind utilities;
 
 :root {
-  --background: theme('colors.brand.primary');
-  --foreground: theme('colors.brand.tertiary');
+  --brand-primary: theme('colors.brand.primary');
   --brand-secondary: theme('colors.brand.secondary');
+  --brand-tertiary: theme('colors.brand.tertiary');
+  --background: var(--brand-primary);
+  --foreground: var(--brand-tertiary);
   --font-body: var(--font-body);
   --font-heading: var(--font-heading);
   --container-padding: 1rem;
@@ -45,19 +47,69 @@ h1, h2, h3, h4, h5, h6 {
 .btn-secondary {
   background-color: var(--brand-secondary);
   color: theme('colors.brand.primary');
-  padding: 0.5rem 3rem;
+  padding: 0.75rem 2.5rem;
   border-radius: 10rem;
-  transition: opacity 0.3s ease;
+  transition: background-color 0.3s ease;
+  font-weight: 500;
+}
+
+.btn-secondary:not(.menu-item) {
+  margin-top: 3rem;
 }
 
 .btn-secondary:hover {
-  opacity: 0.7;
+  /* opacity: 0.7; */
+  background-color: white;
+  background-color: color-mix(in srgb, var(--brand-secondary) 70%, var(--foreground) 30%);
 }
 
 .desktop-nav-menu a.active {
   color: theme('colors.brand.secondary');
+  font-weight: 600;
 }
 
-/* .main {
-  max-width: theme('screens.large');
-} */
+a.menu-item {
+  transition: color 0.3s ease;
+}
+
+a.menu-item:not(.menu-item-contact-us) {
+  position: relative;
+}
+
+a.menu-item:not(.menu-item-contact-us):not(.menu-item-linkedin)::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: theme('colors.brand.secondary');
+  transition: width 0.3s ease;
+}
+
+a.menu-item:not(.menu-item-contact-us):not(.menu-item-linkedin):hover::after {
+  width: 100%;
+}
+
+a.menu-item-linkedin svg path {
+  transition: fill 0.3s ease;
+}
+
+a.menu-item-linkedin:hover svg path {
+  fill: theme('colors.brand.secondary');
+}
+
+.box {
+  border-radius: 1.25rem;
+  border: 1px solid theme('colors.brand.tertiary');
+}
+
+.neon-border-secondary {
+  border: 2px solid theme('colors.brand.secondary');
+  box-shadow: 0 0 24px 2px theme('colors.brand.secondary');
+}
+
+.neon-border-tertiary {
+  border: 1px solid theme('colors.brand.tertiary');
+  box-shadow: 0 0 24px 2px theme('colors.brand.secondary');
+}

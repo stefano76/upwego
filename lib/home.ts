@@ -1,51 +1,48 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import getContentfulClient from "./contentful";
-import { Entry, EntrySkeletonType } from "contentful";
-import { Document } from "@contentful/rich-text-types";
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
 
 // Block content type
 type BlockFields = {
   id?: string;
   name?: string;
-  title?: Document;
-  text?: Document;
+  title?: string;
+  text?: string;
   linkText?: string;
   linkUrl?: string;
 };
-
-type BlockSkeleton = EntrySkeletonType<BlockFields, "block">;
 
 // Section content type
 type SectionFields = {
   id?: string;
   type?: string;
-  page: Entry<any>;
-  title?: Document;
-  blocks?: Entry<BlockSkeleton>[];
+  title?: string;
+  text?: string;
+  linkText?: string;
+  linkUrl?: string;
 };
-
-type SectionSkeleton = EntrySkeletonType<SectionFields, "section">;
 
 // Page content type
 type PageFields = {
   title: string;
   slug: string;
-  sections: Entry<SectionSkeleton>[];
+  sections: string[];
 };
-
-type PageSkeleton = EntrySkeletonType<PageFields, "page">;
 
 export async function getHomeContent() {
   try {
-    const client = getContentfulClient();
-    const res = await client.getEntries<PageSkeleton>({
-      content_type: "page",
-      "fields.slug": "/",
-      limit: 1,
-      include: 3
-    } as any);
-
-    return res.items[0];
+    const filePath = path.join(process.cwd(), 'content', 'pages', 'home.md');
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const { data } = matter(fileContents);
+    
+    return {
+      fields: {
+        title: data.title,
+        slug: data.slug,
+        sections: data.sections
+      }
+    };
   } catch (error) {
     console.error('Error fetching home content:', error);
     return null;
@@ -57,37 +54,44 @@ export async function getHomeSections() {
   return homePage?.fields?.sections || [];
 }
 
-export async function getIntroSection() {
-  const sections = await getHomeSections();
-  return sections.find((section: any) => section.fields.id === "home-intro") || null;
-}
-
-export async function getAllSectionFields() {
-  const sections = await getHomeSections();
-  return sections.map((section: any) => ({
-    id: section.sys.id,
-    title: section.fields.title,
-    blocks: section.fields.blocks || []
-  }));
-}
-
 export async function getAllBlocksData() {
   const sections = await getHomeSections();
   const allSections: Record<string, Record<string, any>> = {};
   
-  sections.forEach((section: any) => {
-    if (section.fields.blocks) {
-      allSections[section.fields.id] = {};
-      section.fields.blocks.forEach((block: any) => {
-        allSections[section.fields.id][block.fields.id] = {
-          title: block.fields.title,
-          text: block.fields.text,
-          linkText: block.fields.linkText,
-          linkUrl: block.fields.linkUrl
-        };
-      });
+  for (const sectionId of sections) {
+    try {
+      // Read section file to get blocks list
+      const sectionFilePath = path.join(process.cwd(), 'content', 'sections', `${sectionId}.md`);
+      const sectionFileContents = fs.readFileSync(sectionFilePath, 'utf8');
+      const { data: sectionData } = matter(sectionFileContents);
+      
+      allSections[sectionId] = {};
+      
+      // Read each block file
+      if (sectionData.blocks && Array.isArray(sectionData.blocks)) {
+        for (const blockId of sectionData.blocks) {
+          try {
+            const blockFilePath = path.join(process.cwd(), 'content', 'blocks', `${blockId}.md`);
+            const blockFileContents = fs.readFileSync(blockFilePath, 'utf8');
+            const { data: blockData } = matter(blockFileContents);
+            
+            allSections[sectionId][blockId] = {
+              title: blockData.title,
+              text: blockData.text,
+              label: blockData.label,
+              linkText: blockData.linkText,
+              linkUrl: blockData.linkUrl
+            };
+          } catch (blockError) {
+            console.error(`Error reading block ${blockId}:`, blockError);
+          }
+        }
+      }
+    } catch (error) {
+      console.error(`Error reading section ${sectionId}:`, error);
+      allSections[sectionId] = {};
     }
-  });
+  }
   
   return allSections;
 }

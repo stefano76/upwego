@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import { animations, keyframes } from './config/animations.js';
+
 export default {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
@@ -22,26 +24,8 @@ export default {
         'max-h-lg': { 'raw': '(max-height: 1024px)' },
         'max-h-xl': { 'raw': '(max-height: 1280px)' }
       },
-        animation: {
-          'u-intro': 'fadeInDown 5s ease-in-out forwards 2s, pulseOpacity 10s ease-in-out infinite 7s',
-          'header-in': 'fadeIn 3s ease-in-out forwards 1s',
-          'fade-in-delayed': 'fadeIn 3s ease-in-out forwards 2s',
-        },
-        keyframes: {
-          fadeIn: {
-            '0%': { opacity: '0' },
-            '100%': { opacity: '1' },
-          },
-          fadeInDown: {
-            '0%': { opacity: '0', transform: 'translateY(-8%)' },
-            '20%': { opacity: '0' },
-            '100%': { opacity: '1', transform: 'translateY(0)' },
-          },
-          pulseOpacity: {
-            '0%, 100%': { opacity: '1' },
-            '50%': { opacity: '0.5' },
-          }
-        },
+      animation: animations,
+      keyframes: keyframes,
       colors: {
         brand: {
           primary: "#081022", // Liberty Blue

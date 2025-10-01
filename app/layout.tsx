@@ -11,7 +11,7 @@ const fontBody = Inter({
 
 const fontHeading = Inter({
   subsets: ["latin"],
-  weight: ["700"], // Bold
+  weight: ["500", "600", "700"], // Medium, Semibold, Bold
   variable: "--font-heading",
 });
 

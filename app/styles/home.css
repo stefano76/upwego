@@ -1,0 +1,55 @@
+/* Home page specific styles */
+
+/* Intro section styles */
+.home-intro-content b, .home-about-content b {
+  color: var(--brand-secondary);
+  font-weight: 700;
+}
+
+.home-intro-content b {
+  display: block;
+}
+
+#home-intro {
+  --intro-bottom-offset: 20vh;
+}
+
+.u-strips-responsive {
+  bottom: 20vh;          
+}
+
+@media (max-height: 500px) {
+  .u-strips-responsive {
+    bottom: 10vh;          
+  }
+}
+
+@media (min-width: 1440px) and (min-height: 900px) and (min-aspect-ratio: 4/3) {
+  .u-strips-responsive {
+    bottom: auto;
+    top: -400px;
+  }
+}
+
+/* Challenge section styles */
+#home-challenge .background-gradient {
+  background-image: url('/img/home-challenges-gradient.png');
+  background-repeat: no-repeat;
+}
+
+#home-challenge .background-gradient-left {
+  background-size: 150% auto;
+  background-position: -50vw 0;
+}
+
+#home-challenge .background-gradient-right {
+  background-size: 120% auto;
+  background-position: 20vw 15vh;
+}
+
+#home-challenge .box-data .item-icon {
+  width: 60px;
+  height: 60px;
+  bottom: -20px;
+  right: -20px;
+}

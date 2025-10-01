@@ -5,6 +5,7 @@ import Menu from "./Menu";
 import MenuOpenButton from "./MenuToggle";
 import Logo from "./components/Logo";
 import { useAnimation } from "./components/AnimationContext";
+import LinkedInIcon from "./components/LinkedInIcon";
 
 type MenuItem = {
   title: string;
@@ -23,8 +24,8 @@ export default function Header({ menuItems }: HeaderProps): JSX.Element {
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <div className={`header-container fixed top-0 z-50 w-full dark ${shouldAnimate ? 'animate-header-in opacity-0' : 'opacity-100'}`}>
-      <header className="flex items-center justify-between py-8 container bg-brand-primary">
+    <div className={`header-container fixed top-0 z-50 w-full dark bg-brand-primary ${shouldAnimate ? 'animate-header-in opacity-0' : 'opacity-100'}`}>
+      <header className="flex items-center justify-between py-8 container">
         <Logo
           width={180}
           height={31}
@@ -33,18 +34,43 @@ export default function Header({ menuItems }: HeaderProps): JSX.Element {
         
         {/* Desktop: Horizontal menu */}
         <nav className="hidden desktop:flex items-center gap-6 space-x-6 desktop-nav-menu">
-          {menuItems.map((item) => (
-            <a
-              key={item.slug}
-              href={item.slug === '' || item.slug === '/' ? '/' : `/${item.slug}`}
-              className={`text-[var(--foreground)] transition-colors font-normal
-                ${item.slug === '#contact' ? 'btn-secondary' : 'hover:text-[var(--brand-secondary)]'}
-                ${typeof window !== "undefined" && window.location.pathname === "/" && (item.slug === "" || item.slug === "/") ? " active" : ""}
-                ${typeof window !== "undefined" && (window.location.pathname === "/" + item.slug) ? ' active' : ''}`}
-            >
-              {item.title}
-            </a>
-          ))}
+          {menuItems.map((item) => {
+            // Determine href based on slug type
+            let href = item.slug;
+            let target = undefined;
+            let rel = undefined;
+            
+            if (item.slug.startsWith('http')) {
+              // External URL (like LinkedIn)
+              href = item.slug;
+              target = "_blank";
+              rel = "noopener noreferrer";
+            } else if (item.slug.startsWith('#')) {
+              // Anchor link (like #contact)
+              href = item.slug;
+            } else if (item.slug === '/' || item.slug === '') {
+              // Home page
+              href = '/';
+            } else {
+              // Internal page
+              href = `/${item.slug}`;
+            }
+
+            return (
+              <a
+                key={item.slug}
+                href={href}
+                target={target}
+                rel={rel}
+                className={`text-[var(--foreground)] transition-colors font-light m-0 menu-item menu-item-${item.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}
+                  ${item.slug === '#contact' ? 'btn-secondary' : 'hover:text-[var(--brand-secondary)]'}
+                  ${typeof window !== "undefined" && window.location.pathname === "/" && (item.slug === "" || item.slug === "/") ? " active" : ""}
+                  ${typeof window !== "undefined" && (window.location.pathname === "/" + item.slug) ? ' active' : ''}`}
+              >
+                {item.title === "Linkedin" ? <LinkedInIcon size={28} /> : item.title}
+              </a>
+            );
+          })}
         </nav>
         
         {/* Mobile: Burger button */}

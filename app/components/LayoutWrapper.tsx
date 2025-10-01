@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import PasswordForm from './PasswordForm';
 import Header from '../Header';
+import Footer from '../Footer';
 import { AnimationProvider } from './AnimationContext';
 
 interface LayoutWrapperProps {
@@ -54,6 +55,8 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
       if (response.ok) {
         const items = await response.json();
         setMenuItems(items);
+      } else {
+        console.error('Failed to fetch menu items:', response.status);
       }
     } catch (error) {
       console.error('Error fetching menu items:', error);
@@ -90,6 +93,9 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
         
         {/* Main content */}
         {children}
+        
+        {/* Footer - only shown when authenticated */}
+        <Footer />
       </div>
     </AnimationProvider>
   );
