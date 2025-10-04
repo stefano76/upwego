@@ -33,7 +33,7 @@ export default function Header({ menuItems }: HeaderProps): JSX.Element {
         />
         
         {/* Desktop: Horizontal menu */}
-        <nav className="hidden desktop:flex items-center gap-6 space-x-6 desktop-nav-menu">
+        <nav className="hidden desktop:flex items-center gap-12 desktop-nav-menu">
           {menuItems.map((item) => {
             // Determine href based on slug type
             let href = item.slug;
@@ -62,8 +62,8 @@ export default function Header({ menuItems }: HeaderProps): JSX.Element {
                 href={href}
                 target={target}
                 rel={rel}
-                className={`text-[var(--foreground)] transition-colors font-light m-0 menu-item menu-item-${item.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}
-                  ${item.slug === '#contact' ? 'btn-secondary' : 'hover:text-[var(--brand-secondary)]'}
+                className={`menu-item menu-item-${item.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}
+                  ${item.slug === '#contact' ? 'btn-secondary' : ''}
                   ${typeof window !== "undefined" && window.location.pathname === "/" && (item.slug === "" || item.slug === "/") ? " active" : ""}
                   ${typeof window !== "undefined" && (window.location.pathname === "/" + item.slug) ? ' active' : ''}`}
               >

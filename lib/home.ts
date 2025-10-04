@@ -56,7 +56,7 @@ export async function getHomeSections() {
 
 export async function getAllBlocksData() {
   const sections = await getHomeSections();
-  const allSections: Record<string, Record<string, any>> = {};
+  const allSections: Record<string, any> = {};
   
   for (const sectionId of sections) {
     try {
@@ -65,7 +65,10 @@ export async function getAllBlocksData() {
       const sectionFileContents = fs.readFileSync(sectionFilePath, 'utf8');
       const { data: sectionData } = matter(sectionFileContents);
       
-      allSections[sectionId] = {};
+      allSections[sectionId] = {
+        title: sectionData.title,
+        blocks: {}
+      };
       
       // Read each block file
       if (sectionData.blocks && Array.isArray(sectionData.blocks)) {
@@ -75,7 +78,7 @@ export async function getAllBlocksData() {
             const blockFileContents = fs.readFileSync(blockFilePath, 'utf8');
             const { data: blockData } = matter(blockFileContents);
             
-            allSections[sectionId][blockId] = {
+            allSections[sectionId].blocks[blockId] = {
               title: blockData.title,
               text: blockData.text,
               label: blockData.label,
@@ -89,7 +92,7 @@ export async function getAllBlocksData() {
       }
     } catch (error) {
       console.error(`Error reading section ${sectionId}:`, error);
-      allSections[sectionId] = {};
+      allSections[sectionId] = { title: '', blocks: {} };
     }
   }
   

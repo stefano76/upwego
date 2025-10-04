@@ -16,7 +16,9 @@ export const animations = {
   'gear-to-left': 'gearSlideRotate 2s ease-out forwards 1s',
   'lens-to-left': 'lensSlideRotate 2s ease-out forwards 2s',
   'fade-in-delayed-web': 'fadeIn 3s ease-out forwards 3s',
-  'fade-in-delayed-data': 'fadeIn 3s ease-out forwards 4s'
+  'fade-in-delayed-data': 'fadeIn 3s ease-out forwards 4s',
+  'fade-in-down': 'fadeInDown 2s ease-in-out forwards',
+  'fade-in-up-centered': 'fadeInUpCentered 3s ease-in-out forwards 2s'
 };
 
 export const keyframes = {
@@ -33,6 +35,11 @@ export const keyframes = {
     '0%': { opacity: '0', transform: 'translateY(-8%)' },
     '20%': { opacity: '0' },
     '100%': { opacity: '1', transform: 'translateY(0)' },
+  },
+  fadeInUpCentered: {
+    '0%': { opacity: '0', transform: 'translate(-50%) translateY(10%)' },
+    '20%': { opacity: '0' },
+    '100%': { opacity: '1', transform: 'translate(-50%) translateY(0)' },
   },
   pulseOpacity: {
     '0%, 100%': { opacity: '1' },

@@ -1,5 +1,10 @@
 /* Home page specific styles */
 
+.home-section {
+  min-height: 100vh;
+  padding: 100px 0;
+}
+
 /* Intro section styles */
 .home-intro-content b, .home-about-content b {
   color: var(--brand-secondary);
@@ -52,4 +57,49 @@
   height: 60px;
   bottom: -20px;
   right: -20px;
+}
+
+.home-services-content .block-combined {
+  background-color: var(--brand-primary);
+  padding: 80px;
+}
+
+.home-services-content .block-combined .texts p {
+  color: var(--brand-tertiary);
+  font-weight: 300;
+}
+
+.home-services-content .box-image {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.home-services-content .gradient.animate-fade-in-down + .box-image {
+  animation: fadeInUpCentered 3s ease-in-out forwards 1s;
+}
+
+.home-services-content .gradient.animate-fade-in-down + .box-image-service-web {
+  animation: fadeInDownCentered 3s ease-in-out forwards 1s;
+}
+
+@keyframes fadeInUpCentered {
+  0% { opacity: 0; transform: translate(-50%) translateY(10%); }
+  20% { opacity: 0; }
+  100% { opacity: 1; transform: translate(-50%) translateY(0); }
+}
+
+@keyframes fadeInDownCentered {
+  0% { opacity: 0; transform: translate(-50%) translateY(-10%); }
+  20% { opacity: 0; }
+  100% { opacity: 1; transform: translate(-50%) translateY(0); }
+}
+
+#home-process .background-gradient {
+  /* background: radial-gradient(circle,var(--brand-secondary) 0%, transparent 100%); */
+  background: radial-gradient(
+    ellipse 100% 80% at center bottom,
+    var(--brand-secondary) 0%,
+    var(--brand-primary) 50%,
+    transparent 100%
+  );
 }

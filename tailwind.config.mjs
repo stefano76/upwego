@@ -32,6 +32,8 @@ export default {
           secondary: "#11A4F4", // Dodger Blue
           tertiary: "#FDFEFF" // Ice White
         },
+        blueDark: "#000310",
+        blueExtraLight: "#CCE6F2",
         about_strips: {
           outline1: "#1091D8", // Most external
           outline2: "#27ACF3", // Middle

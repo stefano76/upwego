@@ -1,6 +1,6 @@
 ---
 items:
-  - title: "Homepage"
+  - title: "Home"
     slug: "/"
     order: 1
   - title: "Process"

@@ -5,6 +5,7 @@ sections:
   - home-intro
   - home-about
   - home-challenge
+  - home-services
 ---
 
 # Welcome to Upwego

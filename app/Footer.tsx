@@ -1,64 +1,132 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import type { JSX } from "react";
+import Logo from "./components/Logo";
+
+type MenuItem = {
+  title: string;
+  slug: string;
+  order: number;
+};
+
+type ContactLink = {
+  svg: string;
+  alt: string;
+  label: string;
+  url: string;
+};
+
+// Helper function to strip HTML tags using DOMParser
+const stripHtmlTags = (html: string): string => {
+  if (typeof window !== 'undefined') {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || '';
+  }
+  // Fallback for server-side rendering
+  return html.replace(/<[^>]*>/g, '');
+};
 
 export default function Footer(): JSX.Element {
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [tagline, setTagline] = useState<string>('');
+  const [contactLinks, setContactLinks] = useState<ContactLink[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [menuResponse, taglineResponse, contactResponse] = await Promise.all([
+          fetch('/api/menu'),
+          fetch('/api/tagline'),
+          fetch('/api/contact')
+        ]);
+        
+        if (menuResponse.ok) {
+          const items = await menuResponse.json();
+          setMenuItems(items);
+        }
+        
+        if (taglineResponse.ok) {
+          const taglineData = await taglineResponse.json();
+          setTagline(taglineData.tagline);
+        }
+        
+        if (contactResponse.ok) {
+          const contactData = await contactResponse.json();
+          setContactLinks(contactData);
+        }
+      } catch (error) {
+        console.error('Error fetching footer data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <footer className="w-full bg-brand-primary border-t border-brand-tertiary">
-      <div className="container mx-auto px-6 py-12">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+      <div className="container mx-auto px-6 pt-10 pb-6">
+        <div className="flex flex-col md:flex-row justify-between items-stretch gap-8">
           
-          {/* Logo/Brand */}
-          <div className="flex items-center gap-4">
-            <div className="text-brand-tertiary text-2xl font-bold">
-              Upwego
+          {/* Left Side */}
+          <div className="flex flex-col gap-10"> 
+            {/* Logo/Brand */}
+            <div className="flex flex-col gap-3">
+              <Logo width={180} height={31} className="w-[180px] h-[31px]" />
+              <p className="text-base text-blueExtraLight">{stripHtmlTags(tagline)}</p>
             </div>
-            <div className="text-brand-secondary text-sm font-light">
-              Digital
-            </div>
+
+            {/* Navigation Links */}
+            <nav className="flex flex-wrap justify-center gap-6 text-brand-tertiary">
+              {menuItems.map((item) => {
+                  // Determine href based on slug type
+                  let href = item.slug;
+                  let target = undefined;
+                  let rel = undefined;
+                  let className = "";
+                  let hiddenItems = item.title === "Linkedin" || item.slug === '/' || item.slug === '';
+
+                  // Hide LinkedIn link in footer
+                  if (hiddenItems) {
+                    className = "hidden";
+                  }
+
+                  return (
+                    <a
+                      key={item.slug}
+                      href={href}
+                      target={target}
+                      rel={rel}
+                      className={`menu-item-footer ${className}`}
+                    >
+                      {item.title}
+                    </a>
+                  );
+                })}
+            </nav>
           </div>
 
-          {/* Navigation Links */}
-          <nav className="flex flex-wrap justify-center gap-6 text-brand-tertiary">
-            <a href="#home-intro" className="hover:text-brand-secondary transition-colors duration-300">
-              Home
-            </a>
-            <a href="#home-about" className="hover:text-brand-secondary transition-colors duration-300">
-              About
-            </a>
-            <a href="#home-challenge" className="hover:text-brand-secondary transition-colors duration-300">
-              Challenge
-            </a>
-            <a href="#home-services" className="hover:text-brand-secondary transition-colors duration-300">
-              Services
-            </a>
-            <a href="#home-process" className="hover:text-brand-secondary transition-colors duration-300">
-              Process
-            </a>
-            <a href="#home-contact" className="hover:text-brand-secondary transition-colors duration-300">
-              Contact
-            </a>
-          </nav>
 
-          {/* Copyright */}
-          <div className="text-brand-tertiary text-sm font-light text-center md:text-right">
-            <p>&copy; {new Date().getFullYear()} Upwego Digital</p>
-            <p className="text-xs mt-1 opacity-75">Designing momentum. Together.</p>
+          {/* Contact Links */}
+          <div className="text-brand-tertiary text-sm font-light text-center md:text-right flex flex-col justify-end">
+            <div className="flex flex-col gap-6">
+              {contactLinks.map((contact, index) => (
+                <div key={index} className="text-base font-light text-brand-tertiary">
+                  <a href={contact.url} target="_blank" className="contact-item flex gap-4 items-center">
+                    <img src={contact.svg} alt={contact.alt} width={20} height="auto" />
+                    <span>{contact.label}</span>
+                  </a>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Bottom Border */}
-        <div className="mt-8 pt-8 border-t border-brand-tertiary border-opacity-30">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-brand-tertiary opacity-75">
-            <p>All rights reserved.</p>
-            <div className="flex gap-4">
-              <a href="#" className="hover:text-brand-secondary transition-colors duration-300">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-brand-secondary transition-colors duration-300">
-                Terms of Service
-              </a>
-            </div>
+        <div className="mt-4 pt-6 border-t border-brand-tertiary border-opacity-30">
+          <div className="flex justify-center items-center gap-2 text-xs text-brand-tertiary">
+            <p>&copy; {new Date().getFullYear()} Upwego Digital Limited. All rights reserved.</p>
+            <div className="separator">-</div>
+            <a href="#" className="item-privacy">Privacy Policy</a>
           </div>
         </div>
       </div>
