@@ -17,7 +17,9 @@ export const animations = {
   'lens-to-left': 'lensSlideRotate 2s ease-out forwards 2s',
   'fade-in-delayed-web': 'fadeIn 3s ease-out forwards 3s',
   'fade-in-delayed-data': 'fadeIn 3s ease-out forwards 4s',
-  'fade-in-down': 'fadeInDown 2s ease-in-out forwards'
+  'fade-in-down': 'fadeInDown 2s ease-in-out forwards',
+  'fade-in-slide-right': 'fadeInSlideRight 1.5s ease-out forwards',
+  'fade-in': 'fadeIn 1.5s ease-out forwards'
 };
 
 export const keyframes = {
@@ -65,6 +67,16 @@ export const keyframes = {
     '100%': { 
       opacity: '1', 
       transform: 'rotate(180deg) translateX(0) rotate(-180deg)' 
+    },
+  },
+  fadeInSlideRight: {
+    '0%': { 
+      opacity: '0', 
+      transform: 'translateX(-10%)' 
+    },
+    '100%': { 
+      opacity: '1', 
+      transform: 'translateX(0)' 
     },
   },
 };

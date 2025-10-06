@@ -10,12 +10,14 @@
   --foreground: var(--brand-tertiary);
   --font-body: var(--font-body);
   --font-heading: var(--font-heading);
-  --container-padding: 1rem;
+  --container-padding: 1.5rem;
+  --header-padding-y: 1.5rem;
 }
 
 @media (min-width: theme('screens.tablet')) {
   :root {
     --container-padding: 2rem;
+    --header-padding-y: 2rem;
   }
 }
 
@@ -53,12 +55,23 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
 }
 
-.btn-secondary:not(.menu-item) {
+.btn-secondary.menu-item-mobile {
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 400;
+}
+
+.btn-secondary:not(.menu-item):not(.menu-item-mobile) {
   margin-top: 3rem;
 }
 
 .btn-secondary:hover {
   background-color: theme('colors.blueExtraLight');
+}
+
+.btn-secondary.menu-item-mobile:hover {
+  background-color: theme('colors.brand.primary');
+  color: theme('colors.brand.tertiary');
 }
 
 .desktop-nav-menu a.menu-item:not(.menu-item-contact-us).active {
@@ -135,7 +148,7 @@ a.menu-item-linkedin:hover svg path {
   box-shadow: 0 0 24px 2px theme('colors.brand.secondary');
 }
 
-.section-title b {
+.section-title b, .block-title b {
   color: theme('colors.brand.secondary');
   font-weight: 700;
 }

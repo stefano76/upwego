@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import LinkedInIcon from "./components/LinkedInIcon";
+import LinkedInLogo from "./components/LinkedInLogo";
 
 type MenuItem = {
   title: string;
@@ -9,15 +9,23 @@ type MenuItem = {
 
 type MenuItemsProps = {
   menuItems: MenuItem[];
+  onContactClick?: () => void;
 };
 
-export default function MenuItems({ menuItems = [] }: MenuItemsProps) {
+export default function MenuItems({ menuItems = [], onContactClick }: MenuItemsProps) {
   // console.debug("MenuItems:", menuItems);
 
+  // Sort menu items to put LinkedIn last
+  const sortedMenuItems = [...menuItems].sort((a, b) => {
+    if (a.title === "Linkedin") return 1;
+    if (b.title === "Linkedin") return -1;
+    return 0;
+  });
+
   return (
-    <nav className="p-4">
+    <nav className="p-4 pt-16">
         <ul className="flex flex-col gap-2">
-          {menuItems.map(item => {
+          {sortedMenuItems.map(item => {
             // Determine href and component type based on slug
             let href = item.slug;
             let target = undefined;
@@ -42,14 +50,23 @@ export default function MenuItems({ menuItems = [] }: MenuItemsProps) {
               useLink = true;
             }
 
-            const className = `text-lg text-[var(--foreground)] menu-item menu-item-${item.title.toLowerCase().replace(/[^a-z0-9]/g, '-')} ${item.slug === '#contact' ? 'btn-secondary' : 'hover:underline'}`;
+            const className = `text-3xl text-center block my-4 text-brand-primary menu-item-mobile menu-item-${item.title.toLowerCase().replace(/[^a-z0-9]/g, '-')} ${item.slug === '#contact' ? 'btn-secondary' : 'hover:underline'}`;
+
+            // Handle contact link specially
+            if (item.slug === '#contact' && onContactClick) {
+              return (
+                <li key={item.slug}>
+                  <button onClick={onContactClick} className={className}>
+                    {item.title}
+                  </button>
+                </li>
+              );
+            }
 
             return (
               <li key={item.slug}>
                 {useLink ? (
-                  <Link href={href} className={className}>
-                    {item.title === "Linkedin" ? <LinkedInIcon size={24} /> : item.title}
-                  </Link>
+                  <Link href={href} className={className}>{item.title}</Link>
                 ) : (
                   <a 
                     href={href} 
@@ -57,7 +74,7 @@ export default function MenuItems({ menuItems = [] }: MenuItemsProps) {
                     rel={rel}
                     className={className}
                   >
-                    {item.title === "Linkedin" ? <LinkedInIcon size={24} /> : item.title}
+                    {item.title === "Linkedin" ? <LinkedInLogo width={111} height={30} className="w-[111px] h-[30px] mx-auto" fill="var(--brand-primary)" /> : item.title}
                   </a>
                 )}
               </li>

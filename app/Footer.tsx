@@ -26,7 +26,11 @@ const stripHtmlTags = (html: string): string => {
   return html.replace(/<[^>]*>/g, '');
 };
 
-export default function Footer(): JSX.Element {
+type FooterProps = {
+  onContactClick?: () => void;
+};
+
+export default function Footer({ onContactClick }: FooterProps): JSX.Element {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [tagline, setTagline] = useState<string>('');
   const [contactLinks, setContactLinks] = useState<ContactLink[]>([]);
@@ -88,6 +92,19 @@ export default function Footer(): JSX.Element {
                   // Hide LinkedIn link in footer
                   if (hiddenItems) {
                     className = "hidden";
+                  }
+
+                  // Handle contact link specially
+                  if (item.slug === '#contact' && onContactClick) {
+                    return (
+                      <button
+                        key={item.slug}
+                        onClick={onContactClick}
+                        className={`menu-item-footer ${className}`}
+                      >
+                        {item.title}
+                      </button>
+                    );
                   }
 
                   return (

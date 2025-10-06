@@ -29,7 +29,7 @@ export default function ScrollDownButton() {
   };
 
   return (
-    <div className="flex justify-center absolute bottom-5 left-0 w-full">
+    <div className="flex justify-center absolute tablet:bottom-5 bottom-10 left-0 w-full">
       <button id="home-intro-scroll-down-button"
         onClick={handleScrollDown}
         className="cursor-pointer opacity-0 hidden transition-opacity duration-1000"

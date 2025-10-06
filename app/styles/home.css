@@ -16,10 +16,21 @@
 }
 
 #home-intro {
-  --intro-bottom-offset: 20vh;
+  --intro-top-offset: calc(-240px - (100vw - 360px) * 0.93);
 }
 
 .u-strips-responsive {
+  top: var(--intro-top-offset);
+}
+
+@media (min-width: theme('screens.desktop')) {
+  .u-strips-responsive {
+    top: auto;
+    bottom: 20vh;
+  }
+}
+
+/* .u-strips-responsive {
   bottom: 20vh;          
 }
 
@@ -34,7 +45,7 @@
     bottom: auto;
     top: -400px;
   }
-}
+} */
 
 /* Challenge section styles */
 #home-challenge .background-gradient {
@@ -94,12 +105,38 @@
   100% { opacity: 1; transform: translate(-50%) translateY(0); }
 }
 
+#home-process {
+  padding-bottom: 0;
+  min-height: 0;
+}
+
 #home-process .background-gradient {
-  /* background: radial-gradient(circle,var(--brand-secondary) 0%, transparent 100%); */
-  background: radial-gradient(
-    ellipse 100% 80% at center bottom,
-    var(--brand-secondary) 0%,
-    var(--brand-primary) 50%,
-    transparent 100%
-  );
+  background-image: url('/img/home-challenges-gradient.png');
+  background-size: 150% 200%;
+  background-repeat: no-repeat;
+  background-position: 30% 15%;
+}
+
+#home-process .home-process-content-title b {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+#home-process .home-process-content ul li {
+  margin-bottom: 1rem;
+  padding-left: 3rem;
+  background-image: url('/img/tick.svg');
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 1.5rem;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.home-process-content-cta.animate-fade-in {
+  pointer-events: auto;
+}
+
+#home-contact {
+  min-height: 0;
 }

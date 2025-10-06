@@ -4,6 +4,7 @@ import Image from 'next/image';
 import ScrollDisabler from './components/ScrollDisabler';
 import ScrollDownButton from './components/ScrollDownButton';
 import { useAnimation } from './components/AnimationContext';
+import { useContactModal } from './components/ContactModalContext';
 import { useEffect, useState } from 'react';
 import { marked } from 'marked';
 import { useSimpleAnimation } from './hooks/useSimpleAnimation';
@@ -14,19 +15,30 @@ import './styles/home.css';
 // Helper function to render Markdown content safely
 const renderMarkdown = (markdownString?: string) => {
   const safeInput = typeof markdownString === 'string' ? markdownString : '';
-  return { __html: marked(safeInput) };
+  
+  // Create a custom renderer to replace <strong> with <b>
+  const renderer = new marked.Renderer();
+  renderer.strong = function(text) {
+    // Extract text from the object if it's not a string
+    const textContent = typeof text === 'string' ? text : text.text || String(text);
+    return '<b>' + textContent + '</b>';
+  };
+  
+  const html = marked.parse(safeInput, { renderer, async: false });
+  return { __html: html };
 };
 
 export default function Home() {
   const [blocks, setBlocks] = useState<any>(null);
   const { shouldAnimate } = useAnimation();
   const [tagline, setTagline] = useState<string>('');
+  const { openContactModal } = useContactModal();
 
   // Animation hooks
   const aboutAnimation = useSimpleAnimation('animate-in-scale', 0.3);
   const challengeAnimation = useMultiAnimation(0.3);
   const servicesAnimation = useIndividualBlockAnimation({ 
-    threshold: 1, 
+    threshold: 0.6, 
     animationClass: 'animate-fade-in-down'
   });
 
@@ -56,6 +68,46 @@ export default function Home() {
     fetchBlocks();
   }, []);
 
+  // List animation effect
+  useEffect(() => {
+    const section = document.getElementById('home-process');
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const listItems = entry.target.querySelectorAll('ul li');
+            
+            listItems.forEach((item, index) => {
+              setTimeout(() => {
+                const htmlItem = item as HTMLElement;
+                htmlItem.classList.add('animate-fade-in-slide-right');
+                
+                // If this is the last item, animate the button
+                if (index === listItems.length - 1) {
+                  const button = entry.target.querySelector('.home-process-content-cta');
+                  if (button) {
+                    setTimeout(() => {
+                      button.classList.add('animate-fade-in');
+                    }, 1500); // Small delay after the last list item
+                  }
+                }
+              }, 500 + (index * 1500));
+            });
+          }
+        });
+      },
+      { threshold: 0.8 }
+    );
+
+    observer.observe(section);
+
+    return () => {
+      observer.unobserve(section);
+    };
+  }, [blocks]);
+
   if (!blocks || !tagline) {
     return (
       <div className="min-h-screen w-full flex items-center justify-center bg-brand-primary">
@@ -75,15 +127,15 @@ export default function Home() {
             width={600} 
             height={800} 
             priority
-            className={`w-[30%] absolute u-strips-responsive right-[10%] ${shouldAnimate ? 'opacity-0 animate-u-intro' : 'opacity-100'}`} 
+            className={`w-[70vw] desktop:w-[30%] absolute u-strips-responsive right-[calc(50%-35vw)] desktop:top-0 desktop:right-[10%] ${shouldAnimate ? 'opacity-0 animate-u-intro' : 'opacity-100'}`} 
           />
         </div>
         <div className="absolute top-0 left-0 w-full h-[300px] bg-gradient-to-b from-brand-primary from-0% via-brand-primary via-40% to-transparent"></div>
         <div className="relative z-10 container">
           {blocks && blocks["home-intro"] && Object.entries(blocks["home-intro"].blocks).map(([blockId, block]: [string, any]) => (
-            <div key={blockId} className={`home-intro-content mt-[25vh] ${shouldAnimate ? 'opacity-0 animate-fade-in-delayed' : 'opacity-100'}`}>
+            <div key={blockId} className={`home-intro-content mt-[50vw] desktop:mt-[25vh] text-center desktop:text-left ${shouldAnimate ? 'opacity-0 animate-fade-in-delayed' : 'opacity-100'}`}>
               <h1 className="text-5xl medium-large:text-6xl font-bold max-h-sm:text-4xl" dangerouslySetInnerHTML={{ __html: tagline }}></h1>
-              <div className="mt-8 w-1/3 text-xl medium-large:text-2xl medium-large:min-w-[580px] max-h-sm:text-base" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
+              <div className="mt-8 w-full max-w-[600px] mx-auto desktop:w-1/3 desktop:mx-0 desktop:max-w-none text-xl medium-large:text-2xl medium-large:min-w-[580px] max-h-sm:text-base" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
             </div>
           ))}
         </div>
@@ -91,19 +143,19 @@ export default function Home() {
       </section>
 
       <section ref={aboutAnimation.sectionRef} id="home-about" className="home-section flex flex-col justify-center">
-        <div className="relative container flex justify-between items-center gap-[10%]">
-          <div className="about-logo-container neon-border-secondary box w-1/2 self-stretch flex items-center justify-center">
+        <div className="relative container flex flex-col desktop:flex-row justify-between items-center gap-[10%]">
+          <div className="about-logo-container neon-border-secondary box w-full h-[40vw] desktop:w-1/2 desktop:h-[auto] self-stretch flex items-center justify-center">
             <Image 
               ref={aboutAnimation.addElementRef}
               src="/img/upwego-logo-light.svg" 
               alt="Upwego" 
               width={317} 
               height={56} 
-              className="opacity-0"
+              className="opacity-0 w-[60%] h-[auto] desktop:w-[317px] desktop:h-auto"
             />
           </div>
           {blocks && blocks["home-about"] && Object.entries(blocks["home-about"].blocks).map(([blockId, block]: [string, any]) => (
-            <div key={blockId} className="home-about-content w-1/2">
+            <div key={blockId} className="home-about-content w-full desktop:w-1/2 mt-16 desktop:mt-0">
               <div className="text-xl medium-large:text-2xl max-h-sm:text-base" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
               {block.linkText && block.linkUrl && (
                 <a href={block.linkUrl} className="btn-secondary inline-block">
@@ -207,11 +259,53 @@ export default function Home() {
         </div>
       </section>
       
-      <section id="home-process" className="home-section bg-brand-primary relative overflow-hidden">
-        <div className="background-gradient absolute top-0 left-0 w-full h-full"></div>
+      <section id="home-process" className="home-section bg-brand-tertiary relative overflow-hidden">
+        <div className="background-gradient absolute top-0 left-0 w-full h-2/3 bg-brand-primary"></div>
+        <div className="relative z-10 container">
+          {blocks && blocks["home-process"] && blocks["home-process"].title && (
+            <h2 className="section-title text-4xl medium-large:text-5xl text-center mb-24 max-h-sm:text-3xl" 
+            dangerouslySetInnerHTML={renderMarkdown(blocks["home-process"].title)}></h2>
+          )}
+          {blocks && blocks["home-process"] && Object.entries(blocks["home-process"].blocks).map(([blockId, block]: [string, any]) => (
+            <div key={blockId} className="flex justify-between box bg-brand-primary p-20 max-w-screen-small mx-auto">
+              <div className="w-1/2 flex flex-col justify-between">
+                <h3 className="home-process-content-title block-title text-4xl medium-large:text-5xl max-h-sm:text-3xl" dangerouslySetInnerHTML={renderMarkdown(block.title)}></h3>
+                <Image src="/img/upwego-logo-light.svg" alt="Upwego Digital" width={184} height={32.5} />
+              </div>
+              <div className="w-1/2 flex flex-col justify-between items-end">
+                 <div className="home-process-content w-fit">
+                  <div className="text-2xl text-brand-tertiary home-process-items" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
+                  <a href={block.linkUrl} className="home-process-content-cta btn-secondary mt-8 inline-block w-fit opacity-0 pointer-events-none">
+                    {block.linkText}
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
-      <section id="home-contact" className="home-section bg-brand-tertiary"></section>
+      <section id="home-contact" className="home-section bg-brand-tertiary">
+        {blocks && blocks["home-contact"] && Object.entries(blocks["home-contact"].blocks).map(([blockId, block]: [string, any]) => (
+          <div key={blockId} className="relative container">
+            <div className="flex flex-col justify-between">
+              <h2 className="section-title text-4xl medium-large:text-5xl text-center mb-8 max-h-sm:text-3xl text-brand-primary" 
+                dangerouslySetInnerHTML={renderMarkdown(block.title)}></h2>
+              <div className="text-xl text-brand-primary text-center mb-4" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
+              {block.linkText && (
+                <button 
+                  onClick={() => {
+                    console.log('Contact button clicked!');
+                    openContactModal();
+                  }} 
+                  className="btn-secondary inline-block w-fit mx-auto">
+                  {block.linkText}
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
+      </section>
     </>
   );
 

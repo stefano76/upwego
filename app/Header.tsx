@@ -14,9 +14,10 @@ type MenuItem = {
 
 type HeaderProps = {
   menuItems: MenuItem[];
+  onContactClick?: () => void;
 };
 
-export default function Header({ menuItems }: HeaderProps): JSX.Element {
+export default function Header({ menuItems, onContactClick }: HeaderProps): JSX.Element {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const { shouldAnimate } = useAnimation();
 
@@ -25,7 +26,7 @@ export default function Header({ menuItems }: HeaderProps): JSX.Element {
 
   return (
     <div className={`header-container fixed top-0 z-50 w-full dark bg-brand-primary ${shouldAnimate ? 'animate-header-in opacity-0' : 'opacity-100'}`}>
-      <header className="flex items-center justify-between py-8 container">
+      <header className="flex items-center justify-between py-[var(--header-padding-y)] container">
         <Logo
           width={180}
           height={31}
@@ -56,6 +57,19 @@ export default function Header({ menuItems }: HeaderProps): JSX.Element {
               href = `/${item.slug}`;
             }
 
+            // Handle contact link specially
+            if (item.slug === '#contact' && onContactClick) {
+              return (
+                <button
+                  key={item.slug}
+                  onClick={onContactClick}
+                  className={`menu-item menu-item-${item.title.toLowerCase().replace(/[^a-z0-9]/g, '-')} btn-secondary`}
+                >
+                  {item.title}
+                </button>
+              );
+            }
+
             return (
               <a
                 key={item.slug}
@@ -75,13 +89,13 @@ export default function Header({ menuItems }: HeaderProps): JSX.Element {
         
         {/* Mobile: Burger button */}
         <div className="desktop:hidden">
-          <MenuOpenButton openMenu={openMenu} isDark={false} />
+          <MenuOpenButton openMenu={openMenu} />
         </div>
       </header>
       
       {/* Mobile: Slide-out menu */}
       <div className="desktop:hidden">
-        <Menu menuOpen={menuOpen} menuItems={menuItems} onClose={closeMenu} />
+        <Menu menuOpen={menuOpen} menuItems={menuItems} onClose={closeMenu} onContactClick={onContactClick} />
       </div>
     </div>
   );
