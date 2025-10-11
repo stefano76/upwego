@@ -137,6 +137,20 @@
   pointer-events: auto;
 }
 
+.box-process-content {
+  transform-origin: center bottom;
+  transition: transform 0.1s ease-out;
+}
+
+.section-title-process {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+}
+
+.section-title-process.visible {
+  opacity: 1;
+}
+
 #home-contact {
   min-height: 0;
 }

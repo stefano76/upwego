@@ -42,6 +42,62 @@ export default function Home() {
     animationClass: 'animate-fade-in-down'
   });
 
+  // Scroll-based scaling animation for home-process section
+  useEffect(() => {
+    const handleScroll = () => {
+      // Only apply on desktop (≥1280px)
+      if (window.innerWidth < 1280) return;
+      
+      const processSection = document.getElementById('home-process');
+      if (!processSection) return;
+      
+      const boxProcessContent = processSection.querySelector('.box-process-content');
+      const sectionTitleProcess = processSection.querySelector('.section-title-process');
+      if (!boxProcessContent || !sectionTitleProcess) return;
+      
+      const sectionRect = processSection.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Calculate scroll progress within the section
+      const sectionTop = sectionRect.top;
+      const sectionHeight = sectionRect.height;
+      
+      // Start animation when section is 10% visible
+      const startPoint = windowHeight * 0.9; // Start when section just enters viewport
+      // Complete animation when section is 80% visible (a bit before fully visible)
+      const endPoint = -sectionHeight + windowHeight;
+      
+      const progress = Math.max(0, Math.min(1, (startPoint - sectionTop) / (startPoint - endPoint)));
+      
+      // Calculate scale: start from 1.2 (120%), animate to 1.0 (100%)
+      const startScale = 1.2;
+      const endScale = 1.0;
+      const currentScale = startScale - (startScale - endScale) * progress;
+      
+      // Apply the scale with center bottom origin
+      (boxProcessContent as HTMLElement).style.transform = `scale(${currentScale})`;
+      
+      // Add 'visible' class when animation reaches 50% progress
+      if (progress >= 0.5) {
+        sectionTitleProcess.classList.add('visible');
+      } else {
+        sectionTitleProcess.classList.remove('visible');
+      }
+    };
+    
+    // Initial call
+    handleScroll();
+    
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, []);
+
   useEffect(() => {
     const fetchBlocks = async () => {
       try {
@@ -263,11 +319,11 @@ export default function Home() {
         <div className="background-gradient absolute top-0 left-0 w-full h-2/3 bg-brand-primary"></div>
         <div className="relative z-10 container">
           {blocks && blocks["home-process"] && blocks["home-process"].title && (
-            <h2 className="section-title text-4xl medium-large:text-5xl text-center mb-24 max-h-sm:text-3xl" 
+            <h2 className="section-title section-title-process text-4xl medium-large:text-5xl text-center mb-16 max-h-sm:text-3xl" 
             dangerouslySetInnerHTML={renderMarkdown(blocks["home-process"].title)}></h2>
           )}
           {blocks && blocks["home-process"] && Object.entries(blocks["home-process"].blocks).map(([blockId, block]: [string, any]) => (
-            <div key={blockId} className="flex justify-between box bg-brand-primary p-20 max-w-screen-small mx-auto">
+            <div key={blockId} className="flex justify-between box box-process-content bg-brand-primary p-20 max-w-screen-small mx-auto">
               <div className="w-1/2 flex flex-col justify-between">
                 <h3 className="home-process-content-title block-title text-4xl medium-large:text-5xl max-h-sm:text-3xl" dangerouslySetInnerHTML={renderMarkdown(block.title)}></h3>
                 <Image src="/img/upwego-logo-light.svg" alt="Upwego Digital" width={184} height={32.5} />
