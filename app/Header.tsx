@@ -31,8 +31,7 @@ export default function Header({ menuItems, onContactClick }: HeaderProps): JSX.
     if (menuOpen) {
       setMenuOpen(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [pathname, menuOpen]);
 
   return (
     <div className={`header-container fixed top-0 z-50 w-full dark bg-brand-primary ${shouldAnimate ? 'animate-header-in opacity-0' : 'opacity-100'}`}>

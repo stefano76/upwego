@@ -26,7 +26,7 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
         const response = await fetch('/api/contact-form-texts');
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
+          // console.log(data);
           setTexts(data);
         }
       } catch (error) {
@@ -88,14 +88,14 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
         setTimeout(() => {
           setMessage(null);
           onSuccess?.();
-        }, 300000);
+        }, 3000);
       } else {
         const errorData = await response.json();
         const errorMessage = errorData.message || texts?.api.serverError || 'Failed to send message';
         setMessage({ type: 'error', text: errorMessage });
         onError?.(errorMessage);
       }
-    } catch (error) {
+    } catch {
       const errorMessage = texts?.api.networkError || 'Network error. Please try again.';
       setMessage({ type: 'error', text: errorMessage });
       onError?.(errorMessage);

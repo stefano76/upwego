@@ -1,4 +1,5 @@
 import type { JSX } from "react";
+import Link from "next/link";
 import styles from "./Logo.module.css";
 
 type LogoProps = {
@@ -13,7 +14,7 @@ export default function Logo({
   className = "upwego-logo-svg"
 }: LogoProps): JSX.Element {
   return (
-    <a href="/" className="w-fit">
+    <Link href="/" className="w-fit">
       <svg 
         width={width} 
         height={height} 
@@ -46,6 +47,6 @@ export default function Logo({
           </clipPath>
         </defs>
       </svg>
-    </a>
+    </Link>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import type { JSX } from "react";
+import Image from "next/image";
 import Logo from "./components/Logo";
 
 type MenuItem = {
@@ -83,11 +84,11 @@ export default function Footer({ onContactClick }: FooterProps): JSX.Element {
             <nav className="section-menu flex flex-col mobile-large:flex-row flex-wrap justify-center items-center gap-12 tablet:gap-6 text-brand-tertiary">
               {menuItems.map((item) => {
                   // Determine href based on slug type
-                  let href = item.slug;
-                  let target = undefined;
-                  let rel = undefined;
+                  const href = item.slug;
+                  const target = undefined;
+                  const rel = undefined;
                   let className = "";
-                  let hiddenItems = item.title === "Linkedin" || item.slug === '/' || item.slug === '';
+                  const hiddenItems = item.title === "Linkedin" || item.slug === '/' || item.slug === '';
 
                   // Hide LinkedIn link in footer
                   if (hiddenItems) {
@@ -129,7 +130,7 @@ export default function Footer({ onContactClick }: FooterProps): JSX.Element {
               {contactLinks.map((contact, index) => (
                 <div key={index} className="text-base font-light text-brand-tertiary">
                   <a href={contact.url} target="_blank" className="contact-item flex gap-4 items-center">
-                    <img src={contact.svg} alt={contact.alt} width={20} height="auto" />
+                    <Image src={contact.svg} alt={contact.alt} width={20} height={20} />
                     <span>{contact.label}</span>
                   </a>
                 </div>

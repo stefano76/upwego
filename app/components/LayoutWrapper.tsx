@@ -98,15 +98,15 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     // Close modal after success message is shown
     setTimeout(() => {
       setIsContactModalOpen(false);
-    }, 300000);
+    }, 3000);
   };
 
-  const handleContactFormError = (error: string) => {
+  const handleContactFormError = (_error: string) => {
     // Error is now handled inside ContactForm
   };
 
   const openContactModal = () => {
-    console.log('openContactModal called!');
+    // console.log('openContactModal called!');
     setIsContactModalOpen(true);
   };
 
