@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import PasswordForm from './PasswordForm';
 import Header from '../Header';
 import Footer from '../Footer';
@@ -20,11 +21,30 @@ type MenuItem = {
 };
 
 const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
+  const pathname = usePathname();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [contactTexts, setContactTexts] = useState<ContactFormTexts | null>(null);
+
+  // Get current page slug from pathname (remove leading slash, default to 'home' for root)
+  const pageSlug = pathname === '/' ? 'home' : pathname.replace(/^\//, '').replace(/\//g, '-') || 'home';
+
+  // Add page slug class to body element
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const body = document.body;
+    // Remove all existing page-* classes while preserving other classes
+    const currentClasses = body.className.split(' ').filter(cls => !cls.startsWith('page-'));
+    body.className = [...currentClasses, `page-${pageSlug}`].join(' ').trim();
+    
+    // Cleanup: remove class on unmount (optional)
+    return () => {
+      body.classList.remove(`page-${pageSlug}`);
+    };
+  }, [pageSlug]);
 
   useEffect(() => {
     // Check if user is accessing from localhost (development)
@@ -128,7 +148,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
 
   return (
     <AnimationProvider>
-      <div className="relative main">
+      <div className={`relative main`}>
         {/* Header - only shown when authenticated */}
         <Header menuItems={menuItems} onContactClick={openContactModal} />
         
