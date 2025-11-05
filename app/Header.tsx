@@ -31,6 +31,7 @@ export default function Header({ menuItems, onContactClick }: HeaderProps): JSX.
     if (menuOpen) {
       setMenuOpen(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   return (
@@ -47,8 +48,8 @@ export default function Header({ menuItems, onContactClick }: HeaderProps): JSX.
           {menuItems.map((item) => {
             // Determine href based on slug type
             let href = item.slug;
-            let target = undefined;
-            let rel = undefined;
+            let target: string | undefined = undefined;
+            let rel: string | undefined = undefined;
             
             if (item.slug.startsWith('http')) {
               // External URL (like LinkedIn)
@@ -65,6 +66,11 @@ export default function Header({ menuItems, onContactClick }: HeaderProps): JSX.
               // Internal page
               href = `/${item.slug}`;
             }
+
+            // Determine if this is the active page
+            const isActive = pathname === "/" && (item.slug === "" || item.slug === "/") 
+              ? true 
+              : pathname === "/" + item.slug;
 
             // Handle contact link specially
             if (item.slug === '#contact' && onContactClick) {
@@ -87,8 +93,7 @@ export default function Header({ menuItems, onContactClick }: HeaderProps): JSX.
                 rel={rel}
                 className={`menu-item menu-item-${item.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}
                   ${item.slug === '#contact' ? 'btn-secondary' : ''}
-                  ${typeof window !== "undefined" && window.location.pathname === "/" && (item.slug === "" || item.slug === "/") ? " active" : ""}
-                  ${typeof window !== "undefined" && (window.location.pathname === "/" + item.slug) ? ' active' : ''}`}
+                  ${isActive ? ' active' : ''}`}
               >
                 {item.title === "Linkedin" ? <LinkedInIcon size={28} /> : item.title}
               </a>
