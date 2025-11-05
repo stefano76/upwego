@@ -121,7 +121,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     }, 3000);
   };
 
-  const handleContactFormError = (_error: string) => {
+  const handleContactFormError = () => {
     // Error is now handled inside ContactForm
   };
 

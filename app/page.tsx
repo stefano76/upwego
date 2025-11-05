@@ -235,7 +235,7 @@ export default function Home() {
       <section ref={challengeAnimation.sectionRef} id="home-challenge" className="home-section flex flex-col justify-center relative overflow-hidden">
         <div className="absolute hidden desktop:block w-full h-full top-0 left-0 background-gradient background-gradient-left"></div>
         <div className="absolute hidden desktop:block w-full h-full top-0 left-0 background-gradient background-gradient-right"></div>
-        <div className="relative z-10 container flex flex-col desktop:flex-row justify-between items-center gap-16 desktop:gap-[10%]">
+        <div className="relative z-10 container flex flex-col desktop:flex-row justify-between items-center desktop:items-stretch gap-16 desktop:gap-[10%]">
           {blocks && blocks["home-challenge"] && Object.entries(blocks["home-challenge"].blocks).map(([blockId, block]: [string, any]) => {
 
             let animationPage = null;
@@ -253,7 +253,7 @@ export default function Home() {
             }
 
             return (
-              <div key={blockId} className="home-challenge-content w-full desktop:w-1/2 box bg-brand-primary bg-opacity-60 px-6 py-10 pt-12 tablet:p-20 flex flex-col items-center justify-center">
+              <div key={blockId} className="home-challenge-content w-full desktop:w-1/2 desktop:h-auto box bg-brand-primary bg-opacity-60 px-6 py-10 pt-12 tablet:p-20 flex flex-col items-center justify-center">
                 <div className={`neon-border-tertiary box box-${block.label} w-[240px] mobile-large:w-[300px] h-[240px] flex flex-col items-center justify-center gap-8 mb-12`}>
                   <h3 ref={animationLabel} className="text-lg text-center tracking-[0.5em] font-light uppercase opacity-0" dangerouslySetInnerHTML={renderMarkdown(block.label)}></h3>
                   <div className="w-[100px] h-[82px] relative">

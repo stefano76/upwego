@@ -3,33 +3,6 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 
-// Block content type
-type BlockFields = {
-  id?: string;
-  name?: string;
-  title?: string;
-  text?: string;
-  linkText?: string;
-  linkUrl?: string;
-};
-
-// Section content type
-type SectionFields = {
-  id?: string;
-  type?: string;
-  title?: string;
-  text?: string;
-  linkText?: string;
-  linkUrl?: string;
-};
-
-// Page content type
-type PageFields = {
-  title: string;
-  slug: string;
-  sections: string[];
-};
-
 export async function getHomeContent() {
   try {
     const filePath = path.join(process.cwd(), 'content', 'pages', 'home.md');

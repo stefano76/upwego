@@ -17,7 +17,7 @@ export const useSimpleAnimation = (animationClass: string = 'animate-in-scale', 
   };
 
   useEffect(() => {
-    if (!sectionRef.current || hasAnimated) return;
+    if (hasAnimated) return;
 
     const checkVisibility = () => {
       if (hasAnimated || !sectionRef.current) return;
@@ -32,13 +32,18 @@ export const useSimpleAnimation = (animationClass: string = 'animate-in-scale', 
       }
     };
 
-    checkVisibility();
+    // Check immediately if ref is available
+    if (sectionRef.current) {
+      checkVisibility();
+    }
+    
+    // Always set up scroll listener - it will check the ref on each scroll
     window.addEventListener('scroll', checkVisibility);
     
     return () => {
       window.removeEventListener('scroll', checkVisibility);
     };
-  }, [hasAnimated, threshold, animationClass, sectionRef.current]);
+  }, [hasAnimated, threshold, animationClass]);
 
   return {
     sectionRef,

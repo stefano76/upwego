@@ -22,7 +22,7 @@ export const useMultiAnimation = (threshold: number = 0.1) => {
   };
 
   useEffect(() => {
-    if (!sectionRef.current || hasAnimated) return;
+    if (hasAnimated) return;
 
     const checkVisibility = () => {
       if (hasAnimated || !sectionRef.current) return;
@@ -35,13 +35,18 @@ export const useMultiAnimation = (threshold: number = 0.1) => {
       }
     };
 
-    checkVisibility();
+    // Check immediately if ref is available
+    if (sectionRef.current) {
+      checkVisibility();
+    }
+    
+    // Always set up scroll listener - it will check the ref on each scroll
     window.addEventListener('scroll', checkVisibility);
     
     return () => {
       window.removeEventListener('scroll', checkVisibility);
     };
-  }, [hasAnimated, threshold, sectionRef.current]);
+  }, [hasAnimated, threshold]);
 
   return {
     sectionRef,

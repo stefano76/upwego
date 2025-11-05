@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { isElementVisible } from '../utils/visibility';
 
 interface UseIndividualBlockAnimationOptions {
@@ -29,7 +29,7 @@ export const useIndividualBlockAnimation = (options: UseIndividualBlockAnimation
 
   useEffect(() => {
     const checkVisibility = () => {
-      blockRefs.current.forEach((blockRef, index) => {
+      blockRefs.current.forEach((blockRef) => {
         if (blockRef && !blockRef.hasAnimated && isElementVisible(blockRef.element, threshold)) {
           blockRef.element.classList.add(animationClass);
           blockRef.hasAnimated = true;
