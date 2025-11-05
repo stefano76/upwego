@@ -14,7 +14,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, company, message } = body;
+    const { name, email, phone, message } = body;
 
     // Basic validation
     if (!name || !email || !message) {
@@ -42,14 +42,14 @@ export async function POST(request: Request) {
     console.log('Contact form submission:', {
       name,
       email,
-      company,
+      phone,
       message,
       timestamp: new Date().toISOString()
     });
 
     // TODO: Implement actual email sending or database storage
-    // Example: await sendEmail({ name, email, company, message });
-    // Example: await saveToDatabase({ name, email, company, message });
+    // Example: await sendEmail({ name, email, phone, message });
+    // Example: await saveToDatabase({ name, email, phone, message });
 
     return NextResponse.json(
       { message: 'Message sent successfully!' },

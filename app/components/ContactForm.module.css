@@ -1,15 +1,31 @@
 /* ContactForm.module.css */
 
 .form {
-  @apply space-y-8 p-8;
+  @apply p-6 pt-4;
+}
+
+.modalIntro {
+  @apply mb-6 space-y-2 mobile-small-height:hidden desktop-small-height:hidden;
+}
+
+.modalSubtitle {
+  @apply text-3xl font-semibold text-brand-primary;
+}
+
+.modalParagraph {
+  @apply text-xl text-brand-primary opacity-80;
 }
 
 .formGrid {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-in-up;
+  @apply grid grid-cols-1 md:grid-cols-2 gap-x-8 animate-fade-in-up;
 }
 
 .field {
-  @apply space-y-2 relative mb-4;
+  @apply relative mb-8;
+}
+
+.fieldFull {
+  @apply relative mb-8 w-full;
 }
 
 .label {
@@ -17,9 +33,8 @@
 }
 
 .input {
-  @apply w-full px-6 py-4 border-2 rounded-xl bg-brand-tertiary text-brand-primary placeholder-brand-primary placeholder-opacity-50 
-    focus:outline-none focus:ring-4 focus:ring-brand-secondary focus:border-brand-secondary 
-    hover:border-brand-secondary;
+  @apply w-full px-6 py-4 border-b border-b-bodyText bg-brand-tertiary text-brand-primary placeholder-brand-primary placeholder-opacity-50 
+    focus:outline-none focus:border-b-brand-secondary hover:border-b-brand-secondary shadow-none focus:shadow-none hover:shadow-none;
 }
 
 .inputError {
@@ -31,9 +46,9 @@
 }
 
 .textarea {
-  @apply w-full px-6 py-4 border-2 rounded-xl bg-brand-tertiary text-brand-primary placeholder-brand-primary placeholder-opacity-60 
-    focus:outline-none focus:ring-4 focus:ring-brand-secondary focus:border-brand-secondary 
-    hover:border-brand-secondary resize-none;
+  @apply w-full px-6 py-4 border-b border-b-bodyText bg-brand-tertiary text-brand-primary placeholder-brand-primary placeholder-opacity-50 
+    focus:outline-none focus:border-b-brand-secondary hover:border-b-brand-secondary
+    hover:border-brand-secondary resize-none shadow-none focus:shadow-none hover:shadow-none desktop-xsmall-height:resize-y desktop-xsmall-height:h-16;
 }
 
 .errorMessage {
@@ -41,7 +56,7 @@
 }
 
 .submitContainer {
-  @apply flex justify-center pt-4;
+  @apply flex justify-center pt-4 desktop-xsmall-height:pt-0;
 }
 
 .submitButton {

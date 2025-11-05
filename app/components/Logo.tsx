@@ -13,7 +13,7 @@ export default function Logo({
   className = "upwego-logo-svg"
 }: LogoProps): JSX.Element {
   return (
-    <a href="/">
+    <a href="/" className="w-fit">
       <svg 
         width={width} 
         height={height} 

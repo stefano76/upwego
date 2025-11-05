@@ -72,7 +72,20 @@
 
 .home-services-content .block-combined {
   background-color: var(--brand-primary);
-  padding: 80px;
+}
+
+.home-services-content .block-combined .texts {
+  padding: 0 1.5rem 3rem;
+}
+
+@media (min-width: theme('screens.tablet')) {
+  .home-services-content .block-combined {
+    padding: 80px;
+  }
+
+  .home-services-content .block-combined .texts {
+    padding: 0;
+  }
 }
 
 .home-services-content .block-combined .texts p {
@@ -153,4 +166,46 @@
 
 #home-contact {
   min-height: 0;
+}
+
+@media (max-width: calc(theme('screens.medium') - 1px)) {
+  #home-process .home-process-content {
+    transform: scale(1);
+  }
+}
+
+/* Responsive animations - only apply on desktop */
+@media (max-width: calc(theme('screens.desktop') - 1px)) {
+  #home-challenge .animate-in-to-right,
+  #home-challenge .animate-in-to-left,
+  #home-challenge .animate-gear-to-left,
+  #home-challenge .animate-lens-to-left,
+  #home-challenge .animate-fade-in-delayed-web,
+  #home-challenge .animate-fade-in-delayed-data {
+    animation: fadeIn 2s ease-in-out forwards !important;
+  }
+
+  #home-process .section-title-process {
+    opacity: 1 !important;
+  }
+
+  #home-process .home-process-items li {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+  }
+
+  #home-process .home-process-content-title {
+    text-align: center;
+  }
+
+  #home-process .home-process-content-cta {
+    display: block;
+    opacity: 1;
+  }
+}
+
+@media (min-width: theme('screens.mobile-large')) and (max-width: calc(theme('screens.desktop') - 1px)) {
+  #home-process .box-process-content p br {
+    display: none;
+  }
 }

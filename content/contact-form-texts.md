@@ -1,19 +1,21 @@
 # Contact Form Texts
 
 ## Modal Title
-- title: Get in Touch
+- title: Contact us
+- subtitle: Get in touch.
+- paragraph: We’re here to assist you.
 
 ## Labels
 - name: Name *
 - email: Email *
-- company: Company
-- message: Message *
+- phone: Phone
+- message: Message
 
 ## Placeholders
-- name: Your full name
-- email: your.email@company.com
-- company: Your company name
-- message: Tell us about your project or how we can help you...
+- name: Name
+- email: Email address
+- phone: Phone number (optional)
+- message: Message
 
 ## Error Messages
 - nameRequired: Name is required

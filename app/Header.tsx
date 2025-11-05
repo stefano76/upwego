@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import type { JSX } from "react";
+import { usePathname } from "next/navigation";
 import Menu from "./Menu";
 import MenuOpenButton from "./MenuToggle";
 import Logo from "./components/Logo";
@@ -20,9 +21,17 @@ type HeaderProps = {
 export default function Header({ menuItems, onContactClick }: HeaderProps): JSX.Element {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const { shouldAnimate } = useAnimation();
+  const pathname = usePathname();
 
   const openMenu = () => setMenuOpen(true);
   const closeMenu = () => setMenuOpen(false);
+
+  // Close menu when route changes (for mobile navigation)
+  useEffect(() => {
+    if (menuOpen) {
+      setMenuOpen(false);
+    }
+  }, [pathname]);
 
   return (
     <div className={`header-container fixed top-0 z-50 w-full dark bg-brand-primary ${shouldAnimate ? 'animate-header-in opacity-0' : 'opacity-100'}`}>

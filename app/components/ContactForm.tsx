@@ -12,12 +12,13 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    company: '',
+    phone: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [texts, setTexts] = useState<ContactFormTexts | null>(null);
+  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
   useEffect(() => {
     const fetchTexts = async () => {
@@ -25,6 +26,7 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
         const response = await fetch('/api/contact-form-texts');
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           setTexts(data);
         }
       } catch (error) {
@@ -76,15 +78,27 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
       });
 
       if (response.ok) {
-        setFormData({ name: '', email: '', company: '', message: '' });
+        setFormData({ name: '', email: '', phone: '', message: '' });
         setErrors({});
-        onSuccess?.();
+        setMessage({
+          type: 'success',
+          text: texts?.success.formSuccess || 'Message sent successfully! We\'ll get back to you soon.'
+        });
+        // Clear message and close modal after 2 seconds
+        setTimeout(() => {
+          setMessage(null);
+          onSuccess?.();
+        }, 300000);
       } else {
         const errorData = await response.json();
-        onError?.(errorData.message || texts?.api.serverError || 'Failed to send message');
+        const errorMessage = errorData.message || texts?.api.serverError || 'Failed to send message';
+        setMessage({ type: 'error', text: errorMessage });
+        onError?.(errorMessage);
       }
     } catch (error) {
-      onError?.(texts?.api.networkError || 'Network error. Please try again.');
+      const errorMessage = texts?.api.networkError || 'Network error. Please try again.';
+      setMessage({ type: 'error', text: errorMessage });
+      onError?.(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -97,6 +111,11 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+    
+    // Clear message when user starts typing
+    if (message) {
+      setMessage(null);
     }
   };
 
@@ -111,31 +130,38 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles.formGrid}>
-        {/* Name Field */}
-        <div className={styles.field}>
-          <label htmlFor="name" className={styles.label}>
-            {texts.labels.name}
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className={`${styles.input} ${errors.name ? styles.inputError : styles.inputNormal}`}
-            placeholder={texts.placeholders.name}
-          />
-          {errors.name && (
-            <p className={styles.errorMessage}>{errors.name}</p>
+      {texts.modalTitle.subtitle && (
+        <div className={styles.modalIntro}>
+          {texts.modalTitle.subtitle && (
+            <h3 className={styles.modalSubtitle}>{texts.modalTitle.subtitle}</h3>
+          )}
+          {texts.modalTitle.paragraph && (
+            <p className={styles.modalParagraph}>{texts.modalTitle.paragraph}</p>
           )}
         </div>
+      )}
+      
+      {/* Name Field - Full Width */}
+      <div className={styles.fieldFull}>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className={`${styles.input} ${errors.name ? styles.inputError : styles.inputNormal}`}
+          style={{ boxShadow: 'none' }}
+          placeholder={texts.placeholders.name}
+        />
+        {errors.name && (
+          <p className={styles.errorMessage}>{errors.name}</p>
+        )}
+      </div>
 
+      {/* Email and Phone Fields - Half Width Each */}
+      <div className={styles.formGrid}>
         {/* Email Field */}
         <div className={styles.field}>
-          <label htmlFor="email" className={styles.label}>
-            {texts.labels.email}
-          </label>
           <input
             type="email"
             id="email"
@@ -143,48 +169,59 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
             value={formData.email}
             onChange={handleChange}
             className={`${styles.input} ${errors.email ? styles.inputError : styles.inputNormal}`}
+            style={{ boxShadow: 'none' }}
             placeholder={texts.placeholders.email}
           />
           {errors.email && (
             <p className={styles.errorMessage}>{errors.email}</p>
           )}
         </div>
-      </div>
 
-      {/* Company Field */}
-      <div className={styles.field}>
-        <label htmlFor="company" className={styles.label}>
-          {texts.labels.company}
-        </label>
-        <input
-          type="text"
-          id="company"
-          name="company"
-          value={formData.company}
-          onChange={handleChange}
-          className={styles.input}
-          placeholder={texts.placeholders.company}
-        />
+        {/* Phone Field */}
+        <div className={styles.field}>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            className={styles.input}
+            style={{ boxShadow: 'none' }}
+            placeholder={texts.placeholders.phone}
+          />
+        </div>
       </div>
 
       {/* Message Field */}
       <div className={styles.field}>
-        <label htmlFor="message" className={styles.label}>
+        {/* <label htmlFor="message" className={styles.label}>
           {texts.labels.message}
-        </label>
+        </label> */}
         <textarea
-          id="message"
+            id="message"
           name="message"
           value={formData.message}
           onChange={handleChange}
-          rows={5}
+          rows={3}
           className={`${styles.textarea} ${errors.message ? styles.inputError : styles.inputNormal}`}
+          style={{ boxShadow: 'none' }}
           placeholder={texts.placeholders.message}
         />
         {errors.message && (
           <p className={styles.errorMessage}>{errors.message}</p>
         )}
       </div>
+
+      {/* Success/Error Message */}
+      {message && (
+        <div className={`mb-4 p-4 rounded-lg ${
+          message.type === 'success' 
+            ? 'bg-green-100 text-green-800 border border-green-200 text-center' 
+            : 'bg-red-100 text-red-800 border border-red-200 text-center'
+        }`}>
+          {message.text}
+        </div>
+      )}
 
       {/* Submit Button */}
       <div className={styles.submitContainer}>

@@ -48,16 +48,16 @@ export default function Modal({ isOpen, onClose, title, children, className = ''
     >
       <div 
         ref={modalRef}
-        className={`bg-brand-primary border border-brand-tertiary rounded-2xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto ${className}`}
+        className={`bg-brand-tertiary border border-brand-primary rounded-2xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto ${className}`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         {title && (
-          <div className="flex items-center justify-between p-6 border-b border-brand-tertiary">
-            <h2 className="text-2xl font-bold text-brand-tertiary">{title}</h2>
+          <div className="flex flex-col-reverse mobile-large:flex-row items-end mobile-large:items-start justify-between p-6 pb-0 border-b border-brand-tertiary">
+            <h2 className="text-3xl mobile:text-4xl font-bold text-brand-primary bg-[url('/img/brandmark.svg')] bg-no-repeat bg-center-left bg-[auto_100%] pl-14 w-full">{title}</h2>
             <button
               onClick={onClose}
-              className="text-brand-tertiary hover:text-brand-secondary transition-colors duration-200 text-2xl font-bold"
+              className="text-brand-primary hover:text-brand-secondary transition-colors duration-200 text-4xl relative top-[-10px]"
               aria-label="Close modal"
             >
               ×

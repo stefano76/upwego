@@ -12,6 +12,7 @@ export default {
       screens: {
         // Custom breakpoints
         'mobile': '360px',
+        'mobile-large': '480px',
         'tablet': '768px',
         'desktop': '1024px',
         'small': '1280px',
@@ -22,7 +23,11 @@ export default {
         'max-h-sm': { 'raw': '(max-height: 640px)' },
         'max-h-md': { 'raw': '(max-height: 768px)' },
         'max-h-lg': { 'raw': '(max-height: 1024px)' },
-        'max-h-xl': { 'raw': '(max-height: 1280px)' }
+        'max-h-xl': { 'raw': '(max-height: 1280px)' },
+        // Combined width and height breakpoints
+        'mobile-small-height': { 'raw': '(max-width: 479px) and (max-height: 799px)' },
+        'desktop-small-height': { 'raw': '(min-width: 1024px) and (max-height: 650px)' },
+        'desktop-xsmall-height': { 'raw': '(min-width: 1024px) and (max-height: 550px)' }
       },
       animation: animations,
       keyframes: keyframes,
@@ -32,6 +37,7 @@ export default {
           secondary: "#11A4F4", // Dodger Blue
           tertiary: "#FDFEFF" // Ice White
         },
+        bodyText: "#626262",
         blueDark: "#000310",
         blueExtraLight: "#CCE6F2",
         about_strips: {

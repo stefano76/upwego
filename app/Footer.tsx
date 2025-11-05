@@ -69,18 +69,18 @@ export default function Footer({ onContactClick }: FooterProps): JSX.Element {
   return (
     <footer className="w-full bg-brand-primary border-t border-brand-tertiary">
       <div className="container mx-auto px-6 pt-10 pb-6">
-        <div className="flex flex-col md:flex-row justify-between items-stretch gap-8">
+        <div className="top-section flex flex-col md:flex-row justify-between items-stretch gap-8">
           
           {/* Left Side */}
           <div className="flex flex-col gap-10"> 
             {/* Logo/Brand */}
-            <div className="flex flex-col gap-3">
+            <div className="section-logo flex flex-col gap-3">
               <Logo width={180} height={31} className="w-[180px] h-[31px]" />
               <p className="text-base text-blueExtraLight">{stripHtmlTags(tagline)}</p>
             </div>
 
             {/* Navigation Links */}
-            <nav className="flex flex-wrap justify-center gap-6 text-brand-tertiary">
+            <nav className="section-menu flex flex-col mobile-large:flex-row flex-wrap justify-center items-center gap-12 tablet:gap-6 text-brand-tertiary">
               {menuItems.map((item) => {
                   // Determine href based on slug type
                   let href = item.slug;
@@ -100,7 +100,7 @@ export default function Footer({ onContactClick }: FooterProps): JSX.Element {
                       <button
                         key={item.slug}
                         onClick={onContactClick}
-                        className={`menu-item-footer ${className}`}
+                        className={`menu-item-footer w-fit ${className}`}
                       >
                         {item.title}
                       </button>
@@ -113,7 +113,7 @@ export default function Footer({ onContactClick }: FooterProps): JSX.Element {
                       href={href}
                       target={target}
                       rel={rel}
-                      className={`menu-item-footer ${className}`}
+                      className={`menu-item-footer w-fit ${className}`}
                     >
                       {item.title}
                     </a>
@@ -124,7 +124,7 @@ export default function Footer({ onContactClick }: FooterProps): JSX.Element {
 
 
           {/* Contact Links */}
-          <div className="text-brand-tertiary text-sm font-light text-center md:text-right flex flex-col justify-end">
+          <div className="section-contacts text-brand-tertiary text-sm font-light text-center md:text-right flex flex-col justify-end">
             <div className="flex flex-col gap-6">
               {contactLinks.map((contact, index) => (
                 <div key={index} className="text-base font-light text-brand-tertiary">
@@ -139,10 +139,10 @@ export default function Footer({ onContactClick }: FooterProps): JSX.Element {
         </div>
 
         {/* Bottom Border */}
-        <div className="mt-4 pt-6 border-t border-brand-tertiary border-opacity-30">
-          <div className="flex justify-center items-center gap-2 text-xs text-brand-tertiary">
+        <div className="bottom-section mt-6 pt-6 border-t border-brand-tertiary border-opacity-30">
+          <div className="flex flex-col mobile-large:flex-row justify-center items-center gap-6 mobile-large:gap-2 text-xs text-brand-tertiary">
             <p>&copy; {new Date().getFullYear()} Upwego Digital Limited. All rights reserved.</p>
-            <div className="separator">-</div>
+            <div className="separator hidden mobile-large:block">-</div>
             <a href="#" className="item-privacy">Privacy Policy</a>
           </div>
         </div>

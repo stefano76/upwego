@@ -2,17 +2,21 @@ import fs from 'fs';
 import path from 'path';
 
 export interface ContactFormTexts {
-  modalTitle: string;
+  modalTitle: {
+    title: string;
+    subtitle?: string;
+    paragraph?: string;
+  };
   labels: {
     name: string;
     email: string;
-    company: string;
+    phone: string;
     message: string;
   };
   placeholders: {
     name: string;
     email: string;
-    company: string;
+    phone: string;
     message: string;
   };
   errors: {
@@ -56,29 +60,46 @@ export function getContactFormTexts(): ContactFormTexts {
       
       switch (currentSection) {
         case 'modaltitle':
-          if (key.trim() === 'title') {
-            texts.modalTitle = value;
+          if (!texts.modalTitle) texts.modalTitle = { title: '', subtitle: '', paragraph: '' };
+          const modalKey = key.trim() as keyof typeof texts.modalTitle;
+          if (modalKey === 'title' || modalKey === 'subtitle' || modalKey === 'paragraph') {
+            texts.modalTitle[modalKey] = value;
           }
           break;
         case 'labels':
-          if (!texts.labels) texts.labels = {} as any;
-          texts.labels[key.trim() as keyof typeof texts.labels] = value;
+          if (!texts.labels) texts.labels = { name: '', email: '', phone: '', message: '' };
+          const labelKey = key.trim() as keyof typeof texts.labels;
+          if (texts.labels[labelKey] !== undefined) {
+            texts.labels[labelKey] = value;
+          }
           break;
         case 'placeholders':
-          if (!texts.placeholders) texts.placeholders = {} as any;
-          texts.placeholders[key.trim() as keyof typeof texts.placeholders] = value;
+          if (!texts.placeholders) texts.placeholders = { name: '', email: '', phone: '', message: '' };
+          const placeholderKey = key.trim() as keyof typeof texts.placeholders;
+          if (texts.placeholders[placeholderKey] !== undefined) {
+            texts.placeholders[placeholderKey] = value;
+          }
           break;
         case 'errormessages':
-          if (!texts.errors) texts.errors = {} as any;
-          texts.errors[key.trim() as keyof typeof texts.errors] = value;
+          if (!texts.errors) texts.errors = { nameRequired: '', emailRequired: '', emailInvalid: '', messageRequired: '' };
+          const errorKey = key.trim() as keyof typeof texts.errors;
+          if (texts.errors[errorKey] !== undefined) {
+            texts.errors[errorKey] = value;
+          }
           break;
         case 'successmessages':
-          if (!texts.success) texts.success = {} as any;
-          texts.success[key.trim() as keyof typeof texts.success] = value;
+          if (!texts.success) texts.success = { formSuccess: '', submitButton: '', submitButtonLoading: '' };
+          const successKey = key.trim() as keyof typeof texts.success;
+          if (texts.success[successKey] !== undefined) {
+            texts.success[successKey] = value;
+          }
           break;
         case 'apimessages':
-          if (!texts.api) texts.api = {} as any;
-          texts.api[key.trim() as keyof typeof texts.api] = value;
+          if (!texts.api) texts.api = { serverError: '', networkError: '' };
+          const apiKey = key.trim() as keyof typeof texts.api;
+          if (texts.api[apiKey] !== undefined) {
+            texts.api[apiKey] = value;
+          }
           break;
       }
     }

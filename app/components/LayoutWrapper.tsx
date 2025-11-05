@@ -24,7 +24,6 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const [contactFormMessage, setContactFormMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
   const [contactTexts, setContactTexts] = useState<ContactFormTexts | null>(null);
 
   useEffect(() => {
@@ -96,29 +95,23 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   };
 
   const handleContactFormSuccess = () => {
-    setContactFormMessage({ 
-      type: 'success', 
-      text: contactTexts?.success.formSuccess || 'Message sent successfully! We\'ll get back to you soon.' 
-    });
+    // Close modal after success message is shown
     setTimeout(() => {
       setIsContactModalOpen(false);
-      setContactFormMessage(null);
-    }, 2000);
+    }, 300000);
   };
 
   const handleContactFormError = (error: string) => {
-    setContactFormMessage({ type: 'error', text: error });
+    // Error is now handled inside ContactForm
   };
 
   const openContactModal = () => {
     console.log('openContactModal called!');
     setIsContactModalOpen(true);
-    setContactFormMessage(null);
   };
 
   const closeContactModal = () => {
     setIsContactModalOpen(false);
-    setContactFormMessage(null);
   };
 
   if (isLoading) {
@@ -151,17 +144,8 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
         <Modal 
           isOpen={isContactModalOpen} 
           onClose={closeContactModal}
-          title={contactTexts?.modalTitle || "Get in Touch"}
+          title={contactTexts?.modalTitle?.title || "Get in Touch"}
         >
-          {contactFormMessage && (
-            <div className={`mb-6 p-4 rounded-lg ${
-              contactFormMessage.type === 'success' 
-                ? 'bg-green-100 text-green-800 border border-green-200' 
-                : 'bg-red-100 text-red-800 border border-red-200'
-            }`}>
-              {contactFormMessage.text}
-            </div>
-          )}
           <ContactForm 
             onSuccess={handleContactFormSuccess}
             onError={handleContactFormError}
