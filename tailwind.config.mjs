@@ -27,8 +27,8 @@ export default {
         'max-h-xl': { 'raw': '(max-height: 1280px)' },
         // Combined width and height breakpoints
         'mobile-small-height': { 'raw': '(max-width: 479px) and (max-height: 799px)' },
-        'desktop-small-height': { 'raw': '(min-width: 1024px) and (max-height: 650px)' },
-        'desktop-xsmall-height': { 'raw': '(min-width: 1024px) and (max-height: 550px)' }
+        'tablet-small-height': { 'raw': '(min-width: 768px) and (max-height: 650px)' },
+        'tablet-xsmall-height': { 'raw': '(min-width: 768px) and (max-height: 550px)' }
       },
       animation: animations,
       keyframes: keyframes,

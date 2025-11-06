@@ -5,7 +5,7 @@
 }
 
 .modalIntro {
-  @apply mb-6 space-y-2 mobile-small-height:hidden desktop-small-height:hidden;
+  @apply mb-6 space-y-2 mobile-small-height:hidden tablet-small-height:hidden;
 }
 
 .modalSubtitle {
@@ -48,7 +48,7 @@
 .textarea {
   @apply w-full px-6 py-4 border-b border-b-bodyText bg-brand-tertiary text-brand-primary placeholder-brand-primary placeholder-opacity-50 
     focus:outline-none focus:border-b-brand-secondary hover:border-b-brand-secondary
-    hover:border-brand-secondary resize-none shadow-none focus:shadow-none hover:shadow-none desktop-xsmall-height:resize-y desktop-xsmall-height:h-16;
+    hover:border-brand-secondary resize-none shadow-none focus:shadow-none hover:shadow-none tablet-xsmall-height:resize-y tablet-xsmall-height:h-16;
 }
 
 .errorMessage {
@@ -56,7 +56,7 @@
 }
 
 .submitContainer {
-  @apply flex justify-center pt-4 desktop-xsmall-height:pt-0;
+  @apply flex justify-center pt-4 tablet-xsmall-height:pt-0;
 }
 
 .submitButton {
