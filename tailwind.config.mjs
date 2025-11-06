@@ -12,6 +12,7 @@ export default {
       screens: {
         // Custom breakpoints
         'mobile': '360px',
+        'mobile-medium': '375px',
         'mobile-large': '480px',
         'tablet': '768px',
         'desktop': '1024px',

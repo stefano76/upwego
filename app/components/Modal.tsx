@@ -53,8 +53,8 @@ export default function Modal({ isOpen, onClose, title, children, className = ''
       >
         {/* Header */}
         {title && (
-          <div className="flex flex-col-reverse mobile-large:flex-row items-end mobile-large:items-start justify-between p-6 pb-0 border-b border-brand-tertiary">
-            <h2 className="text-3xl mobile:text-4xl font-bold text-brand-primary bg-[url('/img/brandmark.svg')] bg-no-repeat bg-center-left bg-[auto_100%] pl-14 w-full">{title}</h2>
+          <div className="flex items-start mobile-large:items-start justify-between p-6 pb-0 border-b border-brand-tertiary">
+            <h2 className="text-3xl mobile-large:text-4xl font-bold text-brand-primary bg-[url('/img/brandmark.svg')] bg-no-repeat bg-center-left bg-[1em_auto] mobile-large:bg-[auto_100%] pl-9 mobile-large:pl-14">{title}</h2>
             <button
               onClick={onClose}
               className="text-brand-primary hover:text-brand-secondary transition-colors duration-200 text-4xl relative top-[-10px]"
