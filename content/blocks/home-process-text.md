@@ -1,7 +1,7 @@
 ---
 id: "home-process-text"
 label: "text"
-title: "**Ready to Soar?** Here’s what <br>to expect:"
+title: "**Ready to Soar?** <br>Here’s what to expect:"
 text: |
   - Onboarding & Discovery
   - Planning & Design

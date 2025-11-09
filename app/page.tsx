@@ -10,10 +10,11 @@ import { marked } from 'marked';
 import { useSimpleAnimation } from './hooks/useSimpleAnimation';
 import { useMultiAnimation } from './hooks/useMultiAnimation';
 import { useIndividualBlockAnimation } from './hooks/useIndividualBlockAnimation';
+import { useHomeProcessAnimation } from './hooks/useHomeProcessAnimation';
 import './styles/home.css';
 
 // Helper function to render Markdown content safely
-const renderMarkdown = (markdownString?: string) => {
+const renderMarkdown = (markdownString?: string, noParagraphs: boolean = false) => {
   const safeInput = typeof markdownString === 'string' ? markdownString : '';
   
   // Create a custom renderer to replace <strong> with <b>
@@ -24,8 +25,38 @@ const renderMarkdown = (markdownString?: string) => {
     return '<b>' + textContent + '</b>';
   };
   
-  const html = marked.parse(safeInput, { renderer, async: false });
+  // If noParagraphs is true, use inline parsing to avoid <p> tags
+  let html: string;
+  if (noParagraphs) {
+    // Use parseInline for content that shouldn't be wrapped in paragraphs
+    html = marked.parseInline(safeInput, { renderer, async: false });
+  } else {
+    html = marked.parse(safeInput, { renderer, async: false });
+  }
+  
   return { __html: html };
+};
+
+// Helper function to parse markdown list items into an array
+const parseMarkdownListItems = (markdownString?: string): string[] => {
+  if (!markdownString) return [];
+  
+  // Extract list items from markdown (lines starting with - or *)
+  const lines = markdownString.split('\n');
+  const items: string[] = [];
+  
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    // Match markdown list items (starting with -, *, or numbers)
+    if (trimmed.match(/^[-*]\s+(.+)$/)) {
+      const match = trimmed.match(/^[-*]\s+(.+)$/);
+      if (match && match[1]) {
+        items.push(match[1].trim());
+      }
+    }
+  });
+  
+  return items;
 };
 
 export default function Home() {
@@ -39,65 +70,13 @@ export default function Home() {
   const aboutAnimation = useSimpleAnimation('animate-in-scale', 0.3);
   const challengeAnimation = useMultiAnimation(0.3);
   const servicesAnimation = useIndividualBlockAnimation({ 
-    threshold: 0.6, 
+    threshold: 0.5, 
     animationClass: 'animate-fade-in-down'
   });
-
-  // Scroll-based scaling animation for home-process section
-  useEffect(() => {
-    const handleScroll = () => {
-      // Only apply on desktop (≥1280px)
-      if (window.innerWidth < 1280) return;
-      
-      const processSection = document.getElementById('home-process');
-      if (!processSection) return;
-      
-      const boxProcessContent = processSection.querySelector('.box-process-content');
-      const sectionTitleProcess = processSection.querySelector('.section-title-process');
-      if (!boxProcessContent || !sectionTitleProcess) return;
-      
-      const sectionRect = processSection.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      
-      // Calculate scroll progress within the section
-      const sectionTop = sectionRect.top;
-      const sectionHeight = sectionRect.height;
-      
-      // Start animation when section is 10% visible
-      const startPoint = windowHeight * 0.9; // Start when section just enters viewport
-      // Complete animation when section is 80% visible (a bit before fully visible)
-      const endPoint = -sectionHeight + windowHeight;
-      
-      const progress = Math.max(0, Math.min(1, (startPoint - sectionTop) / (startPoint - endPoint)));
-      
-      // Calculate scale: start from 1.2 (120%), animate to 1.0 (100%)
-      const startScale = 1.2;
-      const endScale = 1.0;
-      const currentScale = startScale - (startScale - endScale) * progress;
-      
-      // Apply the scale with center bottom origin
-      (boxProcessContent as HTMLElement).style.transform = `scale(${currentScale})`;
-      
-      // Add 'visible' class when animation reaches 50% progress
-      if (progress >= 0.5) {
-        sectionTitleProcess.classList.add('visible');
-      } else {
-        sectionTitleProcess.classList.remove('visible');
-      }
-    };
-    
-    // Initial call
-    handleScroll();
-    
-    // Add scroll listener
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleScroll);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-    };
-  }, []);
+  const homeProcessAnimation = useHomeProcessAnimation({
+    slideDownThreshold: 0.2,
+    blocksLoaded: !!blocks
+  });
 
   useEffect(() => {
     const fetchBlocks = async () => {
@@ -133,45 +112,6 @@ export default function Home() {
     fetchBlocks();
   }, []);
 
-  // List animation effect
-  useEffect(() => {
-    const section = document.getElementById('home-process');
-    if (!section) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const listItems = entry.target.querySelectorAll('ul li');
-            
-            listItems.forEach((item, index) => {
-              setTimeout(() => {
-                const htmlItem = item as HTMLElement;
-                htmlItem.classList.add('animate-fade-in-slide-right');
-                
-                // If this is the last item, animate the button
-                if (index === listItems.length - 1) {
-                  const button = entry.target.querySelector('.home-process-content-cta');
-                  if (button) {
-                    setTimeout(() => {
-                      button.classList.add('animate-fade-in');
-                    }, 1500); // Small delay after the last list item
-                  }
-                }
-              }, 500 + (index * 1500));
-            });
-          }
-        });
-      },
-      { threshold: 0.8 }
-    );
-
-    observer.observe(section);
-
-    return () => {
-      observer.unobserve(section);
-    };
-  }, [blocks]);
 
   if (!blocks || !tagline) {
     return (
@@ -235,7 +175,7 @@ export default function Home() {
       <section ref={challengeAnimation.sectionRef} id="home-challenge" className="home-section flex flex-col justify-center relative overflow-hidden">
         <div className="absolute hidden desktop:block w-full h-full top-0 left-0 background-gradient background-gradient-left"></div>
         <div className="absolute hidden desktop:block w-full h-full top-0 left-0 background-gradient background-gradient-right"></div>
-        <div className="relative z-10 container flex flex-col desktop:flex-row justify-between items-center desktop:items-stretch gap-16 desktop:gap-[10%]">
+        <div className="relative z-10 container flex flex-col desktop:flex-row justify-between items-center desktop:items-stretch gap-16 desktop:gap-12 medium:gap-16">
           {blocks && blocks["home-challenge"] && Object.entries(blocks["home-challenge"].blocks).map(([blockId, block]: [string, any]) => {
 
             let animationPage = null;
@@ -253,7 +193,7 @@ export default function Home() {
             }
 
             return (
-              <div key={blockId} className="home-challenge-content w-full desktop:w-1/2 desktop:h-auto box bg-brand-primary bg-opacity-60 px-6 py-10 pt-12 tablet:p-20 flex flex-col items-center justify-center">
+              <div key={blockId} className="home-challenge-content w-full desktop:w-[calc(50%-1.5rem)] medium:w-[calc(50%-2rem)] desktop:h-auto box bg-brand-primary bg-opacity-60 px-6 py-10 pt-12 tablet:p-20 flex flex-col items-center justify-center">
                 <div className={`neon-border-tertiary box box-${block.label} w-[240px] mobile-large:w-[300px] h-[240px] flex flex-col items-center justify-center gap-8 mb-12`}>
                   <h3 ref={animationLabel} className="text-lg text-center tracking-[0.5em] font-light uppercase opacity-0" dangerouslySetInnerHTML={renderMarkdown(block.label)}></h3>
                   <div className="w-[100px] h-[82px] relative">
@@ -325,27 +265,46 @@ export default function Home() {
         </div>
       </section>
       
-      <section id="home-process" className="home-section bg-brand-tertiary relative overflow-hidden">
+      <section 
+        id="home-process" 
+        ref={homeProcessAnimation.sectionRef}
+        className="home-section bg-brand-tertiary relative overflow-hidden"
+      >
         <div className="background-gradient absolute top-0 left-0 w-full h-2/3 bg-brand-primary"></div>
         <div className="relative z-10 container">
           {blocks && blocks["home-process"] && blocks["home-process"].title && (
-            <h2 className="section-title section-title-process text-4xl medium-large:text-5xl text-center mb-16 max-h-sm:text-3xl" 
-            dangerouslySetInnerHTML={renderMarkdown(blocks["home-process"].title)}></h2>
+            <h2 
+              ref={homeProcessAnimation.sectionTitleRef}
+              className="section-title section-title-process text-4xl medium-large:text-5xl text-center mb-16 max-h-sm:text-3xl" 
+              dangerouslySetInnerHTML={renderMarkdown(blocks["home-process"].title)}
+            ></h2>
           )}
           {blocks && blocks["home-process"] && Object.entries(blocks["home-process"].blocks).map(([blockId, block]: [string, any]) => (
-            <div key={blockId} className="flex flex-col desktop:flex-row gap-10 desktop:gap-0 justify-between box box-process-content bg-brand-primary p-8 desktop:p-20 max-w-screen-small mx-auto">
-              <div className="w-full desktop:w-1/2 flex flex-col justify-between">
-                <h3 className="home-process-content-title block-title text-4xl medium-large:text-5xl max-h-sm:text-3xl" dangerouslySetInnerHTML={renderMarkdown(block.title)}></h3>
-                <Image src="/img/upwego-logo-light.svg" alt="Upwego Digital" width={184} height={32.5} className="hidden desktop:block" />
-              </div>
-              <div className="w-full desktop:w-1/2 flex flex-col justify-between items-end">
-                 <div className="home-process-content w-fit mx-auto">
-                  <div className="text-2xl text-brand-tertiary home-process-items" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
-                  <a href={block.linkUrl} className="home-process-content-cta btn-secondary mt-8 inline-block w-fit opacity-0 pointer-events-none mx-auto desktop:mx-0">
-                    <span className="hidden mobile-large:inline">{block.linkText}</span>
-                    <span className="inline mobile-large:hidden">{genericTexts['cta-generic']}</span>
-                  </a>
+            <div 
+              key={blockId} 
+              ref={homeProcessAnimation.boxProcessContentRef}
+              className="box box-process-content bg-brand-primary p-8 desktop:p-20 max-w-screen-small mx-auto origin-top opacity-0"
+            >
+              <div 
+                ref={homeProcessAnimation.homeProcessContentRef}
+                className="home-process-content opacity-0"
+              >
+                <h3 className="home-process-content-title block-title text-4xl medium-large:text-5xl max-h-sm:text-3xl mb-16" dangerouslySetInnerHTML={renderMarkdown(block.title, true)}></h3>
+                <div className="home-process-items-container">
+                  <div className="home-process-items flex flex-col gap-12 w-fit mx-auto">
+                    {parseMarkdownListItems(block.text).map((item, index) => (
+                      <div key={index} className="home-process-item flex items-center gap-4 text-xl font-medium py-2 px-4 bg-brand-tertiary rounded-full flex gap-4">
+                        <span className="home-process-item-number bg-brand-secondary rounded-[50%] w-10 h-10 flex items-center justify-center">{index + 1}</span>
+                        <span className="home-process-item-text text-brand-primary w-[calc(100%-3.5rem)]">{item}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
+                <a href={block.linkUrl} className="home-process-content-cta btn-secondary !mt-16 block w-fit pointer-events-none mx-auto opacity-0">
+                  <span className="hidden mobile-large:inline">{block.linkText}</span>
+                  <span className="inline mobile-large:hidden">{genericTexts['cta-generic']}</span>
+                </a>
+                <Image src="/img/upwego-logo-light.svg" alt="Upwego Digital" width={184} height={32.5} className="home-process-content-logo opacity-0 hidden desktop:block mx-auto mt-16" />
               </div>
             </div>
           ))}
