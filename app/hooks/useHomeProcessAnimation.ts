@@ -186,7 +186,6 @@ export const useHomeProcessAnimation = (config: HomeProcessAnimationConfig = {})
           const lineStartY = prevRect.top + prevRect.height / 2 - containerRect.top;
           const lineEndY = currentRect.top + currentRect.height / 2 - containerRect.top;
           const lineHeight = lineEndY - lineStartY;
-          const lineX = prevRect.left + prevRect.width / 2 - containerRect.left;
           
           // Create line element
           const line = document.createElement('div');
@@ -240,7 +239,7 @@ export const useHomeProcessAnimation = (config: HomeProcessAnimationConfig = {})
 
     // Small delay to ensure DOM is ready
     setTimeout(startAnimation, 50);
-  }, [hasAnimatedContentFadeIn, hasAnimatedScale, scaleAnimationStartDelay, scaleAnimationDuration, lineAnimationDuration]);
+  }, [hasAnimatedContentFadeIn, hasAnimatedScale, scaleAnimationStartDelay, scaleAnimationDuration, lineAnimationDuration, lineCompleteDelay]);
 
 
   // ==========================================================================

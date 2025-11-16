@@ -16,12 +16,8 @@ interface ProcessStepBoxProps {
 export default function ProcessStepBox({ number, step, title, text }: ProcessStepBoxProps) {
   const boxRef = useRef<HTMLDivElement>(null);
   const primary = tailwindConfig.theme.extend.colors.brand.primary;
-  const secondary = tailwindConfig.theme.extend.colors.brand.secondary;
   const secondaryHex = tailwindConfig.theme.extend.colors.brand.secondary;
-  const tertiary = tailwindConfig.theme.extend.colors.brand.tertiary;
   const secondary30 = hexToRgba(secondaryHex, 0.3);
-  const smallBreakpoint = tailwindConfig.theme.extend.screens.small;
-  const mediumBreakpoint = tailwindConfig.theme.extend.screens.medium;
   
   const gradientStyle = {
     backgroundImage: `linear-gradient(45deg, ${primary} 25%, ${secondary30} 70%, ${primary} 100%)`
