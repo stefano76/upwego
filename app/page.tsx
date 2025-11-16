@@ -4,73 +4,28 @@ import Image from 'next/image';
 import ScrollDisabler from './components/ScrollDisabler';
 import ScrollDownButton from './components/ScrollDownButton';
 import { useAnimation } from './components/AnimationContext';
-import { useContactModal } from './components/ContactModalContext';
 import { useEffect, useState } from 'react';
-import { marked } from 'marked';
 import { useSimpleAnimation } from './hooks/useSimpleAnimation';
 import { useMultiAnimation } from './hooks/useMultiAnimation';
 import { useIndividualBlockAnimation } from './hooks/useIndividualBlockAnimation';
 import { useHomeProcessAnimation } from './hooks/useHomeProcessAnimation';
+import ContactSection from './components/ContactSection';
+import ProcessNumber from './components/ProcessNumber';
+import Button from './components/Button';
+import { renderMarkdown, parseMarkdownListItems } from './utils/text';
 import './styles/home.css';
-
-// Helper function to render Markdown content safely
-const renderMarkdown = (markdownString?: string, noParagraphs: boolean = false) => {
-  const safeInput = typeof markdownString === 'string' ? markdownString : '';
-  
-  // Create a custom renderer to replace <strong> with <b>
-  const renderer = new marked.Renderer();
-  renderer.strong = function(text) {
-    // Extract text from the object if it's not a string
-    const textContent = typeof text === 'string' ? text : text.text || String(text);
-    return '<b>' + textContent + '</b>';
-  };
-  
-  // If noParagraphs is true, use inline parsing to avoid <p> tags
-  let html: string;
-  if (noParagraphs) {
-    // Use parseInline for content that shouldn't be wrapped in paragraphs
-    html = marked.parseInline(safeInput, { renderer, async: false });
-  } else {
-    html = marked.parse(safeInput, { renderer, async: false });
-  }
-  
-  return { __html: html };
-};
-
-// Helper function to parse markdown list items into an array
-const parseMarkdownListItems = (markdownString?: string): string[] => {
-  if (!markdownString) return [];
-  
-  // Extract list items from markdown (lines starting with - or *)
-  const lines = markdownString.split('\n');
-  const items: string[] = [];
-  
-  lines.forEach(line => {
-    const trimmed = line.trim();
-    // Match markdown list items (starting with -, *, or numbers)
-    if (trimmed.match(/^[-*]\s+(.+)$/)) {
-      const match = trimmed.match(/^[-*]\s+(.+)$/);
-      if (match && match[1]) {
-        items.push(match[1].trim());
-      }
-    }
-  });
-  
-  return items;
-};
 
 export default function Home() {
   const [blocks, setBlocks] = useState<any>(null);
   const { shouldAnimate } = useAnimation();
   const [tagline, setTagline] = useState<string>('');
   const [genericTexts, setGenericTexts] = useState<any>({});
-  const { openContactModal } = useContactModal();
 
   // Animation hooks
   const aboutAnimation = useSimpleAnimation('animate-in-scale', 0.3);
-  const challengeAnimation = useMultiAnimation(0.3);
+  const challengeAnimation = useMultiAnimation(0.6);
   const servicesAnimation = useIndividualBlockAnimation({ 
-    threshold: 0.5, 
+    threshold: 0.7, 
     animationClass: 'animate-fade-in-down'
   });
   const homeProcessAnimation = useHomeProcessAnimation({
@@ -163,9 +118,9 @@ export default function Home() {
             <div key={blockId} className="home-about-content w-full desktop:w-1/2 mt-16 desktop:mt-0">
               <div className="text-xl medium-large:text-2xl max-h-sm:text-base" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
               {block.linkText && block.linkUrl && (
-                <a href={block.linkUrl} className="btn-secondary inline-block">
+                <Button href={block.linkUrl} className="inline-block">
                   {block.linkText}
-                </a>
+                </Button>
               )}
             </div>
           ))}
@@ -253,10 +208,10 @@ export default function Home() {
                   <h3 className={`text-3xl font-semibold mb-6 desktop:mb-8 ${block.label === 'combined' ? 'text-brand-secondary' : 'text-brand-primary'}`} dangerouslySetInnerHTML={{ __html: block.title }}></h3>
                   <div className="text-xl text-bodyText" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
                   {block.linkText && block.linkUrl && (
-                    <a href={block.linkUrl} className="btn-secondary services-cta mt-8 desktop:mt-12 inline-block">
+                    <Button href={block.linkUrl} className="services-cta mt-8 desktop:mt-12 inline-block">
                       <span className="hidden mobile-large:inline">{block.linkText}</span>
                       <span className="inline mobile-large:hidden">{genericTexts['cta-generic']}</span>
-                    </a>
+                    </Button>
                   )}
                 </div>
               </div>
@@ -293,17 +248,17 @@ export default function Home() {
                 <div className="home-process-items-container">
                   <div className="home-process-items flex flex-col gap-12 w-fit mx-auto">
                     {parseMarkdownListItems(block.text).map((item, index) => (
-                      <div key={index} className="home-process-item flex items-center gap-4 text-xl font-medium py-2 px-4 bg-brand-tertiary rounded-full flex gap-4">
-                        <span className="home-process-item-number bg-brand-secondary rounded-[50%] w-10 h-10 flex items-center justify-center">{index + 1}</span>
+                      <div key={index} className="home-process-item flex items-center gap-4 text-xl font-medium py-2 px-4 bg-brand-tertiary rounded-full">
+                        <ProcessNumber number={index + 1} />
                         <span className="home-process-item-text text-brand-primary w-[calc(100%-3.5rem)]">{item}</span>
                       </div>
                     ))}
                   </div>
                 </div>
-                <a href={block.linkUrl} className="home-process-content-cta btn-secondary !mt-16 block w-fit pointer-events-none mx-auto opacity-0">
+                <Button href={block.linkUrl} className="home-process-content-cta !mt-16 block w-fit pointer-events-none mx-auto opacity-0">
                   <span className="hidden mobile-large:inline">{block.linkText}</span>
                   <span className="inline mobile-large:hidden">{genericTexts['cta-generic']}</span>
-                </a>
+                </Button>
                 <Image src="/img/upwego-logo-light.svg" alt="Upwego Digital" width={184} height={32.5} className="home-process-content-logo opacity-0 hidden desktop:block mx-auto mt-16" />
               </div>
             </div>
@@ -311,27 +266,29 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="home-contact" className="home-section bg-brand-tertiary">
-        {blocks && blocks["home-contact"] && Object.entries(blocks["home-contact"].blocks).map(([blockId, block]: [string, any]) => (
-          <div key={blockId} className="relative container">
-            <div className="flex flex-col justify-between">
-              <h2 className="section-title text-4xl medium-large:text-5xl text-center mb-8 max-h-sm:text-3xl text-brand-primary" 
-                dangerouslySetInnerHTML={renderMarkdown(block.title)}></h2>
-              <div className="text-xl text-bodyText text-center mb-4" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
-              {block.linkText && (
-                <button 
-                  onClick={() => {
-                    console.log('Contact button clicked!');
-                    openContactModal();
-                  }} 
-                  className="btn-secondary inline-block w-fit mx-auto">
-                  {block.linkText}
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
-      </section>
+      {blocks && blocks["home-contact"] && (() => {
+        const contactBlocks = Object.values(blocks["home-contact"].blocks) as any[];
+        // Collect title and text from first block (or combine if needed)
+        const firstBlock = contactBlocks[0];
+        const title = firstBlock?.title;
+        const text = firstBlock?.text;
+        // Collect all CTAs from all blocks
+        const ctas = contactBlocks
+          .filter(block => block.linkText)
+          .map(block => ({
+            linkText: block.linkText,
+            linkUrl: block.linkUrl
+          }));
+        
+        return (
+          <ContactSection
+            sectionId="home-contact"
+            title={title}
+            text={text}
+            ctas={ctas.length > 0 ? ctas : undefined}
+          />
+        );
+      })()}
     </>
   );
 

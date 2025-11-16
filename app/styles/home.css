@@ -103,7 +103,7 @@
 }
 
 .home-services-content .gradient.animate-fade-in-down + .box-image-service-web {
-  animation: fadeInDownCentered 2s ease-in-out forwards .5s;
+  animation: fadeIn 2s ease-in-out forwards .5s;
 }
 
 @keyframes fadeInUpCentered {
@@ -116,6 +116,11 @@
   0% { opacity: 0; transform: translate(-50%) translateY(-10%); }
   20% { opacity: 0; }
   100% { opacity: 1; transform: translate(-50%) translateY(0); }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 #home-process {
@@ -213,11 +218,6 @@
 .home-process-content.items-complete .home-process-content-logo {
   opacity: 1;
 }
-
-#home-contact {
-  min-height: 0;
-}
-
 
 /* Responsive animations - only apply on desktop */
 @media (max-width: calc(theme('screens.desktop') - 1px)) {

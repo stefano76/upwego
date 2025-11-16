@@ -6,11 +6,11 @@ items:
   - title: "Process"
     slug: "process"
     order: 2
-  - title: "About"
-    slug: "about"
-    order: 3
   - title: "Services"
     slug: "services"
+    order: 3
+  - title: "About"
+    slug: "about"
     order: 4
   - title: "Linkedin"
     slug: "https://linkedin.com/company/upwego"

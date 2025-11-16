@@ -1,0 +1,63 @@
+/* Services page specific styles */
+
+body.page-services > .main {
+    padding-top: 0;
+}
+
+#services-intro h1 b {
+    color: theme('colors.brand.secondary');
+}
+
+#services-intro .image-intro {
+    @apply absolute bottom-0 left-1/2 -translate-x-1/2 w-4/5 max-w-screen-mobile-large h-full;
+    @apply bg-[url('/img/u-strips-vertical.svg')] bg-[100%_auto] bg-[bottom] bg-no-repeat rotate-180;
+}
+
+#services-intro .image-intro-container { 
+    animation: fadeInUp 5s ease-in-out forwards;
+}
+
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(100%); }
+    20% { opacity: 0; transform: translateY(80%); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+#services-areas .box:last-child {
+    margin-bottom: 0;
+}
+
+#services-areas .box:not(.box-combined) {
+    background-color: theme('colors.brand.tertiary');
+    border: none;
+}
+
+#services-areas .box.box-combined {
+    background-color: theme('colors.brand.primary');
+}
+
+#services-areas .box.box-combined .intro .text,
+#services-areas .box.box-combined .features * {
+    color: theme('colors.brand.tertiary');
+}
+
+#services-areas .box.box-combined .features li div {
+    font-weight: 300;
+}
+
+#services-areas .box .features li:last-child {
+    margin-bottom: 0;
+}
+
+#services-areas .box .features li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.4rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-image: url('/img/tick.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left top;
+}

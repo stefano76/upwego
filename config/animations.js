@@ -5,7 +5,7 @@
 
 export const animations = {
   // Used in intro section
-  'u-intro': 'fadeInDown 5s ease-in-out forwards 1.5s, pulseOpacity 10s ease-in-out infinite 6.5s',
+  'u-intro': 'fadeInDown 5s ease-in-out forwards 1.5s, pulseOpacity 7s ease-in-out infinite 6.5s',
   'header-in': 'fadeIn 3s ease-in-out forwards 1s',
   'fade-in-delayed': 'fadeIn 3s ease-in-out forwards 2s',
   
@@ -13,8 +13,8 @@ export const animations = {
   'in-scale': 'fadeIn 5s ease-out forwards 0.5s, scaleIn 7s ease-out forwards',
   'in-to-right': 'fadeIn 1s ease-out forwards 0.5s, slideInRight 1s ease-out forwards',
   'in-to-left': 'fadeIn 1s ease-out forwards 0.5s, slideInLeft 1s ease-out forwards',
-  'gear-to-left': 'gearSlideRotate 1s ease-out forwards .5s',
-  'lens-to-left': 'lensSlideRotate 1s ease-out forwards 1s',
+  'gear-to-left': 'gearSlideRotate 1s linear forwards .5s, gearRotate 2s linear infinite 1.5s',
+  'lens-to-left': 'lensSlideRotate 1.5s linear forwards 1s, lensRotate 2s linear infinite 2.5s',
   'fade-in-delayed-web': 'fadeIn 2s ease-out forwards 1s',
   'fade-in-delayed-data': 'fadeIn 2s ease-out forwards 1.5s',
   'fade-in-down': 'fadeInDown 1s ease-in-out forwards',
@@ -60,15 +60,23 @@ export const keyframes = {
       transform: 'translateX(0) rotate(0deg)' 
     },
   },
+  gearRotate: {
+    '0%': { transform: 'rotate(360deg)' },
+    '100%': { transform: 'rotate(0deg)' },
+  },
   lensSlideRotate: {
     '0%': { 
       opacity: '0', 
-      transform: 'rotate(0deg) translateX(2vw) rotate(0deg)' 
+      transform: 'rotate(0deg) translateX(1vw) rotate(0deg)' 
     },
     '100%': { 
       opacity: '1', 
-      transform: 'rotate(180deg) translateX(0) rotate(-180deg)' 
+      transform: 'rotate(360deg) translateX(0.5vw) rotate(-360deg)' 
     },
+  },
+  lensRotate: {
+    '0%': { transform: 'rotate(0deg) translateX(0.5vw) rotate(0deg)' },
+    '100%': { transform: 'rotate(360deg) translateX(0.5vw) rotate(-360deg)' },
   },
   fadeInSlideRight: {
     '0%': { 

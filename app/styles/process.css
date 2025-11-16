@@ -1,0 +1,41 @@
+/* Process page specific styles */
+
+body.page-process > .main {
+    padding-top: 0;
+}
+
+#process-intro {
+    @apply relative h-[120vw] tablet:h-[50vw] small:h-[42vw] max-h-[450px] desktop:max-h-none;
+    @apply flex flex-col justify-center tablet:justify-end desktop:justify-center items-start;
+    @apply pt-16 tablet:pt-0 pb-[15vw] desktop:p-0;
+}
+
+#process-intro .background-intro {
+    opacity: 0;
+    animation: fadeIn 5s ease-in-out forwards;
+    background-position-x: 80%;
+}
+
+@media (min-width: theme('screens.mobile-large')) {
+    #process-intro .background-intro {
+        background-position-x: 100%;
+    }
+}
+
+#process-intro .container {
+    opacity: 0;
+    animation: fadeIn 3s ease-in-out forwards 2s;
+}
+
+#process-intro .container.visible {
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#process-intro h1 b {
+    color: theme('colors.brand.secondary');
+}

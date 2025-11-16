@@ -1,0 +1,67 @@
+.btn-secondary {
+  background-color: theme('colors.brand.secondary');
+  color: theme('colors.brand.tertiary');
+  padding: 0.75rem 2.5rem;
+  border-radius: 10rem;
+  transition: background-color 0.3s ease, all 0.3s ease;
+  font-weight: 500;
+  border: 2px solid theme('colors.brand.secondary');
+}
+
+.btn-secondary.menu-item-mobile {
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 400;
+  padding: 1rem 3.5rem;
+}
+
+.btn-secondary:not(.menu-item):not(.menu-item-mobile):not(.services-cta):not(.contact-section-cta) {
+  margin-top: 3rem;
+}
+
+.btn-secondary:hover {
+  background-color: theme('colors.brand.tertiary');
+  color: theme('colors.brand.primary');
+}
+
+/* .btn-secondary.menu-item-mobile:hover {
+  background-color: theme('colors.brand.primary');
+  color: theme('colors.brand.tertiary');
+} */
+
+/* White variant button */
+.btn-white {
+  background-color: theme('colors.brand.tertiary');
+  color: theme('colors.brand.primary');
+  padding: 0.75rem 2.5rem;
+  border-radius: 10rem;
+  transition: background-color 0.3s ease, all 0.3s ease;
+  font-weight: 500;
+  border: 2px solid theme('colors.brand.secondary');
+}
+
+.btn-white.menu-item-mobile {
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 400;
+  padding: 1rem 3.5rem;
+}
+
+.btn-white:not(.menu-item):not(.menu-item-mobile):not(.services-cta):not(.contact-section-cta) {
+  margin-top: 3rem;
+}
+
+.btn-white:hover {
+  background-color: theme('colors.brand.secondary');
+  color: theme('colors.brand.tertiary');
+}
+
+.btn-white em, .btn-secondary em {
+  font-style: normal;
+}
+
+@media (max-width: calc(theme('screens.mobile-medium') - 1px)) {
+  .btn-white em, .btn-secondary em {
+    display: none;
+  }
+}

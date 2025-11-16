@@ -1,0 +1,120 @@
+/* ContactForm.module.css */
+
+.form {
+  @apply p-6 pt-4;
+}
+
+.modalIntro {
+  @apply mb-6 space-y-2 mobile-small-height:hidden tablet-small-height:hidden;
+}
+
+.modalSubtitle {
+  @apply text-3xl font-semibold text-brand-primary;
+}
+
+.modalParagraph {
+  @apply text-xl text-brand-primary opacity-80;
+}
+
+.formGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-x-8 animate-fade-in-up;
+}
+
+.field {
+  @apply relative mb-8;
+}
+
+.fieldFull {
+  @apply relative mb-8 w-full;
+}
+
+.label {
+  @apply block text-sm font-medium text-brand-tertiary mb-1 tracking-wide uppercase;
+}
+
+.input {
+  @apply w-full px-6 py-4 border-b border-b-bodyText bg-brand-tertiary text-brand-primary placeholder-brand-primary placeholder-opacity-50 
+    focus:outline-none focus:border-b-brand-secondary hover:border-b-brand-secondary shadow-none focus:shadow-none hover:shadow-none;
+}
+
+.inputError {
+  @apply border-red-500;
+}
+
+.inputNormal {
+  @apply border-brand-primary;
+}
+
+.textarea {
+  @apply w-full px-6 py-4 border-b border-b-bodyText bg-brand-tertiary text-brand-primary placeholder-brand-primary placeholder-opacity-50 
+    focus:outline-none focus:border-b-brand-secondary hover:border-b-brand-secondary
+    hover:border-brand-secondary resize-none shadow-none focus:shadow-none hover:shadow-none tablet-xsmall-height:resize-y tablet-xsmall-height:h-16;
+}
+
+.errorMessage {
+  @apply absolute -bottom-7 left-2 text-sm text-red-500 font-medium;
+}
+
+.submitContainer {
+  @apply flex justify-center pt-4 tablet-xsmall-height:pt-0;
+}
+
+.submitButton {
+  /* @apply px-12 py-4 bg-gradient-to-r from-brand-secondary to-blue-400 text-brand-primary font-bold rounded-xl text-lg
+    hover:from-blue-400 hover:to-brand-secondary hover:shadow-xl hover:-translate-y-1
+    focus:outline-none focus:ring-4 focus:ring-brand-secondary focus:ring-opacity-50
+    transform transition-all duration-300 ease-in-out
+    hover:scale-105 active:scale-95; */
+}
+
+.submitButtonDisabled {
+  @apply opacity-50 cursor-not-allowed scale-95;
+}
+
+.submitButtonContent {
+  @apply flex items-center space-x-2;
+}
+
+.loadingSpinner {
+  @apply animate-spin rounded-full h-5 w-5 border-2 border-brand-primary border-t-transparent;
+}
+
+.loadingContainer {
+  @apply flex items-center justify-center p-8;
+}
+
+.loadingSpinnerLarge {
+  @apply animate-spin rounded-full h-12 w-12 border-4 border-brand-tertiary border-t-brand-secondary;
+}
+
+.loadingText {
+  @apply ml-4 text-brand-tertiary font-medium;
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Focus states for better accessibility */
+.input:focus-visible,
+.textarea:focus-visible {
+  @apply ring-4 ring-brand-secondary ring-opacity-50;
+}
+
+/* Hover effects for interactive elements */
+.submitButton:hover:not(:disabled) {
+  @apply shadow-2xl;
+}
+

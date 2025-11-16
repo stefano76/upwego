@@ -2,11 +2,12 @@
 import React, { useState, useEffect } from "react";
 import type { JSX } from "react";
 import { usePathname } from "next/navigation";
-import Menu from "./Menu";
+import Menu from "./components/Menu";
 import MenuOpenButton from "./MenuToggle";
 import Logo from "./components/Logo";
 import { useAnimation } from "./components/AnimationContext";
 import LinkedInIcon from "./components/LinkedInIcon";
+import tailwindConfig from "../tailwind.config.mjs";
 
 type MenuItem = {
   title: string;
@@ -20,11 +21,55 @@ type HeaderProps = {
 
 export default function Header({ menuItems, onContactClick }: HeaderProps): JSX.Element {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [viewportWidth, setViewportWidth] = useState<number>(0);
   const { shouldAnimate } = useAnimation();
   const pathname = usePathname();
+  const tabletBreakpoint = parseInt(tailwindConfig.theme.extend.screens.tablet);
+  const desktopBreakpoint = parseInt(tailwindConfig.theme.extend.screens.desktop);
 
   const openMenu = () => setMenuOpen(true);
   const closeMenu = () => setMenuOpen(false);
+
+  // Track viewport width
+  useEffect(() => {
+    const updateViewportWidth = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    updateViewportWidth();
+    window.addEventListener('resize', updateViewportWidth);
+
+    return () => {
+      window.removeEventListener('resize', updateViewportWidth);
+    };
+  }, []);
+
+  // Handle scroll to change header background (only on process page)
+  useEffect(() => {
+    // Only apply scroll effect on process page and when viewport is larger than tablet
+    if (pathname !== '/process' || viewportWidth < tabletBreakpoint) {
+      setIsScrolled(true);
+      return;
+    }
+
+    const handleScroll = () => {
+      const scrollOffset = viewportWidth < desktopBreakpoint ? 30 : 100;
+      const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+      setIsScrolled(scrollPosition > scrollOffset);
+    };
+
+    // Check initial scroll position
+    handleScroll();
+
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [pathname, viewportWidth, tabletBreakpoint, desktopBreakpoint]);
 
   // Close menu when route changes (for mobile navigation)
   useEffect(() => {
@@ -32,7 +77,7 @@ export default function Header({ menuItems, onContactClick }: HeaderProps): JSX.
   }, [pathname]);
 
   return (
-    <div className={`header-container fixed top-0 z-50 w-full dark bg-brand-primary ${shouldAnimate ? 'animate-header-in opacity-0' : 'opacity-100'}`}>
+    <div className={`header-container fixed top-0 z-50 w-full dark bg-brand-primary transition-colors duration-300 ${!isScrolled ? 'bg-opacity-0' : ''} ${shouldAnimate ? 'animate-header-in opacity-0' : 'opacity-100'}`}>
       <header className="flex items-center justify-between py-[var(--header-padding-y)] container">
         <Logo
           width={180}

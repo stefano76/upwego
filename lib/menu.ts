@@ -23,8 +23,8 @@ export async function getMenuItems(): Promise<MenuItemFields[]> {
     return [
       { title: "Home", slug: "/", order: 1 },
       { title: "Process", slug: "process", order: 2 },
-      { title: "About", slug: "about", order: 3 },
-      { title: "Services", slug: "services", order: 4 },
+      { title: "Services", slug: "services", order: 3 },
+      { title: "About", slug: "about", order: 4 },
       { title: "Linkedin", slug: "https://linkedin.com/company/upwego", order: 5 },
       { title: "Contact us", slug: "#contact", order: 6 }
     ];

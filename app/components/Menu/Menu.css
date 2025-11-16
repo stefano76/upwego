@@ -1,0 +1,71 @@
+.desktop-nav-menu a.menu-item:not(.menu-item-contact-us).active {
+  color: theme('colors.brand.secondary');
+  font-weight: 600;
+}
+
+a.menu-item:not(.menu-item-contact-us),
+a.menu-item-mobile:not(.menu-item-contact-us),
+.menu-item-footer:not(.hidden),
+a.contact-item span,
+a.item-privacy {
+  position: relative;
+  display: inline-block;
+  font-weight: 300;
+  transition: color 0.3s ease;
+}
+
+a.menu-item-mobile:not(.menu-item-contact-us) {
+  font-weight: 400;
+}
+
+a.item-privacy {
+  font-weight: 400;
+}
+
+a.menu-item:not(.menu-item-contact-us):not(.menu-item-linkedin):hover,
+a.menu-item-mobile:not(.menu-item-contact-us):not(.menu-item-linkedin):hover,
+.menu-item-footer:hover,
+a.contact-item:hover span,
+a.item-privacy:hover {
+  color: theme('colors.brand.secondary');
+}
+
+a.menu-item:not(.menu-item-contact-us):not(.menu-item-linkedin)::after,
+a.menu-item-mobile:not(.menu-item-contact-us):not(.menu-item-linkedin)::after,
+.menu-item-footer::after,
+a.contact-item span::after,
+a.item-privacy::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: theme('colors.brand.secondary');
+  transition: width 0.3s ease;
+}
+
+a.menu-item:not(.menu-item-contact-us):not(.menu-item-linkedin):hover::after,
+a.menu-item-mobile:not(.menu-item-contact-us):not(.menu-item-linkedin):hover::after,
+.menu-item-footer:hover::after,
+a.contact-item:hover span::after,
+a.item-privacy:hover::after {
+  width: 100%;
+}
+
+a.menu-item-linkedin svg path {
+  transition: fill 0.3s ease;
+}
+
+a.menu-item-linkedin:hover svg path {
+  fill: theme('colors.brand.secondary');
+}
+
+a.menu-item-mobile:not(.menu-item-contact-us) {
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  text-decoration: none;
+}
+

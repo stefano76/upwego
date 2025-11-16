@@ -81,7 +81,7 @@ export default function Footer({ onContactClick }: FooterProps): JSX.Element {
             </div>
 
             {/* Navigation Links */}
-            <nav className="section-menu flex flex-col mobile-large:flex-row flex-wrap justify-center items-center gap-12 tablet:gap-6 text-brand-tertiary">
+            <nav className="section-menu flex flex-col mobile-large:flex-row flex-wrap justify-center items-center gap-8 tablet:gap-6 text-brand-tertiary">
               {menuItems.map((item) => {
                   // Determine href based on slug type
                   const href = item.slug;

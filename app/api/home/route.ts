@@ -1,9 +1,9 @@
-import { getAllBlocksData } from "@/lib/home";
+import { getAllBlocksData } from "@/lib/content";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
-    const blocks = await getAllBlocksData();
+    const blocks = await getAllBlocksData('home');
     return NextResponse.json(blocks);
   } catch (error) {
     console.error('Error in API route /api/home:', error);
