@@ -98,6 +98,12 @@
   transform: translateX(-50%);
 }
 
+/* Firefox fix: ensure gradient has explicit height for transform calculations */
+.home-services-content .gradient.animate-fade-in-down {
+  min-height: 100%;
+  height: auto;
+}
+
 .home-services-content .gradient.animate-fade-in-down + .box-image {
   animation: fadeInUpCentered 2s ease-in-out forwards .5s;
 }
