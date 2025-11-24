@@ -88,11 +88,18 @@ export default function Services() {
             {blocks && blocks["services-areas"] && Object.entries(blocks["services-areas"].blocks).map(([blockId, block]: [string, Block]) => (
               <div key={blockId} className={`box box-${block.slug} p-8 desktop:p-12 mb-10 max-w-screen-small mx-auto ${block.slug === 'combined' ? 'neon-border-secondary' : ''}`}>
                 <div className="content flex flex-col desktop:flex-row gap-12 justify-between">
-                  <div className="intro desktop:w-1/3 relative pt-20 desktop:pt-0">
+                  <div className={`intro desktop:w-1/3 relative ${block.slug === 'combined' ? 'pt-24' : 'pt-20'} desktop:pt-0`}>
                     <h2 className="text-4xl medium-large:text-5xl font-bold text-brand-secondary mb-8" 
                     dangerouslySetInnerHTML={{ __html: block.title || '' }}></h2>
                     <div className="text text-xl text-bodyText" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
-                    <Image src={`/img/services-${block.slug}-icon.svg`} alt={block.title || 'Service icon'} width={86} height={70} className="absolute top-0 desktop:top-auto desktop:bottom-[-10px] left-0" />
+                    {block.slug === 'combined' ? (
+                      <div className="absolute top-0 desktop:top-auto desktop:bottom-[-10px] left-0 flex gap-4 items-start">
+                        <Image src={`/img/services-combined-icon-data.svg`} alt="Data Solutions" width={82} height={71} className="" />
+                        <Image src={`/img/services-combined-icon-web.svg`} alt="Web and App Development" width={67} height={62} className="" />
+                      </div>
+                    ) : (
+                      <Image src={`/img/services-${block.slug}-icon.svg`} alt={block.title || 'Service icon'} width={86} height={70} className="absolute top-0 desktop:top-auto desktop:bottom-[-10px] left-0" />
+                    )}
                   </div>
                   <div className="features desktop:w-[50%]">
                     <ul>

@@ -1,7 +1,7 @@
 .btn-secondary {
   background-color: theme('colors.brand.secondary');
   color: theme('colors.brand.tertiary');
-  padding: 0.75rem 2.5rem;
+  padding: 0.5rem 2.5rem;
   border-radius: 10rem;
   transition: background-color 0.3s ease, all 0.3s ease;
   font-weight: 500;

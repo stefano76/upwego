@@ -1,6 +1,6 @@
 ---
 id: "services-intro"
-title: "**Our** Services"
+title: "**The** Services"
 blocks:
   - services-intro-text
 ---

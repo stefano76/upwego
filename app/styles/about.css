@@ -1,0 +1,8 @@
+body.page-about > .main {
+  min-height: 100vh;
+}
+
+#about-intro h1 b {
+  color: theme('colors.brand.secondary');
+}
+
