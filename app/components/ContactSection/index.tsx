@@ -48,7 +48,6 @@ const renderMarkdown = (markdownString?: string, noParagraphs: boolean = false) 
 export default function ContactSection({ 
   title, 
   text, 
-  ctas, 
   sectionId = 'contact',
   className = 'contact-section bg-brand-tertiary'
 }: ContactSectionProps) {
