@@ -69,6 +69,7 @@ export const useHomeProcessAnimation = (config: HomeProcessAnimationConfig = {})
   const [hasAnimatedSlideDown, setHasAnimatedSlideDown] = useState(false);
   const [hasAnimatedContentFadeIn, setHasAnimatedContentFadeIn] = useState(false);
   const [hasAnimatedScale, setHasAnimatedScale] = useState(false);
+  const [refsReady, setRefsReady] = useState(false);
 
   // ==========================================================================
   // Ref Setters
@@ -77,12 +78,20 @@ export const useHomeProcessAnimation = (config: HomeProcessAnimationConfig = {})
   const setSectionRef = (element: HTMLElement | null) => {
     if (element && sectionRef.current !== element) {
       sectionRef.current = element;
+      // Check if all required refs are now ready
+      if (sectionRef.current && boxProcessContentRef.current) {
+        setRefsReady(true);
+      }
     }
   };
 
   const setBoxProcessContentRef = (element: HTMLElement | null) => {
     if (element && boxProcessContentRef.current !== element) {
       boxProcessContentRef.current = element;
+      // Check if all required refs are now ready
+      if (sectionRef.current && boxProcessContentRef.current) {
+        setRefsReady(true);
+      }
     }
   };
 
@@ -103,16 +112,40 @@ export const useHomeProcessAnimation = (config: HomeProcessAnimationConfig = {})
   // ==========================================================================
 
   useEffect(() => {
-    if (!blocksLoaded || !sectionRef.current || !boxProcessContentRef.current) return;
+    if (!blocksLoaded) return;
     if (hasAnimatedSlideDown) return;
+
+    // Wait for refs to be ready (tracked via state)
+    if (!refsReady || !sectionRef.current || !boxProcessContentRef.current) {
+      return;
+    }
+
+    // Check if element is already visible when observer is set up
+    const rect = sectionRef.current.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+    const elementHeight = rect.height;
+    const visibilityRatio = elementHeight > 0 ? visibleHeight / elementHeight : 0;
+
+    const triggerAnimation = () => {
+      if (hasAnimatedSlideDown) return;
+      
+      boxProcessContentRef.current?.classList.add('animate-slide-down');
+      sectionTitleRef.current?.classList.add('visible');
+      setHasAnimatedSlideDown(true);
+    };
+
+    // If already visible, trigger immediately
+    if (visibilityRatio >= slideDownThreshold) {
+      triggerAnimation();
+      return;
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.intersectionRatio >= slideDownThreshold && !hasAnimatedSlideDown) {
-            boxProcessContentRef.current?.classList.add('animate-slide-down');
-            sectionTitleRef.current?.classList.add('visible');
-            setHasAnimatedSlideDown(true);
+          if (entry.intersectionRatio >= slideDownThreshold) {
+            triggerAnimation();
           }
         });
       },
@@ -127,7 +160,7 @@ export const useHomeProcessAnimation = (config: HomeProcessAnimationConfig = {})
     return () => {
       observer.disconnect();
     };
-  }, [blocksLoaded, slideDownThreshold, hasAnimatedSlideDown]);
+  }, [blocksLoaded, slideDownThreshold, hasAnimatedSlideDown, refsReady]);
 
   // ==========================================================================
   // Home Process Content Fade-In Animation (after slide-down)

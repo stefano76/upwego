@@ -1,8 +1,6 @@
 ---
-text: "Get in touch with us to learn more about our services."
-cta:
-  - color: blue
-    linkText: "Contact us"
-    linkUrl: "#contact"
+id: "about-contact-text"
+title: "Contact **Us**"
+text: "Elevate your business with smart, beautiful, and accessible digital solutions. Get in touch with us to start your journey with Upwego Digital."
 ---
 

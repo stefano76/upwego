@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useContactModal } from '../ContactModalContext';
 import { marked } from 'marked';
 import Button from '../Button';
@@ -52,48 +53,71 @@ export default function ContactSection({
   className = 'contact-section bg-brand-tertiary'
 }: ContactSectionProps) {
   const { openContactModal } = useContactModal();
+  const [contactTexts, setContactTexts] = useState({
+    contactText: 'Get in touch with us',
+    contactCTA: 'Contact Us',
+    bookText: 'Schedule a consultation',
+    bookCTA: 'Book a free meeting'
+  });
 
-  const handleCTAClick = (cta: CTA) => {
-    if (cta.onClick) {
-      cta.onClick();
-    } else if (cta.linkUrl === '#contact' || !cta.linkUrl) {
-      openContactModal();
+  useEffect(() => {
+    const fetchTexts = async () => {
+      try {
+        const response = await fetch('/api/contact-section-texts');
+        if (response.ok) {
+          const data = await response.json();
+          setContactTexts(data);
+        }
+      } catch (error) {
+        console.error('Error fetching contact section texts:', error);
+      }
+    };
+    fetchTexts();
+  }, []);
+
+  // Always use the same two CTAs with default texts from API
+  const defaultCTAs: Array<{ text: string; cta: CTA }> = [
+    {
+      text: contactTexts.contactText,
+      cta: {
+        linkText: contactTexts.contactCTA,
+        variant: 'blue'
+      }
+    },
+    {
+      text: contactTexts.bookText,
+      cta: {
+        linkText: contactTexts.bookCTA,
+        variant: 'white'
+      }
     }
-    // If linkUrl is provided and it's not #contact, it could be handled by a link wrapper
+  ];
+
+  const handleCTAClick = () => {
+    openContactModal();
   };
 
   return (
     <section id={sectionId} className={className}>
       <div className="relative container">
-        <div className="flex flex-col justify-between max-w-screen-small mx-auto gap-16">
+        <div className="flex flex-col justify-between mx-auto gap-8">
           {title && (
-            <h2 
-              className="section-title text-4xl medium-large:text-5xl text-center mb-8 max-h-sm:text-3xl text-brand-primary" 
-              dangerouslySetInnerHTML={renderMarkdown(title)}
-            />
+            <h2 className="section-title text-4xl medium-large:text-5xl text-center max-h-sm:text-3xl text-brand-primary" dangerouslySetInnerHTML={renderMarkdown(title, true)} />
           )}
           {text && (
-            <div 
-              className="text-xl text-bodyText text-center" 
-              dangerouslySetInnerHTML={renderMarkdown(text)}
-            />
+            <div className="text-xl text-bodyText text-center max-w-screen-tablet mx-auto" dangerouslySetInnerHTML={renderMarkdown(text)} />
           )}
 
-          {ctas && ctas.length > 0 && (
-            <div className="flex flex-col items-center gap-8 w-fit mx-auto">
-              {ctas.map((cta, index) => (
-                <Button
-                  key={index}
-                  variant={cta.variant || 'blue'}
-                  href={cta.linkUrl && cta.linkUrl !== '#contact' ? cta.linkUrl : undefined}
-                  onClick={cta.linkUrl === '#contact' || !cta.linkUrl ? () => handleCTAClick(cta) : undefined}
-                  className="w-full contact-section-cta"
-                >
-                  <span dangerouslySetInnerHTML={renderMarkdown(cta.linkText, true)}></span>
+          <div className="flex flex-col desktop:flex-row justify-center gap-16 mt-12 mx-auto">
+            {defaultCTAs.map((item, index) => (
+              <div key={index} className="flex flex-col items-center gap-4 max-w-screen-mobile-large mx-auto">
+                <div className="text-bodyText text-center" dangerouslySetInnerHTML={renderMarkdown(item.text)} />
+                <Button variant={item.cta.variant || 'blue'} onClick={handleCTAClick} className="w-60 contact-section-cta">
+                  {item.cta.linkText}
                 </Button>
-              ))}
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

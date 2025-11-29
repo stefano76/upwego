@@ -21,7 +21,7 @@ export default function ScrollDisabler() {
       document.body.style.overflow = 'unset';
       
       // Remove hidden class first
-      const button = document.getElementById('home-intro-scroll-down-button');
+      const button = document.querySelector('.intro-scroll-down-button');
       if (button) {
         button.classList.remove('hidden');
         

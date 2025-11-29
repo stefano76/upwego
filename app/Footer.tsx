@@ -144,7 +144,7 @@ export default function Footer({ onContactClick }: FooterProps): JSX.Element {
           <div className="flex flex-col mobile-large:flex-row justify-center items-center gap-6 mobile-large:gap-2 text-xs text-brand-tertiary">
             <p>&copy; {new Date().getFullYear()} Upwego Digital Limited. All rights reserved.</p>
             <div className="separator hidden mobile-large:block">-</div>
-            <a href="#" className="item-privacy">Privacy Policy</a>
+            <a href="/privacy" className="item-privacy">Privacy Policy</a>
           </div>
         </div>
       </div>

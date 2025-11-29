@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import Image from 'next/image';
+import Logo from './components/Logo';
 import ScrollDisabler from './components/ScrollDisabler';
 import ScrollDownButton from './components/ScrollDownButton';
 import { useAnimation } from './components/AnimationContext';
@@ -105,14 +106,16 @@ export default function Home() {
       <section ref={aboutAnimation.sectionRef} id="home-about" className="home-section flex flex-col justify-center">
         <div className="relative container flex flex-col desktop:flex-row justify-between items-center gap-[10%]">
           <div className="about-logo-container neon-border-secondary box w-full h-[40vw] desktop:w-1/2 desktop:h-[auto] self-stretch flex items-center justify-center">
-            <Image 
+            <div 
               ref={aboutAnimation.addElementRef}
-              src="/img/upwego-logo-light.svg" 
-              alt="Upwego" 
-              width={317} 
-              height={56} 
               className="opacity-0 w-[60%] h-[auto] desktop:w-[317px] desktop:h-auto"
-            />
+            >
+              <Logo 
+                width={317} 
+                height={56} 
+                className="w-full h-auto"
+              />
+            </div>
           </div>
           {blocks && blocks["home-about"] && Object.entries(blocks["home-about"].blocks).map(([blockId, block]: [string, any]) => (
             <div key={blockId} className="home-about-content w-full desktop:w-1/2 mt-16 desktop:mt-0">
@@ -259,7 +262,7 @@ export default function Home() {
                   <span className="hidden mobile-large:inline">{block.linkText}</span>
                   <span className="inline mobile-large:hidden">{genericTexts['cta-generic']}</span>
                 </Button>
-                <Image src="/img/upwego-logo-light.svg" alt="Upwego Digital" width={184} height={32.5} className="home-process-content-logo opacity-0 hidden desktop:block mx-auto mt-16" />
+                <Logo width={184} height={32.5} className="home-process-content-logo opacity-0 hidden desktop:block mx-auto mt-16" />
               </div>
             </div>
           ))}

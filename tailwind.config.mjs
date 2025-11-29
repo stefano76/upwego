@@ -41,12 +41,7 @@ export default {
         bodyText: "#626262",
         blueDark: "#000310",
         blueExtraLight: "#CCE6F2",
-        about_strips: {
-          outline1: "#1091D8", // Most external
-          outline2: "#27ACF3", // Middle
-          outline3: "#58BEF5", // Inner
-          outline4: "#D7EFFC" // Most internal
-        }
+        blueGradient: "#002556"
       },
     },
   },

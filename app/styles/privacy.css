@@ -1,0 +1,53 @@
+/* Privacy page specific styles */
+
+.privacy-content h2 {
+  color: theme('colors.brand.secondary');
+  font-weight: 700;
+  margin-top: 4rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.privacy-content h3 {
+  color: theme('colors.brand.tertiary');
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.privacy-content p {
+  color: theme('colors.brand.tertiary');
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.privacy-content ul,
+.privacy-content ol {
+  color: theme('colors.brand.tertiary');
+  margin-bottom: 1rem;
+  padding-left: 1.4rem;
+  list-style: disc;
+}
+
+.privacy-content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.75;
+}
+
+.privacy-content strong,
+.privacy-content b {
+  color: theme('colors.brand.secondary');
+  font-weight: 700;
+}
+
+.privacy-content a {
+  color: theme('colors.brand.secondary');
+  text-decoration: underline;
+  transition: opacity 0.2s ease-in-out;
+  word-break: break-word;
+}
+
+.privacy-content a:hover {
+  opacity: 0.8;
+}
