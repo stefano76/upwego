@@ -48,10 +48,13 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
 
   // Debug logging (works in all environments to help troubleshoot)
   // Helps troubleshoot missing environment variables
-  const allEnvKeys = Object.keys(process.env);
+  const allEnvKeys = Object.keys(process.env).sort();
   const relevantEnvKeys = allEnvKeys.filter(key => 
     key.includes('RESEND') || key.includes('EMAIL') || key.includes('CONTACT')
   );
+  
+  // Log first 20 env keys to see what's available (for debugging)
+  const sampleEnvKeys = allEnvKeys.slice(0, 20);
   
   console.log('Email config check:', {
     nodeEnv: process.env.NODE_ENV,
@@ -66,6 +69,12 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
     totalEnvKeys: allEnvKeys.length,
     // Check if we're in Vercel
     isVercel: !!process.env.VERCEL,
+    // Sample of available env keys (first 20) to debug
+    sampleEnvKeys,
+    // Check specific keys directly
+    hasResendApiKey: 'RESEND_API_KEY' in process.env,
+    hasEmailFrom: 'EMAIL_FROM' in process.env,
+    hasContactEmailTo: 'CONTACT_EMAIL_TO' in process.env,
   });
 
   // Validate required environment variables before attempting to send
