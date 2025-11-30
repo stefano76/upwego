@@ -1,3 +1,34 @@
+/**
+ * HOME PAGE COMPONENT
+ * 
+ * The main landing page of the website. This is the most complex page with multiple
+ * sections and sophisticated scroll-based animations.
+ * 
+ * PAGE STRUCTURE:
+ * 1. Intro section - Hero with tagline, animated logo strips, scroll-down button
+ * 2. About section - Company logo and description with scale animation
+ * 3. Challenge section - Two challenge cards (web/data) with complex animations
+ * 4. Services section - Service cards with scroll-triggered animations
+ * 5. Process section - Process overview with slide-down animation
+ * 6. Contact section - Call-to-action for getting in touch
+ * 
+ * DATA FLOW:
+ * - Fetches content from 3 API endpoints in parallel:
+ *   - /api/home - Page content blocks
+ *   - /api/tagline - Main tagline text
+ *   - /api/generic-texts - Reusable text strings
+ * - Content is rendered using renderMarkdown() utility
+ * 
+ * ANIMATIONS:
+ * - Uses multiple custom animation hooks for scroll-based effects
+ * - ScrollDisabler prevents scrolling until animations complete
+ * - Each section has its own animation trigger and timing
+ * 
+ * FEATURES:
+ * - Complex scroll-based animations using Intersection Observer
+ * - Responsive design with mobile/desktop breakpoints
+ * - Dynamic content loading from markdown files
+ */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import Image from 'next/image';
@@ -17,32 +48,59 @@ import { renderMarkdown, parseMarkdownListItems } from './utils/text';
 import './styles/home.css';
 
 export default function Home() {
+  // State for page content loaded from API
   const [blocks, setBlocks] = useState<any>(null);
+  
+  // Animation context - controls whether animations should play
   const { shouldAnimate } = useAnimation();
+  
+  // Main tagline displayed in hero section
   const [tagline, setTagline] = useState<string>('');
+  
+  // Generic reusable text strings (e.g., "Learn more", "Contact us")
   const [genericTexts, setGenericTexts] = useState<any>({});
 
-  // Animation hooks
+  /**
+   * ANIMATION HOOKS
+   * 
+   * Each section uses a custom hook to handle scroll-based animations:
+   * - aboutAnimation: Simple scale-in animation for logo
+   * - challengeAnimation: Multi-element animations for web/data cards
+   * - servicesAnimation: Individual block animations for service cards
+   * - homeProcessAnimation: Complex slide-down animation for process section
+   */
   const aboutAnimation = useSimpleAnimation('animate-in-scale', 0.3);
   const challengeAnimation = useMultiAnimation(0.6);
   const servicesAnimation = useIndividualBlockAnimation({ 
-    threshold: 0.7, 
+    threshold: 0.7,  // Element must be 70% visible to trigger
     animationClass: 'animate-fade-in-down'
   });
   const homeProcessAnimation = useHomeProcessAnimation({
-    slideDownThreshold: 0.2,
-    blocksLoaded: !!blocks
+    slideDownThreshold: 0.2,  // Trigger when 20% visible
+    blocksLoaded: !!blocks  // Only animate when content is loaded
   });
 
+  /**
+   * EFFECT: Load page content from multiple API endpoints
+   * 
+   * Fetches all required data in parallel for better performance:
+   * - Page content blocks (sections, text, images)
+   * - Main tagline (hero section headline)
+   * - Generic texts (reusable strings like button labels)
+   * 
+   * All three requests run simultaneously using Promise.all().
+   */
   useEffect(() => {
     const fetchBlocks = async () => {
       try {
+        // Fetch all data in parallel for better performance
         const [blocksResponse, taglineResponse, genericTextsResponse] = await Promise.all([
           fetch('/api/home'),
           fetch('/api/tagline'),
           fetch('/api/generic-texts')
         ]);
         
+        // Process blocks response
         if (blocksResponse.ok) {
           const data = await blocksResponse.json();
           setBlocks(data);
@@ -50,11 +108,13 @@ export default function Home() {
           console.error('Failed to fetch home data');
         }
         
+        // Process tagline response
         if (taglineResponse.ok) {
           const taglineData = await taglineResponse.json();
           setTagline(taglineData.tagline);
         }
         
+        // Process generic texts response
         if (genericTextsResponse.ok) {
           const textsData = await genericTextsResponse.json();
           setGenericTexts(textsData);
@@ -68,7 +128,7 @@ export default function Home() {
     fetchBlocks();
   }, []);
 
-
+  // Show loading spinner while content is being fetched
   if (!blocks || !tagline) {
     return (
       <div className="min-h-screen w-full flex items-center justify-center bg-brand-primary">
@@ -79,7 +139,10 @@ export default function Home() {
 
   return (
     <>
+      {/* Disables page scrolling until initial animations complete */}
       <ScrollDisabler />
+      
+      {/* INTRO SECTION - Hero section with tagline and animated logo strips */}
       <section id="home-intro" className="home-section flex flex-col justify-start items-center relative overflow-hidden">
         <div className="absolute h-full w-full top-0 left-1/2 translate-x-[-50%] max-w-screen-large">
           <Image 
@@ -103,6 +166,7 @@ export default function Home() {
         <ScrollDownButton />
       </section>
 
+      {/* ABOUT SECTION - Company logo and description with scale animation */}
       <section ref={aboutAnimation.sectionRef} id="home-about" className="home-section flex flex-col justify-center">
         <div className="relative container flex flex-col desktop:flex-row justify-between items-center gap-[10%]">
           <div className="about-logo-container neon-border-secondary box w-full h-[40vw] desktop:w-1/2 desktop:h-[auto] self-stretch flex items-center justify-center">
@@ -130,6 +194,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CHALLENGE SECTION - Two challenge cards (web/data) with complex animations */}
       <section ref={challengeAnimation.sectionRef} id="home-challenge" className="home-section flex flex-col justify-center relative overflow-hidden">
         <div className="absolute hidden desktop:block w-full h-full top-0 left-0 background-gradient background-gradient-left"></div>
         <div className="absolute hidden desktop:block w-full h-full top-0 left-0 background-gradient background-gradient-right"></div>
@@ -181,6 +246,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SERVICES SECTION - Service cards with scroll-triggered animations */}
       <section id="home-services" className="home-section bg-brand-tertiary">
         <div className="relative container">
           {blocks && blocks["home-services"] && blocks["home-services"].title && (
@@ -223,6 +289,7 @@ export default function Home() {
         </div>
       </section>
       
+      {/* PROCESS SECTION - Process overview with slide-down animation */}
       <section 
         id="home-process" 
         ref={homeProcessAnimation.sectionRef}
@@ -269,13 +336,16 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CONTACT SECTION - Call-to-action for getting in touch */}
       {blocks && blocks["home-contact"] && (() => {
         const contactBlocks = Object.values(blocks["home-contact"].blocks) as any[];
-        // Collect title and text from first block (or combine if needed)
+        
+        // Collect title and text from first block
         const firstBlock = contactBlocks[0];
         const title = firstBlock?.title;
         const text = firstBlock?.text;
-        // Collect all CTAs from all blocks
+        
+        // Collect all CTAs from all blocks (home page can have multiple CTAs)
         const ctas = contactBlocks
           .filter(block => block.linkText)
           .map(block => ({

@@ -1,3 +1,24 @@
+/**
+ * LAYOUT WRAPPER COMPONENT
+ * 
+ * This is the main layout component that wraps all pages. It provides:
+ * - Authentication (password protection)
+ * - Header and Footer (shown on all pages)
+ * - Contact modal (accessible from anywhere)
+ * - Animation context (for page animations)
+ * - Page-specific CSS classes on body element
+ * 
+ * AUTHENTICATION:
+ * - Password protection for production (bypasses on localhost)
+ * - Uses sessionStorage to remember authentication during session
+ * - Shows PasswordForm component if not authenticated
+ * 
+ * FEATURES:
+ * - Adds page-specific class to body (e.g., "page-home", "page-about")
+ * - Loads menu items and contact form texts on authentication
+ * - Manages contact modal state globally
+ * - Provides animation context to all children
+ */
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -22,16 +43,34 @@ type MenuItem = {
 
 const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const pathname = usePathname();
+  
+  // Authentication state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Menu and contact form data
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [contactTexts, setContactTexts] = useState<ContactFormTexts | null>(null);
 
-  // Get current page slug from pathname (remove leading slash, default to 'home' for root)
+  /**
+   * Get current page slug from pathname
+   * Examples: "/" → "home", "/about" → "about", "/services/web" → "services-web"
+   */
   const pageSlug = pathname === '/' ? 'home' : pathname.replace(/^\//, '').replace(/\//g, '-') || 'home';
 
-  // Add page slug class to body element
+  /**
+   * EFFECT: Add page-specific class to body element
+   * 
+   * Adds a class like "page-home", "page-about", etc. to the body element.
+   * This allows page-specific CSS styling.
+   * 
+   * HOW IT WORKS:
+   * - Extracts page slug from pathname
+   * - Removes any existing "page-*" classes
+   * - Adds new "page-{slug}" class
+   * - Cleans up on unmount
+   */
   useEffect(() => {
     if (typeof window === 'undefined') return;
     
@@ -40,25 +79,34 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     const currentClasses = body.className.split(' ').filter(cls => !cls.startsWith('page-'));
     body.className = [...currentClasses, `page-${pageSlug}`].join(' ').trim();
     
-    // Cleanup: remove class on unmount (optional)
+    // Cleanup: remove class on unmount
     return () => {
       body.classList.remove(`page-${pageSlug}`);
     };
   }, [pageSlug]);
 
+  /**
+   * EFFECT: Check authentication status on mount
+   * 
+   * AUTHENTICATION LOGIC:
+   * - Localhost/development: Automatically authenticated (no password needed)
+   * - Production: Checks sessionStorage for previous authentication
+   * - If not authenticated, shows PasswordForm component
+   */
   useEffect(() => {
-    // Check if user is accessing from localhost (development)
     // Only run on client side
     if (typeof window !== 'undefined') {
+      // Check if accessing from localhost (development)
       const isLocalhost = window.location.hostname === 'localhost' || 
                          window.location.hostname === '127.0.0.1' ||
                          window.location.hostname.startsWith('192.168.');
       
       if (isLocalhost) {
-        // Skip authentication for localhost
+        // Skip authentication for localhost (development convenience)
         setIsAuthenticated(true);
       } else {
-        // Check if user is already authenticated (from sessionStorage)
+        // Production: Check sessionStorage for authentication status
+        // SessionStorage persists during browser session (clears on close)
         const authStatus = sessionStorage.getItem('upwego_authenticated');
         if (authStatus === 'true') {
           setIsAuthenticated(true);
@@ -68,14 +116,21 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     setIsLoading(false);
   }, []);
 
+  /**
+   * EFFECT: Load menu and contact form data when authenticated
+   * 
+   * Only fetches data after user is authenticated to avoid unnecessary API calls.
+   */
   useEffect(() => {
-    // Fetch menu items when authenticated
     if (isAuthenticated) {
       fetchMenuItems();
       fetchContactTexts();
     }
   }, [isAuthenticated]);
 
+  /**
+   * Fetches menu items from API for Header navigation
+   */
   const fetchMenuItems = async () => {
     try {
       const response = await fetch('/api/menu');
@@ -92,6 +147,10 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     }
   };
 
+  /**
+   * Fetches contact form text content from API
+   * Used for modal title and form labels/placeholders
+   */
   const fetchContactTexts = async () => {
     try {
       const response = await fetch('/api/contact-form-texts');
@@ -106,6 +165,10 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     }
   };
 
+  /**
+   * Handles successful password authentication
+   * Saves authentication status to sessionStorage
+   */
   const handlePasswordCorrect = () => {
     setIsAuthenticated(true);
     // Save authentication status in sessionStorage (clears when browser closes)

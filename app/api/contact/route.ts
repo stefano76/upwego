@@ -1,7 +1,32 @@
+/**
+ * API ROUTE: /api/contact
+ * 
+ * Handles contact form submissions and contact link data.
+ * 
+ * GET /api/contact
+ * - Returns contact links (email, phone, LinkedIn, etc.)
+ * - Used by Footer and other components to display contact information
+ * 
+ * POST /api/contact
+ * - Processes contact form submissions
+ * - Validates form data (name, email, message required)
+ * - Sends email notification via Resend API
+ * - Returns success/error response to the client
+ * 
+ * ENVIRONMENT VARIABLES REQUIRED:
+ * - RESEND_API_KEY: API key for Resend email service
+ * - EMAIL_FROM: Sender email address
+ * - CONTACT_EMAIL_TO: Recipient email address
+ * - CONTACT_EMAIL_SUBJECT: Email subject line (optional)
+ */
 import { getContactLinks } from "@/lib/contact";
 import { sendContactEmail } from "@/lib/email";
 import { NextResponse } from "next/server";
 
+/**
+ * GET endpoint - Returns contact links
+ * Used by components that need to display contact information
+ */
 export async function GET() {
   try {
     const contactLinks = getContactLinks();
@@ -12,12 +37,28 @@ export async function GET() {
   }
 }
 
+/**
+ * POST endpoint - Handles contact form submissions
+ * 
+ * REQUEST BODY:
+ * {
+ *   name: string (required),
+ *   email: string (required),
+ *   phone: string (optional),
+ *   message: string (required)
+ * }
+ * 
+ * RESPONSE:
+ * - 200: Success - Email sent
+ * - 400: Validation error (missing fields or invalid email)
+ * - 500: Server error (email sending failed)
+ */
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { name, email, phone, message } = body;
 
-    // Basic validation
+    // Basic validation - ensure required fields are present
     if (!name || !email || !message) {
       return NextResponse.json(
         { message: 'Name, email, and message are required' },
@@ -25,7 +66,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Email validation
+    // Email format validation using regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return NextResponse.json(
@@ -34,7 +75,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Send email notification
+    // Send email notification using Resend service
+    // This will send an email to the address configured in CONTACT_EMAIL_TO
     await sendContactEmail({
       name,
       email,
@@ -57,6 +99,7 @@ export async function POST(request: Request) {
     }
     
     // Return more specific error message for debugging (but don't expose sensitive info)
+    // In development, include error details. In production, keep it generic.
     return NextResponse.json(
       { 
         message: 'Failed to send message. Please try again.',

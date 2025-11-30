@@ -1,6 +1,25 @@
 /**
- * Essential Animations Configuration
- * Only the animations actually used in the project
+ * ANIMATIONS CONFIGURATION
+ * 
+ * This file defines all CSS animations used throughout the website.
+ * Animations are defined as keyframe objects and animation strings.
+ * 
+ * USAGE:
+ * - Keyframes define the animation steps (0% to 100%)
+ * - Animations combine keyframes with timing, easing, and delays
+ * - Used in CSS classes and JavaScript animation hooks
+ * 
+ * ANIMATION NAMING:
+ * - fadeIn*: Fade in effects
+ * - slide*: Slide/move animations
+ * - scale*: Scale/zoom effects
+ * - rotate*: Rotation animations
+ * - gear* / lens*: Specific animations for challenge section icons
+ * 
+ * TIMING:
+ * - Duration: How long the animation takes (e.g., "1s", "2s")
+ * - Delay: When animation starts (e.g., "forwards 1s")
+ * - Easing: Animation curve (e.g., "ease-in-out", "ease-out")
  */
 
 export const animations = {
