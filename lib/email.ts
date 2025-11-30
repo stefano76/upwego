@@ -45,18 +45,13 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
   const emailFromName = process.env.EMAIL_FROM_NAME;
   const emailTo = process.env.CONTACT_EMAIL_TO;
   const emailSubject = process.env.CONTACT_EMAIL_SUBJECT || 'New Contact Form Submission';
-  
-  // Format FROM field: if name is provided, use "Name <email>", otherwise just email
-  const emailFrom = emailFromName 
-    ? `"${emailFromName}" <${emailFromAddress}>`
-    : emailFromAddress;
 
   // Debug logging (only in development)
   // Helps troubleshoot missing environment variables
   if (process.env.NODE_ENV === 'development') {
     console.log('Email config check:', {
       resendApiKey: resendApiKey ? '✓ Set' : '✗ Missing',
-      emailFrom,
+      emailFromAddress: emailFromAddress || '✗ Missing',
       emailFromName: emailFromName || 'Not set (using email only)',
       emailTo: emailTo ? '✓ Set' : '✗ Missing',
       emailSubject,
@@ -72,8 +67,18 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
     throw new Error(`Email configuration is incomplete. Missing: ${missing.join(', ')}`);
   }
 
+  // After validation, we know these are defined - use non-null assertions for TypeScript
+  const fromAddress = emailFromAddress!;
+  const toAddress = emailTo!;
+  const apiKey = resendApiKey!;
+
+  // Format FROM field: if name is provided, use "Name <email>", otherwise just email
+  const emailFrom = emailFromName 
+    ? `"${emailFromName}" <${fromAddress}>`
+    : fromAddress;
+
   // Initialize Resend client with API key
-  const resend = new Resend(resendApiKey);
+  const resend = new Resend(apiKey);
 
   // Format email body as plain text
   // This is a simple text email - can be enhanced with HTML if needed
@@ -94,7 +99,7 @@ Submitted at: ${new Date().toISOString()}
   try {
     const result = await resend.emails.send({
       from: emailFrom,
-      to: emailTo,
+      to: toAddress,
       subject: emailSubject,
       text: emailBody,
       replyTo: data.email, // Allow replying directly to the sender
