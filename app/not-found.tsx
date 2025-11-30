@@ -41,7 +41,7 @@ export default function NotFound() {
           <h2 className="not-found-title text-brand-tertiary">Oops... Page not found</h2>
           
           {/* Error description */}
-          <p className="not-found-text text-brand-tertiary italic">The page you're looking for doesn't exist or has been moved.</p>
+          <p className="not-found-text text-brand-tertiary italic">The page you&apos;re looking for doesn&apos;t exist or has been moved.</p>
           
           {/* Call-to-action button to return to homepage */}
           <Button href="/" variant="blue" className="cta-back-home w-fit mx-auto !mt-[4vh]">Go Back Home</Button>
