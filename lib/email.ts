@@ -24,6 +24,7 @@ interface ContactFormData {
  * Add these environment variables to .env.local:
  * - RESEND_API_KEY: Your Resend API key (get from resend.com)
  * - EMAIL_FROM: Sender email address (must be verified in Resend)
+ * - EMAIL_FROM_NAME: Optional display name for sender (e.g., "Upwego Digital")
  * - CONTACT_EMAIL_TO: Recipient email address (where notifications go)
  * - CONTACT_EMAIL_SUBJECT: Email subject line (optional, has default)
  * 
@@ -40,9 +41,15 @@ interface ContactFormData {
 export async function sendContactEmail(data: ContactFormData): Promise<void> {
   // Get Resend configuration from environment variables
   const resendApiKey = process.env.RESEND_API_KEY;
-  const emailFrom = process.env.EMAIL_FROM;
+  const emailFromAddress = process.env.EMAIL_FROM;
+  const emailFromName = process.env.EMAIL_FROM_NAME;
   const emailTo = process.env.CONTACT_EMAIL_TO;
   const emailSubject = process.env.CONTACT_EMAIL_SUBJECT || 'New Contact Form Submission';
+  
+  // Format FROM field: if name is provided, use "Name <email>", otherwise just email
+  const emailFrom = emailFromName 
+    ? `"${emailFromName}" <${emailFromAddress}>`
+    : emailFromAddress;
 
   // Debug logging (only in development)
   // Helps troubleshoot missing environment variables
@@ -50,16 +57,17 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
     console.log('Email config check:', {
       resendApiKey: resendApiKey ? '✓ Set' : '✗ Missing',
       emailFrom,
+      emailFromName: emailFromName || 'Not set (using email only)',
       emailTo: emailTo ? '✓ Set' : '✗ Missing',
       emailSubject,
     });
   }
 
   // Validate required environment variables before attempting to send
-  if (!resendApiKey || !emailFrom || !emailTo) {
+  if (!resendApiKey || !emailFromAddress || !emailTo) {
     const missing = [];
     if (!resendApiKey) missing.push('RESEND_API_KEY');
-    if (!emailFrom) missing.push('EMAIL_FROM');
+    if (!emailFromAddress) missing.push('EMAIL_FROM');
     if (!emailTo) missing.push('CONTACT_EMAIL_TO');
     throw new Error(`Email configuration is incomplete. Missing: ${missing.join(', ')}`);
   }
