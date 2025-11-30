@@ -319,7 +319,7 @@ export default function Home() {
                 <div className="home-process-items-container">
                   <div className="home-process-items flex flex-col gap-12 w-fit mx-auto">
                     {parseMarkdownListItems(block.text).map((item, index) => (
-                      <div key={index} className="home-process-item flex items-center gap-4 text-xl font-medium py-2 px-4 bg-brand-tertiary rounded-full">
+                      <div key={index} className="home-process-item flex items-center gap-4 tablet:text-xl font-medium py-2 px-4 bg-brand-tertiary rounded-full">
                         <ProcessNumber number={index + 1} />
                         <span className="home-process-item-text text-brand-primary w-[calc(100%-3.5rem)]">{item}</span>
                       </div>
