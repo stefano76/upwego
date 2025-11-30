@@ -46,17 +46,20 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
   const emailTo = process.env.CONTACT_EMAIL_TO;
   const emailSubject = process.env.CONTACT_EMAIL_SUBJECT || 'New Contact Form Submission';
 
-  // Debug logging (only in development)
+  // Debug logging (works in all environments to help troubleshoot)
   // Helps troubleshoot missing environment variables
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Email config check:', {
-      resendApiKey: resendApiKey ? '✓ Set' : '✗ Missing',
-      emailFromAddress: emailFromAddress || '✗ Missing',
-      emailFromName: emailFromName || 'Not set (using email only)',
-      emailTo: emailTo ? '✓ Set' : '✗ Missing',
-      emailSubject,
-    });
-  }
+  console.log('Email config check:', {
+    nodeEnv: process.env.NODE_ENV,
+    resendApiKey: resendApiKey ? '✓ Set' : '✗ Missing',
+    emailFromAddress: emailFromAddress || '✗ Missing',
+    emailFromName: emailFromName || 'Not set (using email only)',
+    emailTo: emailTo ? '✓ Set' : '✗ Missing',
+    emailSubject,
+    // Log which env vars are actually present (without exposing values)
+    envKeysPresent: Object.keys(process.env).filter(key => 
+      key.includes('RESEND') || key.includes('EMAIL') || key.includes('CONTACT')
+    ),
+  });
 
   // Validate required environment variables before attempting to send
   if (!resendApiKey || !emailFromAddress || !emailTo) {
