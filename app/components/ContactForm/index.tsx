@@ -91,7 +91,12 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
         }, 3000);
       } else {
         const errorData = await response.json();
-        const errorMessage = errorData.message || texts?.api.serverError || 'Failed to send message';
+        let errorMessage = errorData.message || texts?.api.serverError || 'Failed to send message';
+        // Show detailed error if available (for debugging)
+        if (errorData.error) {
+          console.error('Server error details:', errorData.error);
+          errorMessage += ` (${errorData.error})`;
+        }
         setMessage({ type: 'error', text: errorMessage });
         onError?.(errorMessage);
       }

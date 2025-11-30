@@ -1,4 +1,5 @@
 import { getContactLinks } from "@/lib/contact";
+import { sendContactEmail } from "@/lib/email";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -33,23 +34,13 @@ export async function POST(request: Request) {
       );
     }
 
-    // Here you would typically:
-    // 1. Save to database
-    // 2. Send email notification
-    // 3. Send confirmation email to user
-    
-    // For now, we'll just log the data and return success
-    console.log('Contact form submission:', {
+    // Send email notification
+    await sendContactEmail({
       name,
       email,
       phone,
       message,
-      timestamp: new Date().toISOString()
     });
-
-    // TODO: Implement actual email sending or database storage
-    // Example: await sendEmail({ name, email, phone, message });
-    // Example: await saveToDatabase({ name, email, phone, message });
 
     return NextResponse.json(
       { message: 'Message sent successfully!' },
@@ -58,8 +49,19 @@ export async function POST(request: Request) {
 
   } catch (error) {
     console.error('Error processing contact form:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    console.error('Detailed error:', errorMessage);
+    if (errorStack) {
+      console.error('Error stack:', errorStack);
+    }
+    
+    // Return more specific error message for debugging (but don't expose sensitive info)
     return NextResponse.json(
-      { message: 'Failed to send message. Please try again.' },
+      { 
+        message: 'Failed to send message. Please try again.',
+        error: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+      },
       { status: 500 }
     );
   }

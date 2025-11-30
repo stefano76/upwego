@@ -23,3 +23,4 @@ export async function GET() {
     return NextResponse.json({ error: 'Failed to read contact section texts' }, { status: 500 });
   }
 }
+

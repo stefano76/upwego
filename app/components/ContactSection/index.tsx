@@ -80,21 +80,23 @@ export default function ContactSection({
       text: contactTexts.contactText,
       cta: {
         linkText: contactTexts.contactCTA,
-        variant: 'blue'
+        variant: 'blue',
+        onClick: () => {
+          openContactModal();
+        }
       }
     },
     {
       text: contactTexts.bookText,
       cta: {
         linkText: contactTexts.bookCTA,
-        variant: 'white'
+        variant: 'white',
+        onClick: () => {
+          window.open('https://outlook.office.com/book/Free30minutemeeting@upwegodigital.com/?ismsaljsauthenabled', '_blank');
+        }
       }
     }
   ];
-
-  const handleCTAClick = () => {
-    openContactModal();
-  };
 
   return (
     <section id={sectionId} className={className}>
@@ -111,7 +113,7 @@ export default function ContactSection({
             {defaultCTAs.map((item, index) => (
               <div key={index} className="flex flex-col items-center gap-4 max-w-screen-mobile-large mx-auto">
                 <div className="text-bodyText text-center" dangerouslySetInnerHTML={renderMarkdown(item.text)} />
-                <Button variant={item.cta.variant || 'blue'} onClick={handleCTAClick} className="w-60 contact-section-cta">
+                <Button variant={item.cta.variant || 'blue'} onClick={item.cta.onClick} className="w-60 contact-section-cta">
                   {item.cta.linkText}
                 </Button>
               </div>

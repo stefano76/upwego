@@ -103,13 +103,13 @@ export default function About() {
 
   return (
     <div>
-      <section id="about-intro" className="min-h-screen flex flex-col items-center pt-[10vh] relative overflow-hidden">
+      <section id="about-intro" className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden">
         <div className="container opacity-0 animate-fade-in">
           {blocks && blocks["about-intro"] && blocks["about-intro"].title && (
-            <h1 className="title text-4xl medium:text-5xl large:text-6xl text-brand-tertiary text-center mb-8 mt-[15vh]" dangerouslySetInnerHTML={renderMarkdown(blocks["about-intro"].title, true)}></h1>
+            <h1 className="title text-4xl medium:text-5xl large:text-6xl text-brand-tertiary mb-8 text-center" dangerouslySetInnerHTML={renderMarkdown(blocks["about-intro"].title, true)}></h1>
           )}
           {blocks && blocks["about-intro"] && Object.entries(blocks["about-intro"].blocks).map(([blockId, block]: [string, Block]) => (
-            <div key={blockId} className="medium:text-xl large:text-2xl max-w-[600px] large:max-w-screen-tablet large:leading-relaxed mx-auto text-center" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
+            <div key={blockId} className="medium:text-xl large:text-2xl max-w-screen-tablet medium:max-w-screen-desktop large:max-w-screen-small mx-auto text-center" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
           ))}
         </div>
         <ScrollDownButton text="Meet the owners" visible={buttonVisible} targetId="about-owners" />

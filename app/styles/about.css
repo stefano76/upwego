@@ -2,10 +2,6 @@ body.page-about > .main {
   padding-top: 0;
 }
 
-#about-intro {
-  min-height: 100vh;
-}
-
 .title b {
   color: theme('colors.brand.secondary');
   font-weight: 700;
