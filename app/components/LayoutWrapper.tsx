@@ -21,7 +21,7 @@
  */
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { usePathname } from 'next/navigation';
 // PASSWORD PROTECTION - COMMENTED OUT (can be restored in the future)
 // import PasswordForm from './PasswordForm';
@@ -60,19 +60,79 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const [contactTexts, setContactTexts] = useState<ContactFormTexts | null>(null);
 
   /**
+   * Get valid routes from menuItems + any additional pages not in menu
+   * Filters out external URLs and anchor links
+   * Memoized to avoid recalculating on every render
+   */
+  const validRoutes = useMemo((): string[] => {
+    // Extract internal routes from menu items
+    const routesFromMenu = menuItems
+      .filter(item => 
+        !item.slug.startsWith('http') && // Exclude external URLs
+        !item.slug.startsWith('#')       // Exclude anchor links
+      )
+      .map(item => {
+        // Convert slug to pathname format
+        if (item.slug === '/' || item.slug === '') {
+          return '/';
+        }
+        return `/${item.slug}`;
+      });
+    
+    // Add any pages that exist but aren't in the menu (e.g., privacy)
+    const additionalRoutes = ['/privacy'];
+    
+    return [...routesFromMenu, ...additionalRoutes];
+  }, [menuItems]);
+
+  /**
+   * Check if current pathname is a valid route
+   */
+  const isValidRoute = useMemo((): boolean => {
+    // API routes are not pages
+    if (pathname.startsWith('/api/')) {
+      return false;
+    }
+    
+    // Check exact match
+    if (validRoutes.includes(pathname)) {
+      return true;
+    }
+    
+    // Check if it's a sub-route of services (e.g., /services/web)
+    if (pathname.startsWith('/services/')) {
+      return true;
+    }
+    
+    return false;
+  }, [pathname, validRoutes]);
+
+  /**
    * Get current page slug from pathname
    * Examples: "/" → "home", "/about" → "about", "/services/web" → "services-web"
+   * Special case: not-found page always returns "notfound"
    */
-  const pageSlug = pathname === '/' ? 'home' : pathname.replace(/^\//, '').replace(/\//g, '-') || 'home';
+  const pageSlug = useMemo((): string => {
+    // If not a valid route, it's a 404/not-found page
+    if (!isValidRoute) {
+      return 'notfound';
+    }
+    
+    // Normal page slug calculation
+    return pathname === '/' ? 'home' : pathname.replace(/^\//, '').replace(/\//g, '-') || 'home';
+  }, [pathname, isValidRoute]);
 
   /**
    * EFFECT: Add page-specific class to body element
    * 
    * Adds a class like "page-home", "page-about", etc. to the body element.
+   * Special case: not-found page always gets "page-notfound" class.
    * This allows page-specific CSS styling.
    * 
    * HOW IT WORKS:
-   * - Extracts page slug from pathname
+   * - Uses menuItems to determine valid routes
+   * - Detects 404/not-found pages and uses "notfound" slug
+   * - Extracts page slug from pathname for valid routes
    * - Removes any existing "page-*" classes
    * - Adds new "page-{slug}" class
    * - Cleans up on unmount
@@ -81,6 +141,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     if (typeof window === 'undefined') return;
     
     const body = document.body;
+    
     // Remove all existing page-* classes while preserving other classes
     const currentClasses = body.className.split(' ').filter(cls => !cls.startsWith('page-'));
     body.className = [...currentClasses, `page-${pageSlug}`].join(' ').trim();
@@ -89,7 +150,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     return () => {
       body.classList.remove(`page-${pageSlug}`);
     };
-  }, [pageSlug]);
+  }, [pageSlug]); // Re-run when pageSlug changes (which depends on pathname and menuItems)
 
   // PASSWORD PROTECTION - COMMENTED OUT (can be restored in the future)
   /**

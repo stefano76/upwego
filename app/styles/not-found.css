@@ -1,15 +1,15 @@
-body.page-gdg > .main {
+body.page-notfound > .main {
   padding-top: 5rem;
 }
 
 @media (min-width: theme('screens.tablet')) {
-  body.page-gdg > .main {
+  body.page-notfound > .main {
     padding-top: 6rem;
   }
 }
 
 @media (min-width: theme('screens.desktop')) {
-  body.page-gdg > .main {
+  body.page-notfound > .main {
     padding-top: 6.75rem;
   }
 }
