@@ -225,7 +225,7 @@
   opacity: 1;
 }
 
-/* Responsive animations - only apply on desktop */
+/* Responsive animations - only apply on mobile */
 @media (max-width: calc(theme('screens.desktop') - 1px)) {
   #home-challenge .animate-in-to-right,
   #home-challenge .animate-in-to-left,

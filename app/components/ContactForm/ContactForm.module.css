@@ -33,7 +33,7 @@
 }
 
 .input {
-  @apply w-full px-6 py-4 border-b border-b-bodyText bg-brand-tertiary text-brand-primary placeholder-brand-primary placeholder-opacity-50 
+  @apply w-full p-2 tablet:px-6 tablet:py-4 border-b border-b-bodyText bg-brand-tertiary text-brand-primary placeholder-brand-primary placeholder-opacity-50 
     focus:outline-none focus:border-b-brand-secondary hover:border-b-brand-secondary shadow-none focus:shadow-none hover:shadow-none;
 }
 
@@ -46,13 +46,13 @@
 }
 
 .textarea {
-  @apply w-full px-6 py-4 border-b border-b-bodyText bg-brand-tertiary text-brand-primary placeholder-brand-primary placeholder-opacity-50 
+  @apply w-full p-2 tablet:px-6 tablet:py-4 border-b border-b-bodyText bg-brand-tertiary text-brand-primary placeholder-brand-primary placeholder-opacity-50 
     focus:outline-none focus:border-b-brand-secondary hover:border-b-brand-secondary
     hover:border-brand-secondary resize-none shadow-none focus:shadow-none hover:shadow-none tablet-xsmall-height:resize-y tablet-xsmall-height:h-16;
 }
 
 .errorMessage {
-  @apply absolute -bottom-7 left-2 text-sm text-red-500 font-medium;
+  @apply absolute -bottom-6 left-2 text-sm text-red-500 font-medium;
 }
 
 .submitContainer {

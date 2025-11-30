@@ -70,7 +70,8 @@ export default function Home() {
    * - homeProcessAnimation: Complex slide-down animation for process section
    */
   const aboutAnimation = useSimpleAnimation('animate-in-scale', 0.3);
-  const challengeAnimation = useMultiAnimation(0.6);
+  // Lower threshold for mobile compatibility (0.1 = 10% visible triggers animation)
+  const challengeAnimation = useMultiAnimation(0.1);
   const servicesAnimation = useIndividualBlockAnimation({ 
     threshold: 0.7,  // Element must be 70% visible to trigger
     animationClass: 'animate-fade-in-down'
@@ -220,22 +221,22 @@ export default function Home() {
                 <div className={`neon-border-tertiary box box-${block.label} w-[240px] mobile-large:w-[300px] h-[240px] flex flex-col items-center justify-center gap-8 mb-12`}>
                   <h3 ref={animationLabel} className="text-lg text-center tracking-[0.5em] font-light uppercase opacity-0" dangerouslySetInnerHTML={renderMarkdown(block.label)}></h3>
                   <div className="w-[100px] h-[82px] relative">
-                    <Image 
-                      ref={animationPage}
-                      src={`/img/home-challenge-${block.label}.svg`} 
-                      alt={`${block.label} page`}
-                      width={100} 
-                      height={82} 
-                      className="opacity-0"
-                    />
-                    <Image
-                      ref={animationItem}
-                      src={`/img/home-challenge-${block.label}-item.svg`} 
-                      alt={`${block.label} item`} 
-                      className="item-icon absolute bottom-[-10px] right-[-10px] opacity-0" 
-                      width={50} 
-                      height={50} 
-                    />
+                    <div ref={animationPage} className="opacity-0">
+                      <Image 
+                        src={`/img/home-challenge-${block.label}.svg`} 
+                        alt={`${block.label} page`}
+                        width={100} 
+                        height={82} 
+                      />
+                    </div>
+                    <div ref={animationItem} className="item-icon absolute bottom-[-10px] right-[-10px] opacity-0">
+                      <Image
+                        src={`/img/home-challenge-${block.label}-item.svg`} 
+                        alt={`${block.label} item`} 
+                        width={50} 
+                        height={50} 
+                      />
+                    </div>
                   </div>
                 </div>
                 <h2 className="text-3xl text-center medium-large:text-4xl font-bold mb-4" dangerouslySetInnerHTML={renderMarkdown(block.title)}></h2>
@@ -270,7 +271,7 @@ export default function Home() {
                     alt={`${block.title} image`}
                     width={450}
                     height={0}
-                    className={`box-image box-image-service-${block.label} absolute bottom-0 w-full mobile-large:w-auto h-auto medium-large:h-full opacity-0`}
+                    className={`box-image box-image-service-${block.label} absolute bottom-0 h-full w-auto mobile-large:w-auto mobile-large:h-auto medium-large:h-full opacity-0`}
                   />
                 </div>
                 <div className="texts w-full desktop:w-1/2">
