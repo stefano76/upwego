@@ -2,16 +2,16 @@
  * LAYOUT WRAPPER COMPONENT
  * 
  * This is the main layout component that wraps all pages. It provides:
- * - Authentication (password protection)
+ * - Authentication (password protection) - DISABLED (commented out for future use)
  * - Header and Footer (shown on all pages)
  * - Contact modal (accessible from anywhere)
  * - Animation context (for page animations)
  * - Page-specific CSS classes on body element
  * 
  * AUTHENTICATION:
- * - Password protection for production (bypasses on localhost)
- * - Uses sessionStorage to remember authentication during session
- * - Shows PasswordForm component if not authenticated
+ * - Password protection for production (bypasses on localhost) - DISABLED
+ * - Uses sessionStorage to remember authentication during session - DISABLED
+ * - Shows PasswordForm component if not authenticated - DISABLED
  * 
  * FEATURES:
  * - Adds page-specific class to body (e.g., "page-home", "page-about")
@@ -23,7 +23,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import PasswordForm from './PasswordForm';
+// PASSWORD PROTECTION - COMMENTED OUT (can be restored in the future)
+// import PasswordForm from './PasswordForm';
 import Header from '../Header';
 import Footer from '../Footer';
 import Modal from './Modal';
@@ -44,9 +45,14 @@ type MenuItem = {
 const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   const pathname = usePathname();
   
+  // PASSWORD PROTECTION - COMMENTED OUT (can be restored in the future)
   // Authentication state
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
+  
+  // Authentication is now always true (password protection disabled)
+  const [isAuthenticated] = useState(true);
+  const [isLoading] = useState(false);
   
   // Menu and contact form data
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -85,6 +91,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     };
   }, [pageSlug]);
 
+  // PASSWORD PROTECTION - COMMENTED OUT (can be restored in the future)
   /**
    * EFFECT: Check authentication status on mount
    * 
@@ -93,40 +100,42 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
    * - Production: Checks sessionStorage for previous authentication
    * - If not authenticated, shows PasswordForm component
    */
-  useEffect(() => {
-    // Only run on client side
-    if (typeof window !== 'undefined') {
-      // Check if accessing from localhost (development)
-      const isLocalhost = window.location.hostname === 'localhost' || 
-                         window.location.hostname === '127.0.0.1' ||
-                         window.location.hostname.startsWith('192.168.');
-      
-      if (isLocalhost) {
-        // Skip authentication for localhost (development convenience)
-        setIsAuthenticated(true);
-      } else {
-        // Production: Check sessionStorage for authentication status
-        // SessionStorage persists during browser session (clears on close)
-        const authStatus = sessionStorage.getItem('upwego_authenticated');
-        if (authStatus === 'true') {
-          setIsAuthenticated(true);
-        }
-      }
-    }
-    setIsLoading(false);
-  }, []);
+  // useEffect(() => {
+  //   // Only run on client side
+  //   if (typeof window !== 'undefined') {
+  //     // Check if accessing from localhost (development)
+  //     const isLocalhost = window.location.hostname === 'localhost' || 
+  //                        window.location.hostname === '127.0.0.1' ||
+  //                        window.location.hostname.startsWith('192.168.');
+  //     
+  //     if (isLocalhost) {
+  //       // Skip authentication for localhost (development convenience)
+  //       setIsAuthenticated(true);
+  //     } else {
+  //       // Production: Check sessionStorage for authentication status
+  //       // SessionStorage persists during browser session (clears on close)
+  //       const authStatus = sessionStorage.getItem('upwego_authenticated');
+  //       if (authStatus === 'true') {
+  //         setIsAuthenticated(true);
+  //       }
+  //     }
+  //   }
+  //   setIsLoading(false);
+  // }, []);
 
   /**
    * EFFECT: Load menu and contact form data when authenticated
    * 
    * Only fetches data after user is authenticated to avoid unnecessary API calls.
+   * NOTE: Since password protection is disabled, this always runs on mount.
    */
   useEffect(() => {
-    if (isAuthenticated) {
+    // PASSWORD PROTECTION - COMMENTED OUT
+    // if (isAuthenticated) {
       fetchMenuItems();
       fetchContactTexts();
-    }
-  }, [isAuthenticated]);
+    // }
+  }, []); // Changed from [isAuthenticated] since auth is always true
 
   /**
    * Fetches menu items from API for Header navigation
@@ -165,17 +174,18 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     }
   };
 
+  // PASSWORD PROTECTION - COMMENTED OUT (can be restored in the future)
   /**
    * Handles successful password authentication
    * Saves authentication status to sessionStorage
    */
-  const handlePasswordCorrect = () => {
-    setIsAuthenticated(true);
-    // Save authentication status in sessionStorage (clears when browser closes)
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('upwego_authenticated', 'true');
-    }
-  };
+  // const handlePasswordCorrect = () => {
+  //   setIsAuthenticated(true);
+  //   // Save authentication status in sessionStorage (clears when browser closes)
+  //   if (typeof window !== 'undefined') {
+  //     sessionStorage.setItem('upwego_authenticated', 'true');
+  //   }
+  // };
 
   const handleContactFormSuccess = () => {
     // Close modal after success message is shown
@@ -197,17 +207,20 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     setIsContactModalOpen(false);
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen w-full flex items-center justify-center bg-brand-primary">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
-      </div>
-    );
-  }
+  // PASSWORD PROTECTION - COMMENTED OUT (can be restored in the future)
+  // Loading state check (disabled since password protection is off)
+  // if (isLoading) {
+  //   return (
+  //     <div className="min-h-screen w-full flex items-center justify-center bg-brand-primary">
+  //       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+  //     </div>
+  //   );
+  // }
 
-  if (!isAuthenticated) {
-    return <PasswordForm onPasswordCorrect={handlePasswordCorrect} />;
-  }
+  // Password form check (disabled since password protection is off)
+  // if (!isAuthenticated) {
+  //   return <PasswordForm onPasswordCorrect={handlePasswordCorrect} />;
+  // }
 
   return (
     <AnimationProvider>

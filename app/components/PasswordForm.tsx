@@ -1,3 +1,14 @@
+/**
+ * PASSWORD FORM COMPONENT
+ * 
+ * NOTE: This component is currently DISABLED but kept for future use.
+ * Password protection has been commented out in LayoutWrapper.tsx.
+ * 
+ * To re-enable password protection:
+ * 1. Uncomment password protection code in LayoutWrapper.tsx
+ * 2. Uncomment the PasswordForm import in LayoutWrapper.tsx
+ * 3. Ensure NEXT_PUBLIC_UPWEGO_PASSWORD is set in environment variables
+ */
 'use client';
 
 import React, { useState } from 'react';
