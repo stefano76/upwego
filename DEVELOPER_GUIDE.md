@@ -25,7 +25,7 @@ This is a Next.js website built with React and TypeScript. The site uses a markd
 - **Styling:** Tailwind CSS + Custom CSS
 - **Content:** Markdown files with frontmatter
 - **Email:** Resend API
-- **Deployment:** Vercel (recommended)
+- **Deployment:** Vercel
 
 ---
 
