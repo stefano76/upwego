@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { headers } from "next/headers";
 import "./styles/globals.css";
 import LayoutWrapper from "./components/LayoutWrapper";
+import { generatePageMetadata } from "@/lib/metadata";
 
 const fontBody = Inter({
   subsets: ["latin"],
@@ -15,14 +17,27 @@ const fontHeading = Inter({
   variable: "--font-heading",
 });
 
-export const metadata: Metadata = {
-  title: "Upwego Digital",
-  description: "Designing momentum. Together.",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
+/**
+ * Generate metadata dynamically based on the current pathname
+ * This replaces the need for individual layout.tsx files in each route
+ * Pathname is passed via middleware custom header 'x-pathname'
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  // Get the pathname from custom header set by middleware
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') || '/';
+  
+  // Generate page-specific metadata
+  const pageMetadata = generatePageMetadata(pathname);
+  
+  return {
+    ...pageMetadata,
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
+}
 
 export default function RootLayout({
   children,
