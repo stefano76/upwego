@@ -36,28 +36,11 @@ export const useMultiAnimation = (threshold: number = 0.1) => {
         hasAnimated: false,
         parentBlock 
       });
-      console.log('[useMultiAnimation] Element added:', {
-        tagName: element.tagName,
-        className: element.className,
-        animationClass,
-        hasParentBlock: !!parentBlock,
-        totalElements: elementRefs.current.length
-      });
     }
   };
 
   useEffect(() => {
-    console.log('[useMultiAnimation] useEffect triggered', {
-      sectionMounted,
-      hasSectionRef: !!sectionRef.current,
-      elementCount: elementRefs.current.length
-    });
-
     if (!sectionMounted || !sectionRef.current) {
-      console.log('[useMultiAnimation] Section not mounted yet, waiting...', {
-        sectionMounted,
-        hasSectionRef: !!sectionRef.current
-      });
       return;
     }
 
@@ -74,11 +57,6 @@ export const useMultiAnimation = (threshold: number = 0.1) => {
         return;
       }
 
-      console.log('[useMultiAnimation] Triggering animation for block:', {
-        blockElement: blockElement.className,
-        elementCount: blockElements.length
-      });
-
       blockElements.forEach(({ element, animationClass }) => {
         if (element && element.classList) {
           // Remove opacity-0 class so animation can run properly
@@ -89,11 +67,6 @@ export const useMultiAnimation = (threshold: number = 0.1) => {
           if (item) {
             item.hasAnimated = true;
           }
-          console.log('[useMultiAnimation] Applied animation class:', {
-            element: element.tagName,
-            classes: element.className,
-            animationClass
-          });
         }
       });
     };
@@ -118,16 +91,10 @@ export const useMultiAnimation = (threshold: number = 0.1) => {
 
     // Wait for elements to be added, then set up observers for each block
     const setupObservers = () => {
-      console.log('[useMultiAnimation] Setting up observers...', {
-        hasSectionRef: !!sectionRef.current,
-        elementCount: elementRefs.current.length
-      });
-
       if (!sectionRef.current) return;
       
       // Check if elements are ready
       if (elementRefs.current.length === 0) {
-        console.log('[useMultiAnimation] No elements yet, retrying in 100ms...');
         // Try again in 100ms
         setTimeout(setupObservers, 100);
         return;
@@ -141,19 +108,13 @@ export const useMultiAnimation = (threshold: number = 0.1) => {
         }
       });
 
-      console.log('[useMultiAnimation] Found', parentBlocks.size, 'unique blocks to observe');
-
       const isMobile = window.innerWidth < 1024;
       const effectiveThreshold = isMobile ? 0.05 : threshold;
 
       // Set up an observer for each block
       parentBlocks.forEach((blockElement) => {
         // Check initial visibility
-        const { visibilityRatio, shouldTrigger } = checkBlockVisibility(blockElement);
-        console.log('[useMultiAnimation] Initial check for block:', {
-          visibilityRatio: visibilityRatio.toFixed(2),
-          shouldTrigger
-        });
+        const { shouldTrigger } = checkBlockVisibility(blockElement);
 
         if (shouldTrigger) {
           triggerAnimationForBlock(blockElement);
@@ -163,13 +124,7 @@ export const useMultiAnimation = (threshold: number = 0.1) => {
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
-              console.log('[useMultiAnimation] Block observer triggered:', {
-                intersectionRatio: entry.intersectionRatio.toFixed(2),
-                effectiveThreshold,
-                isIntersecting: entry.isIntersecting
-              });
               if (entry.intersectionRatio >= effectiveThreshold) {
-                console.log('[useMultiAnimation] Block visibility threshold met');
                 triggerAnimationForBlock(blockElement);
               }
             });
@@ -182,7 +137,6 @@ export const useMultiAnimation = (threshold: number = 0.1) => {
 
         observer.observe(blockElement);
         observers.push(observer);
-        console.log('[useMultiAnimation] Observer attached to block');
       });
 
       // Add scroll listener as fallback
@@ -198,18 +152,13 @@ export const useMultiAnimation = (threshold: number = 0.1) => {
       window.addEventListener('resize', scrollHandler, { passive: true });
       if (isMobile) {
         window.addEventListener('touchmove', scrollHandler, { passive: true });
-        console.log('[useMultiAnimation] Mobile listeners added (scroll, resize, touchmove)');
-      } else {
-        console.log('[useMultiAnimation] Desktop listeners added (scroll, resize)');
       }
     };
 
     // Start setup after a short delay to ensure DOM is ready
-    console.log('[useMultiAnimation] Effect running, will setup observers in 200ms');
     const timeoutId = setTimeout(setupObservers, 200);
 
     return () => {
-      console.log('[useMultiAnimation] Cleanup called');
       clearTimeout(timeoutId);
       observers.forEach(observer => observer.disconnect());
       if (scrollHandler) {
@@ -224,7 +173,6 @@ export const useMultiAnimation = (threshold: number = 0.1) => {
   const setSectionRef = (element: HTMLElement | null) => {
     sectionRef.current = element;
     if (element && !sectionMounted) {
-      console.log('[useMultiAnimation] Section mounted, setting sectionMounted to true');
       setSectionMounted(true);
     } else if (!element && sectionMounted) {
       setSectionMounted(false);

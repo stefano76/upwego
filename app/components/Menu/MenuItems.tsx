@@ -14,8 +14,6 @@ type MenuItemsProps = {
 };
 
 export default function MenuItems({ menuItems = [], onContactClick }: MenuItemsProps) {
-  // console.debug("MenuItems:", menuItems);
-
   // Sort menu items to put LinkedIn last
   const sortedMenuItems = [...menuItems].sort((a, b) => {
     if (a.title === "Linkedin") return 1;

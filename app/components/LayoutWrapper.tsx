@@ -255,12 +255,7 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     }, 3000);
   };
 
-  const handleContactFormError = () => {
-    // Error is now handled inside ContactForm
-  };
-
   const openContactModal = () => {
-    // console.log('openContactModal called!');
     setIsContactModalOpen(true);
   };
 
@@ -305,7 +300,6 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
         >
           <ContactForm 
             onSuccess={handleContactFormSuccess}
-            onError={handleContactFormError}
           />
         </Modal>
       </div>

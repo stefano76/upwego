@@ -19,18 +19,3 @@ export function hexToRgba(hex: string, opacity: number = 1): string {
   return `rgba(${r}, ${g}, ${b}, ${clampedOpacity})`;
 }
 
-/**
- * Converts a CSS variable color to rgba format with variable opacity
- * @param cssVariable - CSS variable name (e.g., "var(--brand-primary)")
- * @param opacity - Opacity value between 0 and 1 (default: 1)
- * @returns rgba color string using CSS color-mix function
- */
-export function cssVarToRgba(cssVariable: string, opacity: number = 1): string {
-  // Clamp opacity between 0 and 1
-  const clampedOpacity = Math.max(0, Math.min(1, opacity));
-  const percentage = clampedOpacity * 100;
-  
-  // Use color-mix for modern browsers
-  return `color-mix(in srgb, ${cssVariable} ${percentage}%, transparent)`;
-}
-
