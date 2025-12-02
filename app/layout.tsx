@@ -33,8 +33,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     ...pageMetadata,
     robots: {
-      index: false,
-      follow: false,
+      index: true,
+      follow: true,
     },
   };
 }
