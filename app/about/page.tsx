@@ -177,7 +177,7 @@ export default function About() {
       {/* OWNERS SECTION - Team member profiles */}
       <section id="about-owners" className="py-16">
         <div className="container">
-          <div className="flex flex-col tablet:flex-row gap-16">
+          <div className="flex flex-col tablet:flex-row gap-16 max-w-screen-small mx-auto">
             {/* Render each owner block (typically Stefano and Nadja) */}
             {blocks && blocks["about-owners"] && Object.entries(blocks["about-owners"].blocks).map(([blockId, block]: [string, Block]) => (
               <div key={blockId} className="flex flex-col w-full tablet:w-1/2">
