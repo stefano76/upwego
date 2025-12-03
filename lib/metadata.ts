@@ -25,7 +25,7 @@ export const OG_IMAGE_PATH = '/img/upwego-image.png';
 export const pageMetadata: Record<string, PageMetadata> = {
   '/': {
     title: 'Upwego Digital - Designing momentum. Together.',
-    description: 'We elevate our clients&apos; foundations, crafting digital experiences that marry creativity with innovation, turning their business vision into reality.',
+    description: 'We elevate our clients’ foundations, crafting digital experiences that marry creativity with innovation, turning their business vision into reality.',
   },
   '/about': {
     title: 'About Us - Upwego Digital',
