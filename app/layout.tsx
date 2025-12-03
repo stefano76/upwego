@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
-import Script from "next/script";
 import "./styles/globals.css";
 import LayoutWrapper from "./components/LayoutWrapper";
 import { generatePageMetadata } from "@/lib/metadata";
@@ -54,11 +53,15 @@ export default function RootLayout({
       <head>
         {/* CookieYes script MUST load before page hydration to manage cookies properly */}
         {cookieYesId && (
-          <Script
-            id="cookieyes"
-            strategy="beforeInteractive"
-            src={`https://cdn-cookieyes.com/client_data/${cookieYesId}/script.js`}
-          />
+          <>
+            {/* Start cookieyes banner */}
+            <script
+              id="cookieyes"
+              type="text/javascript"
+              src={`https://cdn-cookieyes.com/client_data/${cookieYesId}/script.js`}
+            />
+            {/* End cookieyes banner */}
+          </>
         )}
       </head>
       <body className={`${fontBody.variable} ${fontHeading.variable} antialiased`}>
