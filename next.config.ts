@@ -69,7 +69,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline'", // 'unsafe-inline' needed for Tailwind CSS
               "img-src 'self' data: https:",
               "font-src 'self' data:",
-              "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com", // Google Analytics domains added
+              "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://log.cookieyes.com https://cdn-cookieyes.com", // Google Analytics and CookieYes domains added
               "frame-ancestors 'self'",
               "base-uri 'self'",
               "form-action 'self'",
