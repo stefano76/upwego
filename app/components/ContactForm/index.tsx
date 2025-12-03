@@ -312,7 +312,7 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
           placeholder={texts.placeholders.message}
         />
         {errors.message && (
-          <p className={styles.errorMessage}>{errors.message}</p>
+          <p className={`${styles.errorMessage} ${styles.errorMessageTextarea}`}>{errors.message}</p>
         )}
       </div>
 

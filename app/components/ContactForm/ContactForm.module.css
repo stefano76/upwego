@@ -29,7 +29,7 @@
 }
 
 .fieldFinal {
-  @apply mb-4;
+  @apply mb-2;
 }
 
 .label {
@@ -59,16 +59,20 @@
   @apply absolute -bottom-6 left-2 text-sm text-red-500 font-medium;
 }
 
+.errorMessageTextarea {
+  @apply bottom-4;
+}
+
 .checkboxLabel {
-  @apply flex items-start gap-3 cursor-pointer text-bodyText text-sm;
+  @apply flex items-start gap-3 cursor-pointer text-bodyText text-sm mb-6;
 }
 
 .checkbox {
-  @apply mt-1 w-5 h-5 cursor-pointer accent-brand-secondary;
+  @apply w-5 h-5 cursor-pointer accent-brand-secondary;
 }
 
 .checkboxError {
-  @apply mt-1 w-5 h-5 cursor-pointer accent-red-500;
+  @apply w-5 h-5 cursor-pointer accent-red-500;
 }
 
 .privacyLink {
