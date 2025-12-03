@@ -7,6 +7,35 @@ interface GoogleTagManagerProps {
   gtmId: string;
 }
 
+// Type definitions for CookieYes and gtag
+interface CookieYesConsent extends Record<string, boolean | undefined> {
+  advertisement?: boolean;
+  analytics?: boolean;
+  functional?: boolean;
+  personalization?: boolean;
+}
+
+interface DataLayerItem extends Record<string, unknown> {
+  event?: string;
+  consent?: CookieYesConsent;
+  cookieyesConsent?: CookieYesConsent;
+  cky_consent_update?: boolean;
+}
+
+declare global {
+  interface Window {
+    cookieyes?: {
+      consent?: CookieYesConsent;
+    };
+    ckyConsent?: CookieYesConsent;
+    gtag?: (
+      command: 'consent',
+      action: 'update',
+      params: Record<string, string>
+    ) => void;
+  }
+}
+
 /**
  * Google Consent Mode initialization
  * Must run BEFORE GTM loads to set consent defaults
@@ -109,8 +138,8 @@ export function CookieYesConsentSync() {
         // We'll check for CookieYes consent status and update Google Consent Mode
         try {
           // Check if CookieYes has set consent (common CookieYes global variable names)
-          const cookieYesConsent = (window as any).cookieyes?.consent || 
-                                   (window as any).ckyConsent ||
+          const cookieYesConsent = window.cookieyes?.consent || 
+                                   window.ckyConsent ||
                                    null;
 
           if (cookieYesConsent) {
@@ -132,8 +161,8 @@ export function CookieYesConsentSync() {
             });
 
             // Also update via gtag consent API if available
-            if ((window as any).gtag) {
-              (window as any).gtag('consent', 'update', consentMode);
+            if (window.gtag) {
+              window.gtag('consent', 'update', consentMode);
             }
           }
         } catch (error) {
@@ -142,7 +171,7 @@ export function CookieYesConsentSync() {
       };
 
       // Function to update Google Consent Mode
-      const updateGoogleConsentMode = (consentData: Record<string, boolean>) => {
+      const updateGoogleConsentMode = (consentData: CookieYesConsent) => {
         const consentMode: Record<string, string> = {
           'ad_storage': consentData.advertisement ? 'granted' : 'denied',
           'ad_user_data': consentData.advertisement ? 'granted' : 'denied',
@@ -160,27 +189,29 @@ export function CookieYesConsentSync() {
         });
 
         // Update via gtag consent API if available
-        if ((window as any).gtag) {
-          (window as any).gtag('consent', 'update', consentMode);
+        if (window.gtag) {
+          window.gtag('consent', 'update', consentMode);
         }
       };
 
       // Listen for CookieYes consent changes via dataLayer
-      const originalPush = window.dataLayer.push;
-      window.dataLayer.push = function(...args: any[]) {
-        const result = originalPush.apply(this, args);
+      const originalPush = window.dataLayer.push.bind(window.dataLayer);
+      window.dataLayer.push = function(...args: Array<Record<string, unknown>>) {
+        const result = originalPush(...args);
         
         // Check if this is a CookieYes consent update
-        const lastItem = args[args.length - 1];
+        const lastItem = args[args.length - 1] as DataLayerItem;
         if (lastItem) {
           // CookieYes typically pushes events like 'cookieyes-consent' or includes consent data
           if (lastItem.event === 'cookieyes-consent' || 
               lastItem.cky_consent_update ||
               lastItem.cookieyesConsent ||
-              (lastItem.event && lastItem.event.includes('cookieyes'))) {
+              (lastItem.event && typeof lastItem.event === 'string' && lastItem.event.includes('cookieyes'))) {
             // Extract consent data from the event
-            const consentData = lastItem.consent || lastItem.cookieyesConsent || {};
-            updateGoogleConsentMode(consentData);
+            const consentData = (lastItem.consent || lastItem.cookieyesConsent || {}) as CookieYesConsent;
+            if (consentData && (consentData.advertisement !== undefined || consentData.analytics !== undefined)) {
+              updateGoogleConsentMode(consentData);
+            }
           }
         }
         

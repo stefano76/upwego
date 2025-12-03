@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
-import Script from "next/script";
 import "./styles/globals.css";
 import LayoutWrapper from "./components/LayoutWrapper";
 import { generatePageMetadata } from "@/lib/metadata";
