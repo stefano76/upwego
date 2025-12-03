@@ -6,14 +6,10 @@ interface GoogleAnalyticsProps {
   gaId: string;
 }
 
-// Declare gtag function for TypeScript
-type GtagCommand = 'config' | 'set' | 'event' | 'js';
-type GtagConfigParams = Record<string, string | number | boolean>;
-
+// Declare dataLayer for TypeScript (used by Google Tag Manager)
 declare global {
   interface Window {
-    dataLayer: unknown[];
-    gtag: (command: GtagCommand, targetId: string, config?: GtagConfigParams) => void;
+    dataLayer: Array<Record<string, unknown>>;
   }
 }
 
@@ -48,12 +44,14 @@ export default function GoogleAnalytics({ gaId }: GoogleAnalyticsProps) {
 }
 
 /**
- * Track page views for Google Analytics
+ * Track page views using Google Tag Manager's dataLayer
+ * This works with GTM which manages Google Analytics and other tags
  * Call this function when the route changes
  */
 export function trackPageView(path: string) {
-  if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('config', process.env.NEXT_PUBLIC_GA_ID || '', {
+  if (typeof window !== 'undefined' && window.dataLayer) {
+    window.dataLayer.push({
+      event: 'page_view',
       page_path: path,
     });
   }

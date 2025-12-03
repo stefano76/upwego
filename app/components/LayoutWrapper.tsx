@@ -147,8 +147,8 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     const currentClasses = body.className.split(' ').filter(cls => !cls.startsWith('page-'));
     body.className = [...currentClasses, `page-${pageSlug}`].join(' ').trim();
     
-    // Track page view in Google Analytics
-    if (process.env.NEXT_PUBLIC_GA_ID) {
+    // Track page view using Google Tag Manager (which manages Google Analytics and other tags)
+    if (process.env.NEXT_PUBLIC_GTM_ID) {
       trackPageView(pathname);
     }
     
