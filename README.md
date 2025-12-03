@@ -46,14 +46,20 @@ A modern, responsive website for Upwego Digital built with Next.js 15, featuring
    CONTACT_EMAIL_TO=contact@yourdomain.com
    CONTACT_EMAIL_SUBJECT=New Contact Form Submission
    
+   # Google Analytics (Optional)
+   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+   
    # Password Protection (Optional - currently disabled)
    NEXT_PUBLIC_UPWEGO_PASSWORD=your_password
    ```
-
+   
    **Required variables:**
    - `RESEND_API_KEY` - Get from [resend.com](https://resend.com)
    - `EMAIL_FROM` - Must be verified in Resend
    - `CONTACT_EMAIL_TO` - Where contact form submissions are sent
+   
+   **Optional variables:**
+   - `NEXT_PUBLIC_GA_ID` - Google Analytics 4 Measurement ID (format: G-XXXXXXXXXX). Get from [Google Analytics](https://analytics.google.com/)
 
 4. **Run the development server**
    ```bash

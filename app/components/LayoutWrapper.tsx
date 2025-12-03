@@ -32,6 +32,7 @@ import ContactForm from './ContactForm';
 import { AnimationProvider } from './AnimationContext';
 import { ContactModalProvider } from './ContactModalContext';
 import { ContactFormTexts } from '@/lib/contact-form-texts';
+import { trackPageView } from './GoogleAnalytics';
 
 interface LayoutWrapperProps {
   children: React.ReactNode;
@@ -146,11 +147,16 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
     const currentClasses = body.className.split(' ').filter(cls => !cls.startsWith('page-'));
     body.className = [...currentClasses, `page-${pageSlug}`].join(' ').trim();
     
+    // Track page view in Google Analytics
+    if (process.env.NEXT_PUBLIC_GA_ID) {
+      trackPageView(pathname);
+    }
+    
     // Cleanup: remove class on unmount
     return () => {
       body.classList.remove(`page-${pageSlug}`);
     };
-  }, [pageSlug]); // Re-run when pageSlug changes (which depends on pathname and menuItems)
+  }, [pageSlug, pathname]); // Re-run when pageSlug or pathname changes (which depends on pathname and menuItems)
 
   // PASSWORD PROTECTION - COMMENTED OUT (can be restored in the future)
   /**

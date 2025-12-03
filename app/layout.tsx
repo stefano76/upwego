@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import "./styles/globals.css";
 import LayoutWrapper from "./components/LayoutWrapper";
 import { generatePageMetadata } from "@/lib/metadata";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 
 const fontBody = Inter({
   subsets: ["latin"],
@@ -44,9 +45,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="en">
+      <head>
+        <script
+          id="cookieyes"
+          type="text/javascript"
+          src={`https://cdn-cookieyes.com/client_data/${process.env.NEXT_PUBLIC_COOKIEYES_ID}/script.js`}
+        />
+      </head>
       <body className={`${fontBody.variable} ${fontHeading.variable} antialiased`}>
+        {gaId && <GoogleAnalytics gaId={gaId} />}
         <LayoutWrapper>
           {children}
         </LayoutWrapper>

@@ -65,11 +65,11 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline'", // 'unsafe-eval' and 'unsafe-inline' needed for Next.js
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com", // 'unsafe-eval' and 'unsafe-inline' needed for Next.js, Google Analytics domains added
               "style-src 'self' 'unsafe-inline'", // 'unsafe-inline' needed for Tailwind CSS
               "img-src 'self' data: https:",
               "font-src 'self' data:",
-              "connect-src 'self'",
+              "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com", // Google Analytics domains added
               "frame-ancestors 'self'",
               "base-uri 'self'",
               "form-action 'self'",
