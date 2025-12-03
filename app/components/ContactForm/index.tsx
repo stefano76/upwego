@@ -300,7 +300,7 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
       </div>
 
       {/* MESSAGE FIELD - Full width, required */}
-      <div className={styles.field}>
+      <div className={`${styles.field} ${styles.fieldFinal}`}>
         <textarea
             id="message"
           name="message"
@@ -318,7 +318,7 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
 
       {/* PRIVACY ACCEPTANCE CHECKBOX - Required */}
       {texts.privacy && (
-        <div className={styles.field}>
+        <div className={`${styles.field} ${styles.fieldFinal}`}>
           <label className={styles.checkboxLabel}>
             <input
               type="checkbox"

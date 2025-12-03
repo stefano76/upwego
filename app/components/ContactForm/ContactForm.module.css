@@ -28,6 +28,10 @@
   @apply relative mb-8 w-full;
 }
 
+.fieldFinal {
+  @apply mb-4;
+}
+
 .label {
   @apply block text-sm font-medium text-brand-tertiary mb-1 tracking-wide uppercase;
 }
@@ -72,7 +76,7 @@
 }
 
 .submitContainer {
-  @apply flex justify-center pt-4 tablet-xsmall-height:pt-0;
+  @apply flex justify-center;
 }
 
 .submitButton {
