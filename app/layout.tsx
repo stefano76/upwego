@@ -5,7 +5,7 @@ import Script from "next/script";
 import "./styles/globals.css";
 import LayoutWrapper from "./components/LayoutWrapper";
 import { generatePageMetadata } from "@/lib/metadata";
-import { GoogleTagManagerHead, GoogleTagManagerBody } from "./components/GoogleTagManager";
+import { GoogleTagManagerHead, GoogleTagManagerBody, CookieYesConsentSync } from "./components/GoogleTagManager";
 
 const fontBody = Inter({
   subsets: ["latin"],
@@ -55,6 +55,8 @@ export default function RootLayout({
       <body className={`${fontBody.variable} ${fontHeading.variable} antialiased`}>
         {/* Google Tag Manager noscript - Immediately after opening <body> tag */}
         {gtmId && <GoogleTagManagerBody gtmId={gtmId} />}
+        {/* Sync CookieYes consent with Google Consent Mode */}
+        {gtmId && <CookieYesConsentSync />}
         <LayoutWrapper>
           {children}
         </LayoutWrapper>
