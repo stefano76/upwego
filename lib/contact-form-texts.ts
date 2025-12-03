@@ -24,6 +24,7 @@ export interface ContactFormTexts {
     emailRequired: string;
     emailInvalid: string;
     messageRequired: string;
+    privacyRequired: string;
   };
   success: {
     formSuccess: string;
@@ -33,6 +34,11 @@ export interface ContactFormTexts {
   api: {
     serverError: string;
     networkError: string;
+  };
+  privacy: {
+    label: string;
+    linkText: string;
+    linkUrl: string;
   };
 }
 
@@ -81,7 +87,7 @@ export function getContactFormTexts(): ContactFormTexts {
           }
           break;
         case 'errormessages':
-          if (!texts.errors) texts.errors = { nameRequired: '', emailRequired: '', emailInvalid: '', messageRequired: '' };
+          if (!texts.errors) texts.errors = { nameRequired: '', emailRequired: '', emailInvalid: '', messageRequired: '', privacyRequired: '' };
           const errorKey = key.trim() as keyof typeof texts.errors;
           if (texts.errors[errorKey] !== undefined) {
             texts.errors[errorKey] = value;
@@ -99,6 +105,13 @@ export function getContactFormTexts(): ContactFormTexts {
           const apiKey = key.trim() as keyof typeof texts.api;
           if (texts.api[apiKey] !== undefined) {
             texts.api[apiKey] = value;
+          }
+          break;
+        case 'privacycheckbox':
+          if (!texts.privacy) texts.privacy = { label: '', linkText: '', linkUrl: '' };
+          const privacyKey = key.trim() as keyof typeof texts.privacy;
+          if (texts.privacy[privacyKey] !== undefined) {
+            texts.privacy[privacyKey] = value;
           }
           break;
       }

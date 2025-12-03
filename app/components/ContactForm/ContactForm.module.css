@@ -55,6 +55,22 @@
   @apply absolute -bottom-6 left-2 text-sm text-red-500 font-medium;
 }
 
+.checkboxLabel {
+  @apply flex items-start gap-3 cursor-pointer text-bodyText text-sm;
+}
+
+.checkbox {
+  @apply mt-1 w-5 h-5 cursor-pointer accent-brand-secondary;
+}
+
+.checkboxError {
+  @apply mt-1 w-5 h-5 cursor-pointer accent-red-500;
+}
+
+.privacyLink {
+  @apply text-brand-secondary underline hover:text-brand-primary transition-colors;
+}
+
 .submitContainer {
   @apply flex justify-center pt-4 tablet-xsmall-height:pt-0;
 }

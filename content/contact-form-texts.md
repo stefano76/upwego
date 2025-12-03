@@ -22,6 +22,7 @@
 - emailRequired: Email is required
 - emailInvalid: Please enter a valid email address
 - messageRequired: Message is required
+- privacyRequired: Please accept the privacy policy to continue
 
 ## Success Messages
 - formSuccess: Message sent successfully! We'll get back to you soon.
@@ -31,3 +32,8 @@
 ## API Messages
 - serverError: Failed to send message. Please try again.
 - networkError: Network error. Please try again.
+
+## Privacy Checkbox
+- label: I consent to the processing of my personal data for the purpose of responding to my inquiry, as described in the 
+- linkText: Privacy Policy
+- linkUrl: /privacy

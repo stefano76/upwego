@@ -35,7 +35,8 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
     name: '',
     email: '',
     phone: '',
-    message: ''
+    message: '',
+    privacyAccepted: false
   });
   
   // Tracks if form is currently being submitted (disables submit button)
@@ -105,6 +106,11 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
       newErrors.message = texts.errors.messageRequired;
     }
     
+    // Privacy acceptance validation (only if privacy text is configured)
+    if (texts.privacy && !formData.privacyAccepted) {
+      newErrors.privacyAccepted = texts.errors.privacyRequired;
+    }
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -141,7 +147,7 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
 
       if (response.ok) {
         // SUCCESS: Clear form and show success message
-        setFormData({ name: '', email: '', phone: '', message: '' });
+        setFormData({ name: '', email: '', phone: '', message: '', privacyAccepted: false });
         setErrors({});
         setMessage({
           type: 'success',
@@ -195,6 +201,24 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
     }
     
     // Clear success/error message when user starts typing
+    if (message) {
+      setMessage(null);
+    }
+  };
+
+  /**
+   * Handles checkbox changes (for privacy acceptance)
+   */
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setFormData(prev => ({ ...prev, [name]: checked }));
+    
+    // Clear error when checkbox is checked
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+    
+    // Clear success/error message when user interacts
     if (message) {
       setMessage(null);
     }
@@ -291,6 +315,36 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
           <p className={styles.errorMessage}>{errors.message}</p>
         )}
       </div>
+
+      {/* PRIVACY ACCEPTANCE CHECKBOX - Required */}
+      {texts.privacy && (
+        <div className={styles.field}>
+          <label className={styles.checkboxLabel}>
+            <input
+              type="checkbox"
+              id="privacyAccepted"
+              name="privacyAccepted"
+              checked={formData.privacyAccepted}
+              onChange={handleCheckboxChange}
+              className={errors.privacyAccepted ? styles.checkboxError : styles.checkbox}
+            />
+            <span>
+              {texts.privacy.label}{' '}
+              <a 
+                href={texts.privacy.linkUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className={styles.privacyLink}
+              >
+                {texts.privacy.linkText}
+              </a>.
+            </span>
+          </label>
+          {errors.privacyAccepted && (
+            <p className={styles.errorMessage}>{errors.privacyAccepted}</p>
+          )}
+        </div>
+      )}
 
       {/* SUCCESS/ERROR MESSAGE - Displayed above submit button */}
       {message && (

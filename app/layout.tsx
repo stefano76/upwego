@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
+import Script from "next/script";
 import "./styles/globals.css";
 import LayoutWrapper from "./components/LayoutWrapper";
 import { generatePageMetadata } from "@/lib/metadata";
-import { GoogleTagManagerHead, GoogleTagManagerBody, CookieYesConsentSync } from "./components/GoogleTagManager";
+import { getGoogleTagManagerScript } from "@/lib/gtm-scripts";
+import { GoogleTagManagerBody, CookieYesConsentSync } from "./components/GoogleTagManager";
+import GoogleConsentMode from "./components/GoogleConsentMode";
 
 const fontBody = Inter({
   subsets: ["latin"],
@@ -48,10 +51,20 @@ export default function RootLayout({
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 
   return (
-    <html lang="en">
-      {/* Google Tag Manager - Placed as high as possible (Next.js will place in <head>) */}
-      {gtmId && <GoogleTagManagerHead gtmId={gtmId} />}
+    <html lang="en" suppressHydrationWarning>
       <body className={`${fontBody.variable} ${fontHeading.variable} antialiased`}>
+        {/* Google Consent Mode - Must load BEFORE GTM (beforeInteractive puts it in head) */}
+        {gtmId && <GoogleConsentMode />}
+        {/* Google Tag Manager - Loads after consent mode */}
+        {gtmId && (
+          <Script
+            id="google-tag-manager"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: getGoogleTagManagerScript(gtmId),
+            }}
+          />
+        )}
         {/* Google Tag Manager noscript - Immediately after opening <body> tag */}
         {gtmId && <GoogleTagManagerBody gtmId={gtmId} />}
         {/* Sync CookieYes consent with Google Consent Mode */}
