@@ -51,14 +51,17 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${fontBody.variable} ${fontHeading.variable} antialiased`}>
+      <head>
+        {/* CookieYes script MUST load before page hydration to manage cookies properly */}
         {cookieYesId && (
           <Script
             id="cookieyes"
-            strategy="afterInteractive"
+            strategy="beforeInteractive"
             src={`https://cdn-cookieyes.com/client_data/${cookieYesId}/script.js`}
           />
         )}
+      </head>
+      <body className={`${fontBody.variable} ${fontHeading.variable} antialiased`}>
         {gaId && <GoogleAnalytics gaId={gaId} />}
         <LayoutWrapper>
           {children}
