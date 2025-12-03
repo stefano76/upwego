@@ -7,10 +7,13 @@ interface GoogleAnalyticsProps {
 }
 
 // Declare gtag function for TypeScript
+type GtagCommand = 'config' | 'set' | 'event' | 'js';
+type GtagConfigParams = Record<string, string | number | boolean>;
+
 declare global {
   interface Window {
-    dataLayer: any[];
-    gtag: (...args: any[]) => void;
+    dataLayer: unknown[];
+    gtag: (command: GtagCommand, targetId: string, config?: GtagConfigParams) => void;
   }
 }
 

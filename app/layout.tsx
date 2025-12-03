@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { headers } from "next/headers";
+import Script from "next/script";
 import "./styles/globals.css";
 import LayoutWrapper from "./components/LayoutWrapper";
 import { generatePageMetadata } from "@/lib/metadata";
@@ -46,17 +47,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const cookieYesId = process.env.NEXT_PUBLIC_COOKIEYES_ID;
 
   return (
     <html lang="en">
-      <head>
-        <script
-          id="cookieyes"
-          type="text/javascript"
-          src={`https://cdn-cookieyes.com/client_data/${process.env.NEXT_PUBLIC_COOKIEYES_ID}/script.js`}
-        />
-      </head>
       <body className={`${fontBody.variable} ${fontHeading.variable} antialiased`}>
+        {cookieYesId && (
+          <Script
+            id="cookieyes"
+            strategy="afterInteractive"
+            src={`https://cdn-cookieyes.com/client_data/${cookieYesId}/script.js`}
+          />
+        )}
         {gaId && <GoogleAnalytics gaId={gaId} />}
         <LayoutWrapper>
           {children}

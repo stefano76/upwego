@@ -52,8 +52,8 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
   // const [isLoading, setIsLoading] = useState(true);
   
   // Authentication is now always true (password protection disabled)
-  const [isAuthenticated] = useState(true);
-  const [isLoading] = useState(false);
+  // const [isAuthenticated] = useState(true);
+  // const [isLoading] = useState(false);
   
   // Menu and contact form data
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
