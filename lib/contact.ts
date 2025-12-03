@@ -50,3 +50,20 @@ export function getContactLinks(): ContactLink[] {
     return [];
   }
 }
+
+/**
+ * Get LinkedIn link from contact links (single source of truth: content/contact/links.md)
+ * Returns null if LinkedIn link is not found
+ */
+export function getLinkedInLink(): ContactLink | null {
+  try {
+    const contactLinks = getContactLinks();
+    const linkedInLink = contactLinks.find(link => 
+      link.url.includes('linkedin.com') || link.label.toLowerCase().includes('linkedin')
+    );
+    return linkedInLink || null;
+  } catch (error) {
+    console.error('Error fetching LinkedIn link:', error);
+    return null;
+  }
+}

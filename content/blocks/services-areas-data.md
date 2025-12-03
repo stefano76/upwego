@@ -11,7 +11,7 @@ features:
   - title: "Data Analysis & Reporting"
     text: "Custom reports and visualizations that turn raw data into actionable insights."
   - title: "Spreadsheet Solutions"
-    text: "Advanced Google Sheets and Excel automations, custom templates, and integrations to help you work smarter."
+    text: "Advanced Excel and Google Sheets tools like financial models, calculators, and automated reports to help you work smarter."
 
 ---
 

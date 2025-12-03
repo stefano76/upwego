@@ -12,9 +12,6 @@ items:
   - title: "Services"
     slug: "services"
     order: 4
-  - title: "Linkedin"
-    slug: "https://linkedin.com/company/upwego-digital"
-    order: 5
   - title: "Contact us"
     slug: "#contact"
     order: 6

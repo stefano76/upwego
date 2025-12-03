@@ -2,7 +2,7 @@
 id: "services-areas-web"
 slug: "web"
 title: "Web and App Development"
-text: "Show the world who you are with modern websites, online stores, and mobile apps. We develop digital solutions built to look beautiful, run smoothly, and grow with your business. <br>Easy-to-use dashboards and CMS setups so you’re in control of your content."
+text: "Show the world who you are with modern websites, online stores, and mobile apps. We develop digital solutions built to look beautiful, run smoothly, and grow with your business. With easy-to-use backend interfaces and CMS setups you are in full control of your content."
 features:
   - title: "Custom Website Design & Development"
     text: "Modern, beautiful websites that look great on any device and match your brand’s personality."
