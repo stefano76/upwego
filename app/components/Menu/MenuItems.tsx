@@ -49,7 +49,7 @@ export default function MenuItems({ menuItems = [], onContactClick }: MenuItemsP
               useLink = true;
             }
 
-            const className = `text-3xl text-center block my-4 text-brand-primary menu-item-mobile menu-item-${item.title.toLowerCase().replace(/[^a-z0-9]/g, '-')} ${item.slug === '#contact' ? 'btn-secondary' : 'hover:underline'}`;
+            const className = `text-2xl text-center block my-4 text-brand-primary menu-item-mobile menu-item-${item.title.toLowerCase().replace(/[^a-z0-9]/g, '-')} ${item.slug === '#contact' ? 'btn-secondary' : 'hover:underline'}`;
 
             // Handle contact link specially
             if (item.slug === '#contact' && onContactClick) {
