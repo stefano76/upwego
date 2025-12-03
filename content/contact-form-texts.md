@@ -22,7 +22,7 @@
 - emailRequired: Email is required
 - emailInvalid: Please enter a valid email address
 - messageRequired: Message is required
-- privacyRequired: Please accept the privacy policy to continue
+- privacyRequired: Please accept the privacy policy
 
 ## Success Messages
 - formSuccess: Message sent successfully! We'll get back to you soon.
