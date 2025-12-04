@@ -10,13 +10,14 @@
  * - Loading state while script loads
  */
 'use client';
-import { useEffect, useState } from 'react';
-import Script from 'next/script';
+import { useEffect, useState, useRef } from 'react';
 import '../styles/privacy.css';
 
 export default function Cookies() {
   const [contentLoaded, setContentLoaded] = useState(false);
-  const scriptUrl = `https://cdn-cookieyes.com/client_data/${process.env.NEXT_PUBLIC_COOKIEYES_ID}/cookie-policy/script.js`;
+  const scriptRef = useRef<HTMLScriptElement | null>(null);
+  const cookieYesId = process.env.NEXT_PUBLIC_COOKIEYES_ID || 'ccf217bb0e6c5d44c5a22c173b55556b';
+  const scriptUrl = `https://cdn-cookieyes.com/client_data/${cookieYesId}/cookie-policy/script.js`;
 
   useEffect(() => {
     // Check if CookieYes has rendered content
@@ -89,8 +90,12 @@ export default function Cookies() {
     return () => {
       clearInterval(interval);
       clearTimeout(timeout);
+      // Clean up script if component unmounts
+      if (scriptRef.current && scriptRef.current.parentNode) {
+        scriptRef.current.parentNode.removeChild(scriptRef.current);
+      }
     };
-  }, []);
+  }, [scriptUrl, cookieYesId]);
 
   return (
     <section className="bg-brand-primary">
@@ -108,41 +113,7 @@ export default function Cookies() {
                 <span className="ml-4 text-brand-tertiary">Loading cookie policy...</span>
               </div>
             )}
-            <Script
-              id="cky-cookie-policy"
-              src={scriptUrl}
-              strategy="afterInteractive"
-              onLoad={() => {
-                console.log('CookieYes policy script loaded from:', scriptUrl);
-                // CookieYes script may take a moment to render content
-                // Check multiple times with increasing delays
-                const checkDelays = [500, 1000, 2000, 3000];
-                checkDelays.forEach((delay) => {
-                  setTimeout(() => {
-                    const container = document.getElementById('cookie-policy-container');
-                    const pageContent = document.querySelector('.cky-cookie-policy-content') || 
-                                      document.querySelector('[class*="cookie-policy"]') ||
-                                      document.querySelector('[id*="cookie-policy"]');
-                    
-                    console.log(`Checking for content after ${delay}ms:`, {
-                      containerChildren: container?.children.length,
-                      foundContent: !!pageContent,
-                      containerText: container?.textContent?.substring(0, 100)
-                    });
-                    
-                    if (container && (container.children.length > 1 || pageContent)) {
-                      setContentLoaded(true);
-                    }
-                  }, delay);
-                });
-              }}
-              onError={(e) => {
-                console.error('Failed to load CookieYes policy script:', e);
-                console.error('Script URL:', scriptUrl);
-                console.error('CookieYes ID:', process.env.NEXT_PUBLIC_COOKIEYES_ID);
-                setContentLoaded(true);
-              }}
-            />
+            {/* Script is injected via useEffect */}
           </div>
         </div>
       </div>
