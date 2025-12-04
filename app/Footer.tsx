@@ -141,10 +141,12 @@ export default function Footer({ onContactClick }: FooterProps): JSX.Element {
 
         {/* Bottom Border */}
         <div className="bottom-section mt-6 pt-6 border-t border-brand-tertiary border-opacity-30">
-          <div className="flex flex-col mobile-large:flex-row justify-center items-center gap-6 mobile-large:gap-2 text-xs text-brand-tertiary">
-            <p>&copy; {new Date().getFullYear()} Upwego Digital Limited. All rights reserved.</p>
-            <div className="separator hidden mobile-large:block">-</div>
+          <div className="flex flex-col tablet:flex-row justify-center items-center gap-6 tablet:gap-2 text-xs text-brand-tertiary">
+            <p>&copy; {new Date().getFullYear()} Upwego Digital Limited. All rights reserved</p>
+            <div className="separator hidden tablet:block">-</div>
             <a href="/privacy" className="item-privacy">Privacy Policy</a>
+            <div className="separator hidden tablet:block">-</div>
+            <a href="/cookies" className="item-privacy">Cookie Policy</a>
           </div>
         </div>
       </div>
