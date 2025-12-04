@@ -56,7 +56,7 @@ export default function Cookies() {
             )}
             <Script
               id="cky-cookie-policy"
-              src={`https://cdn-cookieyes.com/client_data/${process.env.NEXT_PUBLIC_COOKIEYES_ID}/cookie-policy/script.js`}
+              src={`https://cdn-cookieyes.com/client_data/ccf217bb0e6c5d44c5a22c173b55556b/cookie-policy/script.js`}
               strategy="afterInteractive"
               onLoad={() => setScriptLoaded(true)}
               onError={() => setScriptLoaded(true)}
