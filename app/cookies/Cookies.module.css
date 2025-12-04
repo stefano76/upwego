@@ -1,0 +1,57 @@
+/* Cookie Policy Page Styles */
+
+.cookiePolicyContent {
+  @apply text-brand-tertiary;
+}
+
+.cookiePolicyH1 {
+  @apply text-4xl font-bold mb-8 text-brand-tertiary;
+}
+
+.cookiePolicyDateContainer {
+  @apply mb-8 text-brand-tertiary opacity-80;
+}
+
+.cookiePolicyDateContainer p {
+  @apply mb-2;
+}
+
+.cookiePolicyP {
+  @apply mb-6;
+}
+
+.cookiePolicyP p {
+  @apply mb-4 leading-relaxed;
+}
+
+.cookiePolicyContent h2 {
+  @apply text-2xl font-semibold mt-8 mb-4 text-brand-tertiary;
+}
+
+.cookiePolicyContent a {
+  @apply text-brand-secondary underline hover:text-brand-primary transition-colors;
+}
+
+.cookiePolicyContent .cky-audit-table-element {
+  @apply my-8;
+}
+
+/* CookieYes Banner Element Styles */
+.cookiePolicyContent :global(a.cky-banner-element) {
+  padding: 8px 30px;
+  background: #f8f9fa;
+  color: #858a8f;
+  border: 1px solid #dee2e6;
+  box-sizing: border-box;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-block;
+  margin: 20px 0;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.cookiePolicyContent :global(a.cky-banner-element:hover) {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
