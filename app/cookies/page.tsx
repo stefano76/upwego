@@ -19,7 +19,6 @@ export default function Cookies() {
   useEffect(() => {
     // Initialize CookieYes elements if they exist
     // The audit table and banner button will be populated by CookieYes script
-    const auditTable = document.querySelector('.cky-audit-table-element');
     const bannerButton = document.querySelector('.cky-banner-element');
     
     if (bannerButton) {
