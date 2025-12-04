@@ -24,6 +24,8 @@ interface DataLayerItem extends Record<string, unknown> {
 declare global {
   interface Window {
     cookieyes?: {
+      show?: () => void;
+      hide?: () => void;
       consent?: CookieYesConsent;
     };
     ckyConsent?: CookieYesConsent;

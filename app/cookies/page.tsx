@@ -25,8 +25,10 @@ export default function Cookies() {
       // Add click handler to open CookieYes consent preferences
       bannerButton.addEventListener('click', () => {
         // Trigger CookieYes consent banner if available
-        if (typeof window !== 'undefined' && (window as any).cookieyes) {
-          (window as any).cookieyes.show();
+        // Type guard to check if CookieYes API is available with show method
+        const cookieYes = window.cookieyes as { show?: () => void } | undefined;
+        if (typeof window !== 'undefined' && cookieYes?.show) {
+          cookieYes.show();
         } else {
           // Fallback: reload page to show banner
           window.location.reload();
