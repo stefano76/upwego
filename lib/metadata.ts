@@ -43,6 +43,10 @@ export const pageMetadata: Record<string, PageMetadata> = {
     title: 'Website terms of use and privacy policy - Upwego Digital',
     description: 'These terms explain how you may use this site, copyright details, and our privacy policy on collecting and handling your personal information.',
   },
+  '/cookies': {
+    title: 'Cookie Policy - Upwego Digital',
+    description: 'Learn about how we use cookies and similar tracking technologies on our website, and how you can manage your cookie preferences.',
+  },
 };
 
 /**
