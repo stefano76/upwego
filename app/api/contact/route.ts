@@ -23,7 +23,11 @@
  */
 import { getContactLinks } from "@/lib/contact";
 import { sendContactEmail } from "@/lib/email";
-import { verifyRecaptchaToken } from "@/lib/recaptcha";
+import { 
+  verifyRecaptchaToken, 
+  RecaptchaBotDetectedError, 
+  RecaptchaVerificationError 
+} from "@/lib/recaptcha";
 import { isLocalhost } from "@/app/utils/environment";
 import { NextResponse } from "next/server";
 
@@ -98,10 +102,27 @@ export async function POST(request: Request) {
         // Log reCAPTCHA score for monitoring (optional)
         console.log('Contact form submission - reCAPTCHA score:', recaptchaResult.score);
       } catch (error) {
-        console.error('reCAPTCHA verification error:', error);
-        // Don't block submission if reCAPTCHA verification fails unexpectedly
-        // This prevents legitimate submissions from being blocked due to service issues
-        console.warn('Allowing submission despite reCAPTCHA error - service may be temporarily unavailable');
+        // Block submissions for bot detection and verification failures
+        if (error instanceof RecaptchaBotDetectedError) {
+          console.warn('Bot detected - blocking submission:', error.message);
+          return NextResponse.json(
+            { message: 'Submission rejected due to suspicious activity. Please try again.' },
+            { status: 400 }
+          );
+        }
+        
+        if (error instanceof RecaptchaVerificationError) {
+          console.warn('reCAPTCHA verification failed - blocking submission:', error.message);
+          return NextResponse.json(
+            { message: 'reCAPTCHA verification failed. Please try again.' },
+            { status: 400 }
+          );
+        }
+        
+        // Only allow submissions through for genuine service/network errors
+        // This prevents legitimate submissions from being blocked due to temporary service issues
+        console.error('reCAPTCHA service error (allowing submission):', error);
+        console.warn('Allowing submission despite reCAPTCHA service error - Google service may be temporarily unavailable');
       }
     } else {
       // Localhost: skip reCAPTCHA verification

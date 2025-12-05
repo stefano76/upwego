@@ -19,6 +19,28 @@ interface RecaptchaVerifyOptions {
 }
 
 /**
+ * Custom error class for bot detection failures
+ * These errors should block submissions, not allow them through
+ */
+export class RecaptchaBotDetectedError extends Error {
+  constructor(message: string, public score?: number) {
+    super(message);
+    this.name = 'RecaptchaBotDetectedError';
+  }
+}
+
+/**
+ * Custom error class for reCAPTCHA verification failures
+ * These errors should block submissions, not allow them through
+ */
+export class RecaptchaVerificationError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'RecaptchaVerificationError';
+  }
+}
+
+/**
  * Verifies a reCAPTCHA v3 token with Google's verification service
  * 
  * SETUP REQUIRED:
@@ -75,13 +97,16 @@ export async function verifyRecaptchaToken(
     // Check if verification was successful
     if (!data.success) {
       console.error('reCAPTCHA verification failed:', data.error_codes);
-      throw new Error('reCAPTCHA verification failed');
+      throw new RecaptchaVerificationError('reCAPTCHA verification failed');
     }
 
     // Check if score meets minimum threshold
     if (data.score < minScore) {
       console.warn(`reCAPTCHA score ${data.score} below threshold ${minScore}`);
-      throw new Error('reCAPTCHA score too low - likely automated submission');
+      throw new RecaptchaBotDetectedError(
+        `reCAPTCHA score ${data.score} below threshold ${minScore} - likely automated submission`,
+        data.score
+      );
     }
 
     return {
