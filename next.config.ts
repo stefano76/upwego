@@ -65,11 +65,11 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://cdn-cookieyes.com", // 'unsafe-eval' and 'unsafe-inline' needed for Next.js, Google Analytics and CookieYes domains added
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com https://cdn-cookieyes.com", // 'unsafe-eval' and 'unsafe-inline' needed for Next.js, Google Analytics, reCAPTCHA and CookieYes domains added
               "style-src 'self' 'unsafe-inline'", // 'unsafe-inline' needed for Tailwind CSS
               "img-src 'self' data: https:",
               "font-src 'self' data:",
-              "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://log.cookieyes.com https://cdn-cookieyes.com", // Google Analytics and CookieYes domains added
+              "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://www.gstatic.com https://log.cookieyes.com https://cdn-cookieyes.com", // Google Analytics, reCAPTCHA and CookieYes domains added
               "frame-ancestors 'self'",
               "base-uri 'self'",
               "form-action 'self'",
