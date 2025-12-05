@@ -73,7 +73,7 @@ const nextConfig: NextConfig = {
               "frame-ancestors 'self'",
               "base-uri 'self'",
               "form-action 'self'",
-              "frame-src 'self'",
+              "frame-src 'self' https://www.google.com https://www.gstatic.com", // reCAPTCHA iframes
               "manifest-src 'self'",
               "media-src 'self'",
               "object-src 'none'",
