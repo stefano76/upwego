@@ -6,6 +6,7 @@
  * FEATURES:
  * - Form validation (name, email, message required)
  * - Email format validation
+ * - reCAPTCHA v3 bot detection (transparent, no user interaction needed)
  * - Loading states during submission
  * - Success/error message display
  * - Dynamic text content loaded from API
@@ -15,13 +16,16 @@
  * DATA FLOW:
  * 1. Component loads text content from /api/contact-form-texts
  * 2. User fills out form
- * 3. On submit, validates data and sends to /api/contact (POST)
- * 4. API sends email via Resend service
- * 5. Shows success/error message and calls callback
+ * 3. On submit, validates data and requests reCAPTCHA token
+ * 4. Sends data + token to /api/contact (POST)
+ * 5. API verifies token and sends email via Resend service
+ * 6. Shows success/error message and calls callback
  */
 'use client';
 import { useState, useEffect } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { ContactFormTexts } from '@/lib/contact-form-texts';
+import { isLocalhost } from '@/app/utils/environment';
 import styles from './ContactForm.module.css';
 
 interface ContactFormProps {
@@ -30,6 +34,9 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
+  // reCAPTCHA hook for generating verification tokens
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  
   // Form field values
   const [formData, setFormData] = useState({
     name: '',
@@ -121,9 +128,11 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
    * PROCESS:
    * 1. Prevents default form submission
    * 2. Validates form fields
-   * 3. Sends data to /api/contact endpoint
-   * 4. On success: clears form, shows success message, calls onSuccess callback
-   * 5. On error: shows error message, calls onError callback
+   * 3. Requests reCAPTCHA token for bot detection
+   * 4. Sends data + token to /api/contact endpoint
+   * 5. API verifies token with Google reCAPTCHA
+   * 6. On success: clears form, shows success message, calls onSuccess callback
+   * 7. On error: shows error message, calls onError callback
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -136,13 +145,28 @@ export default function ContactForm({ onSuccess, onError }: ContactFormProps) {
     setIsSubmitting(true);
     
     try {
-      // Send form data to API endpoint
+      // Get reCAPTCHA token for bot detection (skip on localhost)
+      let recaptchaToken: string | undefined;
+      
+      if (!isLocalhost()) {
+        // Production: require reCAPTCHA token
+        if (!executeRecaptcha) {
+          throw new Error('reCAPTCHA is not ready');
+        }
+        recaptchaToken = await executeRecaptcha('contact_form_submit');
+      }
+      // On localhost, recaptchaToken will be undefined, which the API will handle
+      
+      // Send form data + reCAPTCHA token to API endpoint
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          ...(recaptchaToken && { recaptchaToken }), // Only include token if it exists
+        }),
       });
 
       if (response.ok) {

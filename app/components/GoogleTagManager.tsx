@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { isLocalhost } from '@/app/utils/environment';
 
 interface GoogleTagManagerProps {
   gtmId: string;
@@ -62,10 +63,34 @@ export function GoogleTagManagerBody({ gtmId }: GoogleTagManagerProps) {
 /**
  * Client component to sync CookieYes consent with Google Consent Mode
  * Listens for CookieYes consent changes and updates consent mode accordingly
+ * 
+ * On localhost, skips CookieYes sync and grants all consent automatically
  */
 export function CookieYesConsentSync() {
   useEffect(() => {
-    // Wait for CookieYes to be available
+    // Skip CookieYes sync on localhost - grant all consent automatically
+    if (typeof window === 'undefined') {
+      return;
+    }
+    
+    // Use isLocalhost from utility (single source of truth)
+    if (isLocalhost()) {
+      // On localhost, grant all consent and skip CookieYes entirely
+      if (window.dataLayer && window.gtag) {
+        window.gtag('consent', 'update', {
+          'ad_storage': 'granted',
+          'ad_user_data': 'granted',
+          'ad_personalization': 'granted',
+          'analytics_storage': 'granted',
+          'functionality_storage': 'granted',
+          'personalization_storage': 'granted',
+          'security_storage': 'granted'
+        });
+      }
+      return; // Exit early - no CookieYes sync needed on localhost
+    }
+    
+    // Wait for CookieYes to be available (production only)
     const checkCookieYes = () => {
       if (typeof window === 'undefined' || !window.dataLayer) {
         return;

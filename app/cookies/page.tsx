@@ -12,12 +12,20 @@
  */
 'use client';
 import { useEffect } from 'react';
+import { isLocalhost } from '@/app/utils/environment';
 import '../styles/privacy.css';
 import styles from './Cookies.module.css';
 
 export default function Cookies() {
   useEffect(() => {
-    // Initialize CookieYes elements if they exist
+    // Skip CookieYes initialization on localhost
+    // Use isLocalhost from utility (single source of truth)
+    if (isLocalhost()) {
+      // On localhost, CookieYes is disabled - no initialization needed
+      return;
+    }
+    
+    // Initialize CookieYes elements if they exist (production only)
     // The audit table and banner button will be populated by CookieYes script
     const bannerButton = document.querySelector('.cky-banner-element');
     

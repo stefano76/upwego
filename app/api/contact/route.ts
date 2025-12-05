@@ -10,6 +10,7 @@
  * POST /api/contact
  * - Processes contact form submissions
  * - Validates form data (name, email, message required)
+ * - Verifies reCAPTCHA token for bot detection
  * - Sends email notification via Resend API
  * - Returns success/error response to the client
  * 
@@ -18,9 +19,12 @@
  * - EMAIL_FROM: Sender email address
  * - CONTACT_EMAIL_TO: Recipient email address
  * - CONTACT_EMAIL_SUBJECT: Email subject line (optional)
+ * - RECAPTCHA_SECRET_KEY: reCAPTCHA v3 secret key for verification
  */
 import { getContactLinks } from "@/lib/contact";
 import { sendContactEmail } from "@/lib/email";
+import { verifyRecaptchaToken } from "@/lib/recaptcha";
+import { isLocalhost } from "@/app/utils/environment";
 import { NextResponse } from "next/server";
 
 /**
@@ -45,18 +49,19 @@ export async function GET() {
  *   name: string (required),
  *   email: string (required),
  *   phone: string (optional),
- *   message: string (required)
+ *   message: string (required),
+ *   recaptchaToken: string (required - from reCAPTCHA v3)
  * }
  * 
  * RESPONSE:
  * - 200: Success - Email sent
- * - 400: Validation error (missing fields or invalid email)
+ * - 400: Validation error (missing fields, invalid email, or reCAPTCHA failed)
  * - 500: Server error (email sending failed)
  */
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, phone, message } = body;
+    const { name, email, phone, message, recaptchaToken } = body;
 
     // Basic validation - ensure required fields are present
     if (!name || !email || !message) {
@@ -64,6 +69,43 @@ export async function POST(request: Request) {
         { message: 'Name, email, and message are required' },
         { status: 400 }
       );
+    }
+
+    // Verify reCAPTCHA token (skip on localhost)
+    if (!isLocalhost()) {
+      // Production: require and verify reCAPTCHA token
+      if (!recaptchaToken) {
+        return NextResponse.json(
+          { message: 'reCAPTCHA token is required' },
+          { status: 400 }
+        );
+      }
+
+      try {
+        const recaptchaResult = await verifyRecaptchaToken({
+          token: recaptchaToken,
+          minScore: 0.5, // Adjust based on your needs (0.0 = bot, 1.0 = human)
+        });
+
+        if (!recaptchaResult.success) {
+          console.warn('reCAPTCHA verification failed for submission from:', email);
+          return NextResponse.json(
+            { message: 'reCAPTCHA verification failed' },
+            { status: 400 }
+          );
+        }
+
+        // Log reCAPTCHA score for monitoring (optional)
+        console.log('Contact form submission - reCAPTCHA score:', recaptchaResult.score);
+      } catch (error) {
+        console.error('reCAPTCHA verification error:', error);
+        // Don't block submission if reCAPTCHA verification fails unexpectedly
+        // This prevents legitimate submissions from being blocked due to service issues
+        console.warn('Allowing submission despite reCAPTCHA error - service may be temporarily unavailable');
+      }
+    } else {
+      // Localhost: skip reCAPTCHA verification
+      console.log('Contact form submission on localhost - skipping reCAPTCHA verification');
     }
 
     // Email format validation using regex

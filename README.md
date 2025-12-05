@@ -10,6 +10,7 @@ A modern, responsive website for Upwego Digital built with Next.js 15, featuring
 - **Animations**: Framer Motion 12.23
 - **Content**: Markdown files with frontmatter
 - **Email**: Resend API
+- **Security**: Google reCAPTCHA v3 (bot detection)
 - **Fonts**: Inter (Google Fonts)
 
 ## 📋 Prerequisites
@@ -18,6 +19,7 @@ A modern, responsive website for Upwego Digital built with Next.js 15, featuring
 - npm, yarn, pnpm, or bun package manager
 - Git
 - Resend account (for contact form emails)
+- Google reCAPTCHA v3 account (for bot protection)
 
 ## 🛠️ Installation
 
@@ -46,6 +48,10 @@ A modern, responsive website for Upwego Digital built with Next.js 15, featuring
    CONTACT_EMAIL_TO=contact@yourdomain.com
    CONTACT_EMAIL_SUBJECT=New Contact Form Submission
    
+   # reCAPTCHA v3 (Bot Protection)
+   RECAPTCHA_SITE_KEY=your_recaptcha_site_key
+   RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
+   
    # Google Analytics (Optional)
    NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
    
@@ -57,9 +63,13 @@ A modern, responsive website for Upwego Digital built with Next.js 15, featuring
    - `RESEND_API_KEY` - Get from [resend.com](https://resend.com)
    - `EMAIL_FROM` - Must be verified in Resend
    - `CONTACT_EMAIL_TO` - Where contact form submissions are sent
+   - `RECAPTCHA_SITE_KEY` - Get from [Google reCAPTCHA Console](https://www.google.com/recaptcha/admin)
+   - `RECAPTCHA_SECRET_KEY` - Get from [Google reCAPTCHA Console](https://www.google.com/recaptcha/admin)
    
    **Optional variables:**
    - `NEXT_PUBLIC_GA_ID` - Google Analytics 4 Measurement ID (format: G-XXXXXXXXXX). Get from [Google Analytics](https://analytics.google.com/)
+   
+   **reCAPTCHA Setup**: See [RECAPTCHA_SETUP.md](./RECAPTCHA_SETUP.md) for detailed instructions.
 
 4. **Run the development server**
    ```bash

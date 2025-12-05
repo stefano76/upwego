@@ -3,25 +3,49 @@
  * Server-safe functions for generating GTM and consent mode scripts
  */
 
+import { getLocalhostCheckCode } from '@/app/utils/environment';
+
 /**
  * Google Consent Mode initialization script (as string)
  * Must run BEFORE GTM loads to set consent defaults
  * This allows tags to load but in a consent-aware mode
+ * 
+ * On localhost, grants all consent automatically for development convenience
  */
 export function getGoogleConsentModeScript(): string {
+  const localhostCheck = getLocalhostCheckCode();
+  
   return `
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    gtag('consent', 'default', {
-      'ad_storage': 'denied',
-      'ad_user_data': 'denied',
-      'ad_personalization': 'denied',
-      'analytics_storage': 'denied',
-      'functionality_storage': 'denied',
-      'personalization_storage': 'denied',
-      'security_storage': 'granted',
-      'wait_for_update': 500
-    });
+    
+    // Check if running on localhost
+    const isLocalhost = ${localhostCheck};
+    
+    // On localhost, grant all consent for development convenience
+    // In production, deny by default and wait for CookieYes consent
+    if (isLocalhost) {
+      gtag('consent', 'default', {
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'analytics_storage': 'granted',
+        'functionality_storage': 'granted',
+        'personalization_storage': 'granted',
+        'security_storage': 'granted'
+      });
+    } else {
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'functionality_storage': 'denied',
+        'personalization_storage': 'denied',
+        'security_storage': 'granted',
+        'wait_for_update': 500
+      });
+    }
   `;
 }
 
