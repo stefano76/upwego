@@ -24,8 +24,8 @@ All code changes have been completed. Below is what to do next.
 Edit `.env.local`:
 
 ```env
-RECAPTCHA_SITE_KEY=paste_site_key_here
-RECAPTCHA_SECRET_KEY=paste_secret_key_here
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=paste_site_key_here
+NEXT_PUBLIC_RECAPTCHA_SECRET_KEY=paste_secret_key_here
 ```
 
 ### 3. Restart Dev Server (1 minute)
@@ -96,16 +96,16 @@ After deploying to production:
 2. [ ] Navigate to Environment Variables
 3. [ ] Add both variables:
    ```
-   RECAPTCHA_SITE_KEY = your_site_key
-   RECAPTCHA_SECRET_KEY = your_secret_key
+   NEXT_PUBLIC_RECAPTCHA_SITE_KEY = your_site_key
+   NEXT_PUBLIC_RECAPTCHA_SECRET_KEY = your_secret_key
    ```
 4. [ ] Redeploy project
 5. [ ] Test on production URL
 
 ### Other Hosting
 
-1. [ ] Add `RECAPTCHA_SITE_KEY` to environment
-2. [ ] Add `RECAPTCHA_SECRET_KEY` to environment
+1. [ ] Add `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` to environment
+2. [ ] Add `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` to environment
 3. [ ] Restart application
 4. [ ] Test contact form
 
@@ -144,8 +144,8 @@ If too many legitimate submissions are being blocked:
 ### Issue: "reCAPTCHA is not ready" error
 
 **Solution**:
-1. Check `.env.local` has both variables
-2. Make sure `NEXT_PUBLIC_` prefix is correct
+1. Check `.env.local` has both variables (`NEXT_PUBLIC_RECAPTCHA_SITE_KEY` and `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY`)
+2. Make sure both variables have the `NEXT_PUBLIC_` prefix
 3. Restart dev server
 4. Clear browser cache
 5. Try incognito window
@@ -153,7 +153,7 @@ If too many legitimate submissions are being blocked:
 ### Issue: All submissions being blocked
 
 **Solution**:
-1. Check `RECAPTCHA_SECRET_KEY` is correct (copy-paste from console)
+1. Check `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` is correct (copy-paste from console)
 2. Verify domain is added to reCAPTCHA console
 3. Lower `minScore` in `app/api/contact/route.ts` to 0.3
 4. Check server logs for specific error

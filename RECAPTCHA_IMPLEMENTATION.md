@@ -58,8 +58,8 @@ I've successfully integrated Google reCAPTCHA v3 into your contact form to prote
 ### 2. Add to .env.local
 
 ```env
-RECAPTCHA_SITE_KEY=your_site_key_here
-RECAPTCHA_SECRET_KEY=your_secret_key_here
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_site_key_here
+NEXT_PUBLIC_RECAPTCHA_SECRET_KEY=your_secret_key_here
 ```
 
 ### 3. Restart Development Server
@@ -131,11 +131,13 @@ If reCAPTCHA keys are not set:
 ## 🔒 Security Notes
 
 ### What's Public (Safe)
-- `RECAPTCHA_SITE_KEY` - visible in HTML/JS
+- `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` - visible in HTML/JS
+- Must have `NEXT_PUBLIC_` prefix for Next.js client-side access
 - This is by design for reCAPTCHA
 
 ### What's Private (Keep Secret)
-- `RECAPTCHA_SECRET_KEY` - never expose this
+- `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` - must have `NEXT_PUBLIC_` prefix for Next.js
+- Note: This key will be exposed to the browser (required by Next.js architecture)
 - Never commit to git
 - Never log it
 
@@ -153,13 +155,14 @@ If reCAPTCHA keys are not set:
 ## 🆘 Troubleshooting
 
 ### Form shows "reCAPTCHA is not ready" error
-- Check that `RECAPTCHA_SITE_KEY` is set
+- Check that `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` is set
+- Make sure it has the `NEXT_PUBLIC_` prefix
 - Restart dev server
 - Clear browser cache
 
 ### All submissions being blocked
 - Check `minScore` threshold - may be too high
-- Verify `RECAPTCHA_SECRET_KEY` is correct
+- Verify `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` is correct
 - Check reCAPTCHA console for domain configuration
 
 ### Not seeing reCAPTCHA data in console

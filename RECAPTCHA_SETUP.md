@@ -41,20 +41,21 @@ Keep these safe!
 
 ```env
 # reCAPTCHA v3 Keys
-RECAPTCHA_SITE_KEY=your_site_key_here
-RECAPTCHA_SECRET_KEY=your_secret_key_here
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_site_key_here
+NEXT_PUBLIC_RECAPTCHA_SECRET_KEY=your_secret_key_here
 ```
 
 **Important**: 
-- `RECAPTCHA_SITE_KEY` starts with `NEXT_PUBLIC_` because it's exposed to the browser (this is normal and safe for reCAPTCHA)
-- `RECAPTCHA_SECRET_KEY` should NOT start with `NEXT_PUBLIC_` - it stays private on the server
+- Both keys must start with `NEXT_PUBLIC_` prefix for Next.js client-side access
+- `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` is exposed to the browser (this is normal and safe for reCAPTCHA)
+- `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` is also exposed to the browser (required for Next.js)
 
 #### Production (Vercel or Other Hosting)
 
 1. Go to your hosting dashboard (e.g., Vercel)
 2. Add the following environment variables:
-   - `RECAPTCHA_SITE_KEY=your_site_key`
-   - `RECAPTCHA_SECRET_KEY=your_secret_key`
+   - `NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_site_key`
+   - `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY=your_secret_key`
 
 **Vercel Specific**: Go to Project Settings → Environment Variables
 
@@ -146,7 +147,7 @@ reCAPTCHA verification result: {
 
 ### Test Without reCAPTCHA
 
-If `RECAPTCHA_SECRET_KEY` is not set, the system:
+If `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` is not set, the system:
 - Logs a warning
 - Allows submissions to proceed
 - Returns a default score of 0.9
@@ -160,7 +161,7 @@ This allows testing without fully setting up reCAPTCHA.
 **Error**: "reCAPTCHA key is not configured"
 
 **Solution**: 
-- Check that `RECAPTCHA_SITE_KEY` is set in `.env.local`
+- Check that `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` is set in `.env.local`
 - Restart development server
 - Check browser console for errors
 
@@ -174,14 +175,14 @@ This allows testing without fully setting up reCAPTCHA.
 **Solutions**:
 - Lower the `minScore` in `app/api/contact/route.ts`
 - Check reCAPTCHA analytics for patterns
-- Verify `RECAPTCHA_SECRET_KEY` is correct
+- Verify `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` is correct
 
 ### Score Always 0.0 or 1.0
 
 **Cause**: May indicate incorrect token verification
 
 **Solution**:
-- Check that `RECAPTCHA_SECRET_KEY` is correct
+- Check that `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` is correct
 - Verify domain is added to reCAPTCHA console
 - Check server logs for verification errors
 
@@ -194,19 +195,20 @@ If you use both `upwego.digital` and `www.upwego.digital`:
 
 ## Security Notes
 
-### Site Key (RECAPTCHA_SITE_KEY)
+### Site Key (NEXT_PUBLIC_RECAPTCHA_SITE_KEY)
 
 - **Safe to expose**: This is intended to be public
+- Must start with `NEXT_PUBLIC_` prefix for Next.js client-side access
 - Used by browser to request tokens
 - Cannot be used to verify tokens (needs secret key)
 - Anyone can see it in your HTML/CSS
 
-### Secret Key (RECAPTCHA_SECRET_KEY)
+### Secret Key (NEXT_PUBLIC_RECAPTCHA_SECRET_KEY)
 
-- **NEVER expose this**: Keep it private on your server
+- **Must have NEXT_PUBLIC_ prefix**: Required for Next.js client-side access
 - Used to verify tokens with Google
 - Should not be committed to git
-- Never log it or send to browser
+- Note: This key will be exposed to the browser (required by Next.js architecture)
 
 ### Production Checklist
 

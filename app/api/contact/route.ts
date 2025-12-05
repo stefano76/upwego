@@ -19,7 +19,7 @@
  * - EMAIL_FROM: Sender email address
  * - CONTACT_EMAIL_TO: Recipient email address
  * - CONTACT_EMAIL_SUBJECT: Email subject line (optional)
- * - RECAPTCHA_SECRET_KEY: reCAPTCHA v3 secret key for verification
+ * - NEXT_PUBLIC_RECAPTCHA_SECRET_KEY: reCAPTCHA v3 secret key for verification
  */
 import { getContactLinks } from "@/lib/contact";
 import { sendContactEmail } from "@/lib/email";
