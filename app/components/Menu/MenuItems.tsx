@@ -62,16 +62,36 @@ export default function MenuItems({ menuItems = [], onContactClick }: MenuItemsP
               );
             }
 
+            // Generate accessible aria-label based on link type
+            const getAriaLabel = () => {
+              if (item.title === "Linkedin") {
+                return "Visit our LinkedIn profile";
+              }
+              if (item.slug === '#contact') {
+                return `Open contact form`;
+              }
+              if (item.slug.startsWith('#')) {
+                return `Navigate to ${item.title} section`;
+              }
+              if (item.slug.startsWith('http')) {
+                return `Visit ${item.title} (opens in new tab)`;
+              }
+              return `Navigate to ${item.title} page`;
+            };
+
             return (
               <li key={item.slug}>
                 {useLink ? (
-                  <Link href={href} className={className}>{item.title}</Link>
+                  <Link href={href} className={className} aria-label={getAriaLabel()}>
+                    {item.title}
+                  </Link>
                 ) : (
                   <a 
                     href={href} 
                     target={target} 
                     rel={rel}
                     className={className}
+                    aria-label={getAriaLabel()}
                   >
                     {item.title === "Linkedin" ? <LinkedInLogo width={111} height={30} className="w-[111px] h-[30px] mx-auto" fill="var(--brand-primary)" /> : item.title}
                   </a>

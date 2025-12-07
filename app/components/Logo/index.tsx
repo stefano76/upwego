@@ -14,7 +14,7 @@ export default function Logo({
   className = "upwego-logo-svg"
 }: LogoProps): JSX.Element {
   return (
-    <Link href="/" className="w-fit">
+    <Link href="/" className="w-fit" aria-label="Upwego Digital - Go to homepage">
       <svg 
         width={width} 
         height={height} 
@@ -22,6 +22,7 @@ export default function Logo({
         fill="none" 
         xmlns="http://www.w3.org/2000/svg"
         className={className}
+        aria-hidden="true"
       >
         <g clipPath="url(#clip0_2049_23)">
           <path d="M76.8938 1.65784V39.8851C76.8938 60.9979 59.662 78.1367 38.4347 78.1367C27.821 78.1367 18.2124 73.8703 11.251 66.9465C5.8829 61.6073 2.10807 54.6835 0.661865 46.9796C6.25058 51.953 13.6287 55.0005 21.7176 55.0005C39.3171 55.0005 53.6321 40.7628 53.6321 23.2582V1.65784H76.8938Z" fill="#11A4F4"/>

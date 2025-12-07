@@ -136,8 +136,14 @@ export default function Header({ menuItems, onContactClick }: HeaderProps): JSX.
                 className={`menu-item menu-item-${item.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}
                   ${item.slug === '#contact' ? 'btn-secondary' : ''}
                   ${isActive ? ' active' : ''}`}
+                aria-label={item.title}
               >
-                {item.title === "Linkedin" ? <LinkedInIcon size={28} /> : item.title}
+                {item.title === "Linkedin" ? (
+                  <>
+                    <LinkedInIcon size={28} aria-hidden="true" />
+                    <span className="sr-only">LinkedIn</span>
+                  </>
+                ) : item.title}
               </a>
             );
           })}
