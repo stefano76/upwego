@@ -116,3 +116,6 @@ footer .bottom-section {
   }  
 }
 
+.grecaptcha-badge {
+  display: none;
+}
