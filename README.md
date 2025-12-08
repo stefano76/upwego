@@ -200,6 +200,7 @@ Before making the site public:
 - **[TESTING_GUIDE.md](./TESTING_GUIDE.md)** - Testing best practices
 - **[TESTING_CHECKLIST.md](./TESTING_CHECKLIST.md)** - Manual testing checklist
 - **[TESTING_SETUP.md](./TESTING_SETUP.md)** - Automated testing setup
+- **[CLOUDFLARE_SETUP.md](./CLOUDFLARE_SETUP.md)** - Cloudflare integration guide for security and performance
 
 ## 🔒 Security
 
@@ -211,6 +212,8 @@ The project includes comprehensive security headers:
 - And more...
 
 See `next.config.ts` for full configuration.
+
+**Cloudflare Integration**: For enhanced security, DDoS protection, and performance improvements, see [CLOUDFLARE_SETUP.md](./CLOUDFLARE_SETUP.md) for setup instructions.
 
 ## 🐛 Troubleshooting
 

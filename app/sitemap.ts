@@ -10,7 +10,7 @@ import { getMenuItems } from '@/lib/menu';
  * 
  * The sitemap includes:
  * - All internal pages from menu items
- * - Static pages (privacy)
+ * - Static pages (privacy, cookies)
  * - Excludes external URLs and anchor links
  * 
  * UPDATES:
@@ -40,22 +40,48 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       return pathname;
     });
 
-  // Add static pages that might not be in menu (like privacy)
-  const staticPages = ['/privacy'];
+  // Add static pages that might not be in menu (legal pages)
+  const staticPages = ['/privacy', '/cookies'];
   
   // Combine and deduplicate
   const allPages = [...new Set([...internalPages, ...staticPages])];
 
-  // Generate sitemap entries
+  // Generate sitemap entries with appropriate priorities and change frequencies
   const sitemapEntries: MetadataRoute.Sitemap = allPages.map((pathname) => {
-    // Homepage gets highest priority
+    // Determine page type for priority and change frequency
     const isHomepage = pathname === '/';
+    const isLegalPage = pathname === '/privacy' || pathname === '/cookies';
+    const isMainPage = ['/about', '/services', '/process'].includes(pathname);
+    
+    // Set priority: Homepage (1.0) > Main pages (0.9) > Legal pages (0.5)
+    let priority: number;
+    if (isHomepage) {
+      priority = 1.0;
+    } else if (isMainPage) {
+      priority = 0.9;
+    } else if (isLegalPage) {
+      priority = 0.5;
+    } else {
+      priority = 0.8; // Default for other pages
+    }
+    
+    // Set change frequency: Homepage (weekly) > Main pages (monthly) > Legal pages (yearly)
+    let changeFrequency: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+    if (isHomepage) {
+      changeFrequency = 'weekly';
+    } else if (isMainPage) {
+      changeFrequency = 'monthly';
+    } else if (isLegalPage) {
+      changeFrequency = 'yearly';
+    } else {
+      changeFrequency = 'monthly'; // Default for other pages
+    }
     
     return {
       url: `${baseUrl}${pathname}`,
       lastModified: new Date(),
-      changeFrequency: isHomepage ? 'weekly' : 'monthly',
-      priority: isHomepage ? 1.0 : 0.8,
+      changeFrequency,
+      priority,
     };
   });
 
