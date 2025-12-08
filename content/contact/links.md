@@ -13,5 +13,5 @@
 ## LinkedIn
 - svg: "/img/icon-linkedin.svg"
 - alt: "Upwego Digital LinkedIn"
-- label: "@upwego-digital"
+- label: "@UpwegoDigital"
 - url: "https://linkedin.com/company/upwego-digital"
