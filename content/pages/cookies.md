@@ -51,6 +51,6 @@ Please note that blocking or deleting cookies may impact your experience on our 
 
 We may update this Cookie Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. The "Last Updated" date at the top of this policy indicates when it was last revised.
 
-## Contact Us
+## Contact us
 
 If you have any questions about our use of cookies, please contact us through our [contact form](/contact) or refer to our [Privacy Policy](/privacy).
