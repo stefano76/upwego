@@ -151,7 +151,7 @@ export default function Home() {
             alt="Upwego" 
             width={600} 
             height={800} 
-            priority
+            loading="lazy"
             className={`w-[70vw] desktop:w-[30%] absolute u-strips-responsive right-[calc(50%-35vw)] desktop:top-0 desktop:right-[10%] ${shouldAnimate ? 'opacity-0 animate-u-intro' : 'opacity-100'}`} 
           />
         </div>
