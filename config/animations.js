@@ -24,7 +24,7 @@
 
 export const animations = {
   // Used in intro section
-  'u-intro': 'fadeInDown01 5s ease-in-out forwards 1.5s, pulseOpacity 7s ease-in-out infinite 6.5s',
+  'u-intro': 'fadeInDown 5s ease-in-out forwards 1.5s, pulseOpacity 7s ease-in-out infinite 6.5s',
   'header-in': 'fadeIn 3s ease-in-out forwards 1s',
   'fade-in-delayed': 'fadeIn 3s ease-in-out forwards 2s',
   

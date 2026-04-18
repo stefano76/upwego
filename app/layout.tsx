@@ -54,7 +54,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${fontBody.variable} ${fontHeading.variable} antialiased`}>
+      <body className={`${fontBody.variable} ${fontHeading.variable} antialiased`} suppressHydrationWarning>
         {/* Google Consent Mode - Must load BEFORE GTM (beforeInteractive puts it in head) */}
         {gtmId && <GoogleConsentMode />}
         {/* Google Tag Manager - Loads after consent mode */}
