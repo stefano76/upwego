@@ -14,6 +14,7 @@ import type { Metadata } from "next";
 export interface PageMetadata {
   title: string;
   description: string;
+  canonical: string;
 }
 
 /**
@@ -26,26 +27,32 @@ export const pageMetadata: Record<string, PageMetadata> = {
   '/': {
     title: 'Upwego Digital - Designing momentum. Together.',
     description: 'We elevate our clients’ foundations, crafting digital experiences that marry creativity with innovation, turning their business vision into reality.',
+    canonical: 'https://www.upwego.digital/'
   },
   '/about': {
     title: 'About Us - Upwego Digital',
     description: 'Nadja Salewski and Stefano Bonuccelli combine web development experience with strategic data expertise to deliver elegant, effective digital solutions.',
+    canonical: 'https://www.upwego.digital/about'
   },
   '/services': {
     title: 'The Services - Upwego Digital',
     description: 'From stunning websites to smart data tools, we create digital solutions that make your brand shine and your business thrive.',
+    canonical: 'https://www.upwego.digital/services'
   },
   '/process': {
     title: 'Our Process - Upwego Digital',
     description: 'The best projects start with great conversations and end with lasting partnerships. Here’s how we take your ideas from first spark to real-world impact.',
+    canonical: 'https://www.upwego.digital/process'
   },
   '/privacy': {
     title: 'Website terms of use and privacy policy - Upwego Digital',
     description: 'These terms explain how you may use this site, copyright details, and our privacy policy on collecting and handling your personal information.',
+    canonical: 'https://www.upwego.digital/privacy'
   },
   '/cookies': {
     title: 'Cookie Policy - Upwego Digital',
     description: 'Learn about how we use cookies and similar tracking technologies on our website, and how you can manage your cookie preferences.',
+    canonical: 'https://www.upwego.digital/cookies'
   },
 };
 
@@ -86,6 +93,9 @@ export function generatePageMetadata(pathname: string): Metadata {
   return {
     title: pageMetadata.title,
     description: pageMetadata.description,
+    alternates: {
+      canonical: pageMetadata.canonical,
+    },
     openGraph: {
       title: pageMetadata.title,
       description: pageMetadata.description,
