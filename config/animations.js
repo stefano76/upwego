@@ -24,7 +24,7 @@
 
 export const animations = {
   // Used in intro section
-  'u-intro': 'fadeInDown 5s ease-in-out forwards 1.5s, pulseOpacity 7s ease-in-out infinite 6.5s',
+  'u-intro': 'fadeInDown01 5s ease-in-out forwards 1.5s, pulseOpacity 7s ease-in-out infinite 6.5s',
   'header-in': 'fadeIn 3s ease-in-out forwards 1s',
   'fade-in-delayed': 'fadeIn 3s ease-in-out forwards 2s',
   
@@ -55,6 +55,11 @@ export const keyframes = {
   fadeInDown: {
     '0%': { opacity: '0', transform: 'translateY(-8%)' },
     '20%': { opacity: '0' },
+    '100%': { opacity: '1', transform: 'translateY(0)' },
+  },
+  fadeInDown01: {
+    '0%': { opacity: '0.01', transform: 'translateY(-8%)' },
+    '20%': { opacity: '0.01' },
     '100%': { opacity: '1', transform: 'translateY(0)' },
   },
   pulseOpacity: {
