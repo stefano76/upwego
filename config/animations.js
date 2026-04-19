@@ -57,11 +57,6 @@ export const keyframes = {
     '20%': { opacity: '0' },
     '100%': { opacity: '1', transform: 'translateY(0)' },
   },
-  fadeInDown01: {
-    '0%': { opacity: '0.01', transform: 'translateY(-8%)' },
-    '20%': { opacity: '0.01' },
-    '100%': { opacity: '1', transform: 'translateY(0)' },
-  },
   pulseOpacity: {
     '0%, 100%': { opacity: '1' },
     '50%': { opacity: '0.5' },
