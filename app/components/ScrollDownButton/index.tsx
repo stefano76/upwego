@@ -54,14 +54,14 @@ export default function ScrollDownButton({ text, visible, targetId }: ScrollDown
   };
 
   useEffect(() => {
-    // Show button by default, or when explicitly set to visible
+    // Show button after 5 seconds by default, or when explicitly set to visible
     if ((visible !== false) && buttonRef.current) {
-      buttonRef.current.classList.remove('hidden');
       setTimeout(() => {
         if (buttonRef.current) {
+          buttonRef.current.classList.remove('hidden');
           buttonRef.current.classList.add('opacity-100');
         }
-      }, 1000);
+      }, 5000);
     }
   }, [visible]);
 
@@ -70,7 +70,7 @@ export default function ScrollDownButton({ text, visible, targetId }: ScrollDown
       <button
         ref={buttonRef}
         onClick={handleScrollDown}
-        className="intro-scroll-down-button cursor-pointer opacity-0 hidden transition-opacity animate-fade-in [animation-delay:5s] [animation-fill-mode:both]"
+        className="intro-scroll-down-button cursor-pointer opacity-0 hidden transition-opacity"
         aria-label="Scroll down"
       >
         <span className="flex flex-col items-center gap-2">
