@@ -50,7 +50,7 @@ A modern, responsive website for Upwego Digital built with Next.js 15, featuring
    
    # reCAPTCHA v3 (Bot Protection)
    NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
-   NEXT_PUBLIC_RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
+   RECAPTCHA_SECRET_KEY=your_recaptcha_secret_key
    
    # Google Analytics (Optional)
    NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
@@ -64,7 +64,7 @@ A modern, responsive website for Upwego Digital built with Next.js 15, featuring
    - `EMAIL_FROM` - Must be verified in Resend
    - `CONTACT_EMAIL_TO` - Where contact form submissions are sent
    - `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` - Get from [Google reCAPTCHA Console](https://www.google.com/recaptcha/admin) (must have `NEXT_PUBLIC_` prefix)
-   - `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` - Get from [Google reCAPTCHA Console](https://www.google.com/recaptcha/admin) (must have `NEXT_PUBLIC_` prefix)
+   - `RECAPTCHA_SECRET_KEY` - Get from [Google reCAPTCHA Console](https://www.google.com/recaptcha/admin) (must have `NEXT_PUBLIC_` prefix)
    
    **Optional variables:**
    - `NEXT_PUBLIC_GA_ID` - Google Analytics 4 Measurement ID (format: G-XXXXXXXXXX). Get from [Google Analytics](https://analytics.google.com/)

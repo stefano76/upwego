@@ -42,20 +42,20 @@ Keep these safe!
 ```env
 # reCAPTCHA v3 Keys
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_site_key_here
-NEXT_PUBLIC_RECAPTCHA_SECRET_KEY=your_secret_key_here
+RECAPTCHA_SECRET_KEY=your_secret_key_here
 ```
 
 **Important**: 
 - Both keys must start with `NEXT_PUBLIC_` prefix for Next.js client-side access
 - `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` is exposed to the browser (this is normal and safe for reCAPTCHA)
-- `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` is also exposed to the browser (required for Next.js)
+- `RECAPTCHA_SECRET_KEY` is also exposed to the browser (required for Next.js)
 
 #### Production (Vercel or Other Hosting)
 
 1. Go to your hosting dashboard (e.g., Vercel)
 2. Add the following environment variables:
    - `NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_site_key`
-   - `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY=your_secret_key`
+   - `RECAPTCHA_SECRET_KEY=your_secret_key`
 
 **Vercel Specific**: Go to Project Settings → Environment Variables
 
@@ -147,7 +147,7 @@ reCAPTCHA verification result: {
 
 ### Test Without reCAPTCHA
 
-If `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` is not set, the system:
+If `RECAPTCHA_SECRET_KEY` is not set, the system:
 - Logs a warning
 - Allows submissions to proceed
 - Returns a default score of 0.9
@@ -175,14 +175,14 @@ This allows testing without fully setting up reCAPTCHA.
 **Solutions**:
 - Lower the `minScore` in `app/api/contact/route.ts`
 - Check reCAPTCHA analytics for patterns
-- Verify `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` is correct
+- Verify `RECAPTCHA_SECRET_KEY` is correct
 
 ### Score Always 0.0 or 1.0
 
 **Cause**: May indicate incorrect token verification
 
 **Solution**:
-- Check that `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` is correct
+- Check that `RECAPTCHA_SECRET_KEY` is correct
 - Verify domain is added to reCAPTCHA console
 - Check server logs for verification errors
 
@@ -203,7 +203,7 @@ If you use both `upwego.digital` and `www.upwego.digital`:
 - Cannot be used to verify tokens (needs secret key)
 - Anyone can see it in your HTML/CSS
 
-### Secret Key (NEXT_PUBLIC_RECAPTCHA_SECRET_KEY)
+### Secret Key (RECAPTCHA_SECRET_KEY)
 
 - **Must have NEXT_PUBLIC_ prefix**: Required for Next.js client-side access
 - Used to verify tokens with Google

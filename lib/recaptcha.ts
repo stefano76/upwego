@@ -44,7 +44,7 @@ export class RecaptchaVerificationError extends Error {
  * Verifies a reCAPTCHA v3 token with Google's verification service
  * 
  * SETUP REQUIRED:
- * - NEXT_PUBLIC_RECAPTCHA_SECRET_KEY: Your reCAPTCHA secret key (get from google.com/recaptcha/admin)
+ * - RECAPTCHA_SECRET_KEY: Your reCAPTCHA secret key (get from google.com/recaptcha/admin)
  * 
  * @param options - Token and optional minimum score threshold
  * @returns Object with success status and score (0.0 = bot, 1.0 = human)
@@ -59,10 +59,10 @@ export async function verifyRecaptchaToken(
     throw new Error('reCAPTCHA token is required');
   }
 
-  const secretKey = process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY;
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
   if (!secretKey) {
-    console.warn('NEXT_PUBLIC_RECAPTCHA_SECRET_KEY is not configured');
+    console.warn('RECAPTCHA_SECRET_KEY is not configured');
     // Allow submission if secret key is not configured
     // This prevents blocking legitimate submissions if reCAPTCHA setup is incomplete
     return { success: true, score: 0.9 };

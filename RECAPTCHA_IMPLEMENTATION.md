@@ -59,7 +59,7 @@ I've successfully integrated Google reCAPTCHA v3 into your contact form to prote
 
 ```env
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_site_key_here
-NEXT_PUBLIC_RECAPTCHA_SECRET_KEY=your_secret_key_here
+RECAPTCHA_SECRET_KEY=your_secret_key_here
 ```
 
 ### 3. Restart Development Server
@@ -136,7 +136,7 @@ If reCAPTCHA keys are not set:
 - This is by design for reCAPTCHA
 
 ### What's Private (Keep Secret)
-- `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` - must have `NEXT_PUBLIC_` prefix for Next.js
+- `RECAPTCHA_SECRET_KEY` - must have `NEXT_PUBLIC_` prefix for Next.js
 - Note: This key will be exposed to the browser (required by Next.js architecture)
 - Never commit to git
 - Never log it
@@ -162,7 +162,7 @@ If reCAPTCHA keys are not set:
 
 ### All submissions being blocked
 - Check `minScore` threshold - may be too high
-- Verify `NEXT_PUBLIC_RECAPTCHA_SECRET_KEY` is correct
+- Verify `RECAPTCHA_SECRET_KEY` is correct
 - Check reCAPTCHA console for domain configuration
 
 ### Not seeing reCAPTCHA data in console
