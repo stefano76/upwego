@@ -28,6 +28,7 @@ import { usePathname } from 'next/navigation';
 import Header from '../Header';
 import Footer from '../Footer';
 import Modal from './Modal';
+import RecaptchaProvider from './RecaptchaProvider';
 import ContactForm from './ContactForm';
 import { AnimationProvider } from './AnimationContext';
 import { ContactModalProvider } from './ContactModalContext';
@@ -299,15 +300,19 @@ const LayoutWrapper: React.FC<LayoutWrapperProps> = ({ children }) => {
         <Footer onContactClick={openContactModal} />
         
         {/* Contact Modal - available on all pages */}
-        <Modal 
-          isOpen={isContactModalOpen} 
-          onClose={closeContactModal}
-          title={contactTexts?.modalTitle?.title || "Get in Touch"}
-        >
-          <ContactForm 
-            onSuccess={handleContactFormSuccess}
-          />
-        </Modal>
+        {isContactModalOpen && (
+          <RecaptchaProvider>
+            <Modal 
+              isOpen={isContactModalOpen} 
+              onClose={closeContactModal}
+              title={contactTexts?.modalTitle?.title || "Get in Touch"}
+            >
+              <ContactForm 
+                onSuccess={handleContactFormSuccess}
+              />
+            </Modal>
+          </RecaptchaProvider>
+        )}
       </div>
     </AnimationProvider>
   );

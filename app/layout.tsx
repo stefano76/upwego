@@ -4,7 +4,6 @@ import { headers } from "next/headers";
 import Script from "next/script";
 import "./styles/globals.css";
 import LayoutWrapper from "./components/LayoutWrapper";
-import RecaptchaProvider from "./components/RecaptchaProvider";
 import { generatePageMetadata } from "@/lib/metadata";
 import { getGoogleTagManagerScript } from "@/lib/gtm-scripts";
 import { GoogleTagManagerBody, CookieYesConsentSync } from "./components/GoogleTagManager";
@@ -73,11 +72,9 @@ export default function RootLayout({
         <CookieYesErrorSuppressor />
         {/* Sync CookieYes consent with Google Consent Mode */}
         {gtmId && <CookieYesConsentSync />}
-        <RecaptchaProvider>
-          <LayoutWrapper>
-            {children}
-          </LayoutWrapper>
-        </RecaptchaProvider>
+        <LayoutWrapper>
+          {children}
+        </LayoutWrapper>
       </body>
     </html>
   );
