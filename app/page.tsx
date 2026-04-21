@@ -59,11 +59,8 @@ export default function Home() {
   // Generic reusable text strings (e.g., "Learn more", "Contact us")
   const [genericTexts, setGenericTexts] = useState<any>({});
 
-  // Defer animation hooks until content is loaded and page is interactive
-  const [animationsReady, setAnimationsReady] = useState(false);
-
   /**
-   * ANIMATION HOOKS - Deferred initialization
+   * ANIMATION HOOKS
    * 
    * Only initialize animation hooks after content is loaded to prevent
    * blocking the main thread during initial page load
