@@ -33,7 +33,6 @@
 'use client';
 import Image from 'next/image';
 import Logo from './components/Logo';
-import ScrollDisabler from './components/ScrollDisabler';
 import ScrollDownButton from './components/ScrollDownButton';
 import { useAnimation } from './components/AnimationContext';
 import { useEffect, useState } from 'react';
@@ -60,14 +59,14 @@ export default function Home() {
   // Generic reusable text strings (e.g., "Learn more", "Contact us")
   const [genericTexts, setGenericTexts] = useState<any>({});
 
+  // Defer animation hooks until content is loaded and page is interactive
+  const [animationsReady, setAnimationsReady] = useState(false);
+
   /**
-   * ANIMATION HOOKS
+   * ANIMATION HOOKS - Deferred initialization
    * 
-   * Each section uses a custom hook to handle scroll-based animations:
-   * - aboutAnimation: Simple scale-in animation for logo
-   * - challengeAnimation: Multi-element animations for web/data cards
-   * - servicesAnimation: Individual block animations for service cards
-   * - homeProcessAnimation: Complex slide-down animation for process section
+   * Only initialize animation hooks after content is loaded to prevent
+   * blocking the main thread during initial page load
    */
   const aboutAnimation = useSimpleAnimation('animate-in-scale', 0.3);
   // Lower threshold for mobile compatibility (0.1 = 10% visible triggers animation)
@@ -140,8 +139,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Disables page scrolling until initial animations complete */}
-      <ScrollDisabler />
+      {/* Removed ScrollDisabler to prevent blocking main thread */}
       
       {/* INTRO SECTION - Hero section with tagline and animated logo strips */}
       <section id="home-intro" className="home-section flex flex-col justify-start items-center relative overflow-hidden">
@@ -165,7 +163,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <ScrollDownButton />
+        <ScrollDownButton visible={true} />
       </section>
 
       {/* ABOUT SECTION - Company logo and description with scale animation */}

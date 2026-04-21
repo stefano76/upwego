@@ -54,7 +54,8 @@ export default function ScrollDownButton({ text, visible, targetId }: ScrollDown
   };
 
   useEffect(() => {
-    if (visible && buttonRef.current) {
+    // Show button by default, or when explicitly set to visible
+    if ((visible !== false) && buttonRef.current) {
       buttonRef.current.classList.remove('hidden');
       setTimeout(() => {
         if (buttonRef.current) {

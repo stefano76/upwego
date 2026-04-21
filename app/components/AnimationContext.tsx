@@ -25,11 +25,25 @@ export function AnimationProvider({ children }: AnimationProviderProps) {
     const homepage = currentPath === '/';
     setIsHomepage(homepage);
 
-    // Set animation state based on homepage and scroll position
-    if (homepage && window.scrollY === 0) {
-      setShouldAnimate(true);
+    // Defer animations until page is interactive (after initial load)
+    // This prevents blocking the main thread during critical rendering
+    const enableAnimations = () => {
+      if (homepage && window.scrollY === 0) {
+        setShouldAnimate(true);
+      } else {
+        setShouldAnimate(false);
+      }
+    };
+
+    // Wait for page to be interactive before enabling animations
+    if (document.readyState === 'complete') {
+      // Page already loaded, enable animations after a short delay
+      setTimeout(enableAnimations, 100);
     } else {
-      setShouldAnimate(false);
+      // Wait for page load, then enable animations
+      window.addEventListener('load', () => {
+        setTimeout(enableAnimations, 100);
+      });
     }
   }, []);
 
