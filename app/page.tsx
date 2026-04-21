@@ -1,45 +1,31 @@
 /**
- * HOME PAGE SERVER COMPONENT
- * 
- * Server-side data fetching for the home page.
- * This component pre-fetches all required data before rendering,
- * eliminating the loading spinner and improving LCP metrics.
+ * HOME PAGE COMPONENT
+ *
+ * Server Component — fetches all data directly from lib functions,
+ * bypassing HTTP entirely. Works on both localhost and Vercel.
  */
+import { getAllBlocksData } from "@/lib/content";
+import { getTagline } from "@/lib/tagline";
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
 import HomeClient from './HomeClient';
 
-export const dynamic = 'force-dynamic';
-
 async function getHomeData() {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
-    
-    // Fetch all data in parallel for better performance
-    const [blocksResponse, taglineResponse, genericTextsResponse] = await Promise.all([
-      fetch(`${baseUrl}/api/home`),
-      fetch(`${baseUrl}/api/tagline`),
-      fetch(`${baseUrl}/api/generic-texts`)
-    ]);
+  const filePath = path.join(process.cwd(), 'content', 'generic-texts.md');
+  const fileContent = fs.readFileSync(filePath, 'utf8');
+  const { data } = matter(fileContent);
 
-    const [blocks, taglineData, genericTexts] = await Promise.all([
-      blocksResponse.json(),
-      taglineResponse.json(),
-      genericTextsResponse.json(),
-    ]);
+  const [blocks, tagline] = await Promise.all([
+    getAllBlocksData('home'),
+    Promise.resolve(getTagline()),
+  ]);
 
-    return { 
-      blocks, 
-      tagline: taglineData.tagline, 
-      genericTexts 
-    };
-  } catch (error) {
-    console.error('Error fetching home data:', error);
-    // Return empty data structure to prevent crashes
-    return { 
-      blocks: null, 
-      tagline: '', 
-      genericTexts: {} 
-    };
-  }
+  return {
+    blocks,
+    tagline,
+    genericTexts: data.texts || {},
+  };
 }
 
 export default async function Home() {
