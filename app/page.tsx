@@ -7,15 +7,17 @@
  */
 import HomeClient from './HomeClient';
 
+export const dynamic = 'force-dynamic';
+
 async function getHomeData() {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
     
     // Fetch all data in parallel for better performance
     const [blocksResponse, taglineResponse, genericTextsResponse] = await Promise.all([
-      fetch(`${baseUrl}/api/home`, { cache: 'no-store' }),
-      fetch(`${baseUrl}/api/tagline`, { cache: 'no-store' }),
-      fetch(`${baseUrl}/api/generic-texts`, { cache: 'no-store' })
+      fetch(`${baseUrl}/api/home`),
+      fetch(`${baseUrl}/api/tagline`),
+      fetch(`${baseUrl}/api/generic-texts`)
     ]);
 
     const [blocks, taglineData, genericTexts] = await Promise.all([
