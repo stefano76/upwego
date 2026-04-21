@@ -70,7 +70,7 @@ export default function ScrollDownButton({ text, visible, targetId }: ScrollDown
       <button
         ref={buttonRef}
         onClick={handleScrollDown}
-        className="intro-scroll-down-button cursor-pointer opacity-0 hidden transition-opacity animate-fade-in"
+        className="intro-scroll-down-button cursor-pointer opacity-0 hidden transition-opacity animate-fade-in [animation-delay:5s] [animation-fill-mode:both]"
         aria-label="Scroll down"
       >
         <span className="flex flex-col items-center gap-2">
