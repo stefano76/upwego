@@ -138,12 +138,12 @@ export default function Services() {
                   {block.slug === 'combined' ? (
                     // Combined service shows both icons (data + web)
                     <div className="absolute top-0 desktop:top-auto desktop:bottom-[-10px] left-0 flex gap-4 items-start">
-                      <Image src={`/img/services-combined-icon-data.svg`} alt="Data Solutions" width={82} height={71} className="" />
-                      <Image src={`/img/services-combined-icon-web.svg`} alt="Web and App Development" width={67} height={62} className="" />
+                      <Image src={`/img/services-combined-icon-data.svg`} alt="Data Solutions" width={82} height={71} loading="lazy" className="" />
+                      <Image src={`/img/services-combined-icon-web.svg`} alt="Web and App Development" width={67} height={62} loading="lazy" className="" />
                     </div>
                   ) : (
                     // Individual service shows single icon
-                    <Image src={`/img/services-${block.slug}-icon.svg`} alt={block.title || 'Service icon'} width={86} height={70} className="absolute top-0 desktop:top-auto desktop:bottom-[-10px] left-0" />
+                    <Image src={`/img/services-${block.slug}-icon.svg`} alt={block.title || 'Service icon'} width={86} height={70} loading="lazy" className="absolute top-0 desktop:top-auto desktop:bottom-[-10px] left-0" />
                   )}
                 </div>
                 

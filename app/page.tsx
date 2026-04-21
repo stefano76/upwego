@@ -227,7 +227,8 @@ export default function Home() {
                         src={`/img/home-challenge-${block.label}.svg`} 
                         alt={`${block.label} page`}
                         width={100} 
-                        height={82} 
+                        height={82}
+                        loading="lazy"
                       />
                     </div>
                     <div ref={animationItem} className="item-icon absolute bottom-[-10px] right-[-10px] opacity-0">
@@ -235,7 +236,8 @@ export default function Home() {
                         src={`/img/home-challenge-${block.label}-item.svg`} 
                         alt={`${block.label} item`} 
                         width={50} 
-                        height={50} 
+                        height={50}
+                        loading="lazy"
                       />
                     </div>
                   </div>
@@ -263,15 +265,17 @@ export default function Home() {
                     ref={servicesAnimation.addBlockRef(index)}
                     src={`/img/box-service-gradient.png`} 
                     alt={`${block.label} service`} 
-                    width={450}
-                    height={0} 
+                    width={800}
+                    height={650}
+                    loading="lazy"
                     className="gradient absolute top-0 medium-large:top-[-70%] left-0 w-full h-auto opacity-0"
                   />
                   <Image
                     src={`/img/home-services-${block.label}.png`}
                     alt={`${block.title} image`}
-                    width={450}
-                    height={0}
+                    width={700}
+                    height={670}
+                    loading="lazy"
                     className={`box-image box-image-service-${block.label} absolute bottom-0 h-full w-auto mobile-large:w-auto mobile-large:h-auto medium-large:h-full opacity-0`}
                   />
                 </div>

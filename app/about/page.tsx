@@ -184,9 +184,9 @@ export default function About() {
                 {/* Image container with hover effect (black & white to color) */}
                 <div className="image-container relative w-full cursor-pointer overflow-hidden rounded-3xl mb-8">
                   {/* Black & white base image */}
-                  <Image src={`/img/photo-${block.title?.toLowerCase()}-bn.jpg`} alt={block.title || 'Owner image'} width={600} height={600} className="photo-bn w-full h-full object-cover object-center absolute top-0 left-0" />
+                  <Image src={`/img/photo-${block.title?.toLowerCase()}-bn.jpg`} alt={block.title || 'Owner image'} width={600} height={600} loading="lazy" className="photo-bn w-full h-full object-cover object-center absolute top-0 left-0" />
                   {/* Color image that appears on hover (CSS handles the transition) */}
-                  <Image src={`/img/photo-${block.title?.toLowerCase()}.jpg`} alt={block.title || 'Owner image'} width={600} height={600} className="photo-color w-full h-full object-cover object-center absolute top-0 left-0 opacity-0" />
+                  <Image src={`/img/photo-${block.title?.toLowerCase()}.jpg`} alt={block.title || 'Owner image'} width={600} height={600} loading="lazy" className="photo-color w-full h-full object-cover object-center absolute top-0 left-0 opacity-0" />
                   {/* Brandmark overlay in bottom-right corner */}
                   <svg width="40" height="40" viewBox="0 0 230 230" fill="none" xmlns="http://www.w3.org/2000/svg" className="brandmark absolute bottom-4 mobile-large:bottom-8 right-4 mobile-large:right-8 tablet:bottom-4 tablet:right-4 desktop:bottom-8 desktop:right-8">
                     <path d="M159.33 0V79.2097C159.33 122.957 123.624 158.47 79.6395 158.47C57.6471 158.47 37.7374 149.63 23.3129 135.283C12.1898 124.22 4.3681 109.873 1.37146 93.9098C12.9517 104.215 28.2397 110.53 45.0005 110.53C81.4679 110.53 111.13 81.0282 111.13 44.7574V0H159.33Z" className="brandmark-path brandmark-path-external"/>
@@ -245,7 +245,7 @@ export default function About() {
                       }}
                       className="box-background absolute w-3/4 h-3/4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blueGradient rounded-full filter blur-3xl mix-blend-plus-lighter opacity-0"></div>
                     {/* Main image that fades in on scroll */}
-                    <Image src={`/img/about-how-we-work.png`} alt={`How we work`} width={481} height={481} className="box-image absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mix-blend-plus-lighter opacity-0" />
+                    <Image src={`/img/about-how-we-work.png`} alt={`How we work`} width={481} height={481} loading="lazy" className="box-image absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 mix-blend-plus-lighter opacity-0" />
                   </div>
                 </div>
                 {/* Text content */}
