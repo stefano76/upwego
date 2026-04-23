@@ -215,9 +215,9 @@ export default function HomeClient({ blocks, tagline, genericTexts }: HomeClient
                   <h3 className={`text-3xl font-semibold mb-6 desktop:mb-8 ${block.label === 'combined' ? 'text-brand-secondary' : 'text-brand-primary'}`} dangerouslySetInnerHTML={{ __html: block.title }}></h3>
                   <div className="text-xl text-bodyText" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
                   {block.linkText && block.linkUrl && (
-                    <Button href={block.linkUrl} className="services-cta mt-8 desktop:mt-12 inline-block">
+                    <Button href={block.linkUrl} className="services-cta !px-6 mobile-medium:!px-8 mt-8 desktop:mt-12 inline-block">
                       <span className="hidden mobile-large:inline">{block.linkText}</span>
-                      <span className="inline mobile-large:hidden">{genericTexts['cta-generic']}</span>
+                      <span className="inline mobile-large:hidden">{block.linkTextMobile}</span>
                     </Button>
                   )}
                 </div>

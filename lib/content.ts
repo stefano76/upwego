@@ -125,6 +125,7 @@ export async function getAllBlocksData(pageName: string) {
               text: blockData.text,
               label: blockData.label,
               linkText: blockData.linkText,
+              linkTextMobile: blockData.linkTextMobile,
               linkUrl: blockData.linkUrl,
               number: blockData.number,
               slug: blockData.slug,
