@@ -52,7 +52,7 @@ interface HomeClientProps {
 
 export default function HomeClient({ blocks, tagline, genericTexts }: HomeClientProps) {
   // Animation context - controls whether animations should play
-  const { shouldAnimate } = useAnimation();
+  // const { shouldAnimate } = useAnimation();
   
   /**
    * ANIMATION HOOKS
