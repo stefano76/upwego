@@ -91,7 +91,7 @@ export default function HomeClient({ blocks, tagline, genericTexts }: HomeClient
         <div className="absolute top-0 left-0 w-full h-[300px] bg-gradient-to-b from-brand-primary from-0% via-brand-primary via-40% to-transparent"></div>
         <div className="relative z-10 container">
           {blocks && blocks["home-intro"] && Object.entries(blocks["home-intro"].blocks).map(([blockId, block]: [string, any]) => (
-            <div key={blockId} className={`home-intro-content mt-[50vw] desktop:mt-[25vh] text-center desktop:text-left ${shouldAnimate ? 'opacity-0 animate-fade-in-delayed' : 'opacity-100'}`}>
+            <div key={blockId} className="home-intro-content mt-[50vw] desktop:mt-[25vh] text-center desktop:text-left animate-fade-in-delayed">
               <h1 className="text-5xl medium-large:text-6xl font-bold max-h-sm:text-4xl" dangerouslySetInnerHTML={{ __html: tagline }}></h1>
               <div className="mt-8 w-full max-w-[600px] mx-auto desktop:w-1/3 desktop:mx-0 desktop:max-w-none text-xl medium-large:text-2xl medium-large:min-w-[580px] max-h-sm:text-base" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
             </div>

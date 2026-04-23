@@ -26,7 +26,7 @@ export const animations = {
   // Used in intro section
   'u-intro': 'fadeInDown 5s ease-in-out forwards 1.5s, pulseOpacity 7s ease-in-out infinite 6.5s',
   'header-in': 'fadeIn 3s ease-in-out forwards 1s',
-  'fade-in-delayed': 'fadeIn 3s ease-in-out forwards 2s',
+  'fade-in-delayed': 'fadeIn01 3s ease-in-out both 2s',
   
   // Used for visibility-based animations
   'in-scale': 'fadeIn 5s ease-out forwards 0.5s, scaleIn 7s ease-out forwards',
@@ -46,6 +46,10 @@ export const keyframes = {
   // Intro animations
   fadeIn: {
     '0%': { opacity: '0' },
+    '100%': { opacity: '1' },
+  },
+  fadeIn01: {
+    '0%': { opacity: '0.01' },
     '100%': { opacity: '1' },
   },
   scaleIn: {
