@@ -4,12 +4,16 @@
  * Server Component — fetches all data directly from lib functions,
  * bypassing HTTP entirely. Works on both localhost and Vercel.
  */
+import type { Metadata } from 'next';
+import { generatePageMetadata } from '@/lib/metadata';
 import { getAllBlocksData } from "@/lib/content";
 import { getTagline } from "@/lib/tagline";
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import HomeClient from './HomeClient';
+
+export const metadata: Metadata = generatePageMetadata('/');
 
 async function getHomeData() {
   const filePath = path.join(process.cwd(), 'content', 'generic-texts.md');

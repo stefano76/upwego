@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { headers } from "next/headers";
 import Script from "next/script";
 import "./styles/globals.css";
 import LayoutWrapper from "./components/LayoutWrapper";
-import { generatePageMetadata } from "@/lib/metadata";
 import { getGoogleTagManagerScript } from "@/lib/gtm-scripts";
 import { GoogleTagManagerBody, CookieYesConsentSync } from "./components/GoogleTagManager";
 import GoogleConsentMode from "./components/GoogleConsentMode";
@@ -22,27 +20,12 @@ const fontHeading = Inter({
   variable: "--font-heading",
 });
 
-/**
- * Generate metadata dynamically based on the current pathname
- * This replaces the need for individual layout.tsx files in each route
- * Pathname is passed via middleware custom header 'x-pathname'
- */
-export async function generateMetadata(): Promise<Metadata> {
-  // Get the pathname from custom header set by middleware
-  const headersList = await headers();
-  const pathname = headersList.get('x-pathname') || '/';
-  
-  // Generate page-specific metadata
-  const pageMetadata = generatePageMetadata(pathname);
-  
-  return {
-    ...pageMetadata,
-    robots: {
-      index: true,
-      follow: true,
-    },
-  };
-}
+export const metadata: Metadata = {
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function RootLayout({
   children,
