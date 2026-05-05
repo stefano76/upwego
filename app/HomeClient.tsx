@@ -33,7 +33,6 @@
 import Image from 'next/image';
 import Logo from './components/Logo';
 import ScrollDownButton from './components/ScrollDownButton';
-import { useAnimation } from './components/AnimationContext';
 import { useSimpleAnimation } from './hooks/useSimpleAnimation';
 import { useMultiAnimation } from './hooks/useMultiAnimation';
 import { useIndividualBlockAnimation } from './hooks/useIndividualBlockAnimation';
