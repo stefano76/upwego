@@ -74,7 +74,7 @@ export default function PricingSection({ initialCurrency }: { initialCurrency: C
         <Button className="mt-10 mx-auto"></Button>
       </div>
       <h6 className="disclaimer text-sm font-light text-white absolute bottom-8 left-8 tablet:bottom-12 tablet:left-12">
-        * + GST if applicable.
+        * plus GST if applicable.
       </h6>
     </div>
   );
