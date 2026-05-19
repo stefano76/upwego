@@ -202,7 +202,7 @@ export default function HomeClient({ blocks, tagline, genericTexts }: HomeClient
                     className="gradient absolute top-0 medium-large:top-[-70%] left-0 w-full h-auto opacity-0"
                   />
                   <Image
-                    src={`/img/home-services-${block.label}.png`}
+                    src={`/img/home-services-${block.label}.${block.label === 'audit' ? 'svg' : 'png'}`}
                     alt={`${block.title} image`}
                     width={700}
                     height={670}

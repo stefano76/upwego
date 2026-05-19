@@ -22,8 +22,8 @@
  * To test: Navigate to any non-existent URL like /this-does-not-exist
  */
 'use client';
-import Button from './components/Button';
-import './styles/not-found.css';
+import Button from '@/app/components/Button';
+import '@/app/styles/not-found.css';
 
 export default function NotFound() {
   return (

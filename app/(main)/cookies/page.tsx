@@ -13,7 +13,7 @@
 'use client';
 import { useEffect } from 'react';
 import { isLocalhost } from '@/app/utils/environment';
-import '../styles/privacy.css';
+import '@/app/styles/privacy.css';
 import styles from './Cookies.module.css';
 
 export default function Cookies() {

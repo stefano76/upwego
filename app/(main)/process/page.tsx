@@ -23,10 +23,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { useEffect, useState } from 'react';
-import { renderMarkdown } from '../utils/text';
-import ProcessStepBox from '../components/ProcessStepBox';
-import '../styles/process.css';
-import ContactSection from '../components/ContactSection';
+import { renderMarkdown } from '@/app/utils/text';
+import ProcessStepBox from '@/app/components/ProcessStepBox';
+import '@/app/styles/process.css';
+import ContactSection from '@/app/components/ContactSection';
 
 export default function Process() {
   // State for page content loaded from API

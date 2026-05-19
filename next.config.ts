@@ -28,6 +28,9 @@ const nextConfig: NextConfig = {
   },
   // Security headers
   async headers() {
+    if (process.env.NODE_ENV === 'development') {
+      return []; // No security headers in development
+    }
     return [
       {
         // Apply security headers to all routes

@@ -23,12 +23,12 @@
 'use client';
 import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
-import { renderMarkdown } from '../utils/text';
-import '../styles/about.css';
-import ContactSection from '../components/ContactSection';
-import ScrollDownButton from '../components/ScrollDownButton';
-import Logo from '../components/Logo';
-import { isElementVisible } from '../utils/visibility';
+import { renderMarkdown } from '@/app/utils/text';
+import '@/app/styles/about.css';
+import ContactSection from '@/app/components/ContactSection';
+import ScrollDownButton from '@/app/components/ScrollDownButton';
+import Logo from '@/app/components/Logo';
+import { isElementVisible } from '@/app/utils/visibility';
 
 // Type definitions for content structure
 interface CTA {

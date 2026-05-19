@@ -1,7 +1,9 @@
-/** @type {import('tailwindcss').Config} */
+/** 
+ * @type {import('tailwindcss').Config} 
+ */
 import { animations, keyframes } from './config/animations.js';
 
-export default {
+const config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -41,9 +43,12 @@ export default {
         bodyText: "#626262",
         blueDark: "#000310",
         blueExtraLight: "#CCE6F2",
-        blueGradient: "#002556"
+        blueGradient: "#002556",
+        yellow: "#ffc824"
       },
     },
   },
   plugins: [],
 };
+
+export default config;

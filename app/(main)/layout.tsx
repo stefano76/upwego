@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
-import "./styles/globals.css";
-import LayoutWrapper from "./components/LayoutWrapper";
+import "@/app/styles/globals.css";
+import LayoutWrapper from "@/app/components/LayoutWrapper";
 import { getGoogleTagManagerScript } from "@/lib/gtm-scripts";
-import { GoogleTagManagerBody, CookieYesConsentSync } from "./components/GoogleTagManager";
-import GoogleConsentMode from "./components/GoogleConsentMode";
-import CookieYesErrorSuppressor from "./components/CookieYesErrorSuppressor";
+import { GoogleTagManagerBody, CookieYesConsentSync } from "@/app/components/GoogleTagManager";
+import GoogleConsentMode from "@/app/components/GoogleConsentMode";
+import CookieYesErrorSuppressor from "@/app/components/CookieYesErrorSuppressor";
 
 const fontBody = Inter({
   subsets: ["latin"],

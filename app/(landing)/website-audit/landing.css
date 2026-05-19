@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --blue-numbers: #1279ba;
+  --light-grey: #f2f2f2;
+  --text-color: #333333;
+  --border-grey: color-mix(in srgb, theme("colors.bodyText") 50%, transparent);
+  --gradient: linear-gradient(
+    180deg,
+    theme("colors.brand.primary") 0%,
+    theme("colors.brand.secondary") 180%
+  );
+  --gradient-section: linear-gradient(
+    180deg,
+    theme("colors.brand.primary") 10%,
+    theme("colors.brand.secondary") 150%
+  );
+  --size-container: 1200px;
+  --size-inner-container: 840px;
+}
+
+body {
+  background-color: theme("colors.brand.primary");
+  min-height: 100vh;
+  color: var(--text-color);
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+}
+
+p {
+  @apply text-lg leading-snug;
+}
+
+.darkblue {
+  color: theme("colors.brand.primary");
+}
+
+.lightblue {
+  color: theme("colors.brand.secondary");
+}
+
+.white {
+  color: theme("colors.brand.tertiary");
+}
+
+.container {
+  @apply w-full max-w-[--size-container] mx-auto px-6 tablet:px-12 small:px-0;
+}
+
+.inner-container {
+  @apply w-full max-w-[--size-inner-container] mx-auto;
+}
+
+/* Sections */
+
+.section-block {
+  @apply py-8 tablet:py-12;
+}
+
+.section-title {
+  @apply text-2xl tablet:text-3xl font-semibold mb-4 text-center tablet:-mt-2;
+}
+
+.section-subtitle {
+  @apply text-lg font-light text-center;
+}
+
+.gradient-section {
+  background: var(--gradient-section);
+}
+
+.gradient {
+  background: var(--gradient);
+}
+
+@media (min-width: theme("screens.desktop")) and (max-width: theme("screens.small")) {
+  .audit-card .texts .problem.fixedWidth {
+    width: var(--problem-width);
+  }
+  .audit-card .texts .text.fixedWidth {
+    width: calc(100% - var(--problem-width) - 1rem);
+  }
+}
+
+ul li {
+  @apply pl-2 mt-3;
+}
+
+@media (min-width: theme("screens.desktop")) {
+  ul.trust-signals li {
+    @apply pl-10 bg-[url('/img/landing/yellow-tick.svg')] bg-no-repeat bg-[left_top_3px] bg-[length:auto_20px];
+  }
+}
+
+.asterisk::before {
+  content: "*";
+  font-size: 0.75em;
+  vertical-align: super;
+}

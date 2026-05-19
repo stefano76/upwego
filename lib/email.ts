@@ -38,6 +38,64 @@ interface ContactFormData {
  * - Timestamp
  * - Reply-to is set to sender's email for easy replies
  */
+interface AuditFormData {
+  name: string;
+  email: string;
+  websiteUrl: string;
+  message?: string;
+}
+
+export async function sendAuditEmail(data: AuditFormData): Promise<void> {
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const emailFromAddress = process.env.EMAIL_FROM;
+  const emailFromName = process.env.EMAIL_FROM_NAME;
+  const emailTo = process.env.CONTACT_EMAIL_TO;
+
+  if (!resendApiKey || !emailFromAddress || !emailTo) {
+    const missing = [];
+    if (!resendApiKey) missing.push('RESEND_API_KEY');
+    if (!emailFromAddress) missing.push('EMAIL_FROM');
+    if (!emailTo) missing.push('CONTACT_EMAIL_TO');
+    throw new Error(`Email configuration is incomplete. Missing: ${missing.join(', ')}`);
+  }
+
+  const emailFrom = emailFromName
+    ? `"${emailFromName}" <${emailFromAddress}>`
+    : emailFromAddress;
+
+  const resend = new Resend(resendApiKey);
+
+  const emailBody = `
+New website audit request:
+
+Name: ${data.name}
+Email: ${data.email}
+Website URL: ${data.websiteUrl}
+
+Message:
+${data.message || 'Not provided'}
+
+---
+Submitted at: ${new Date().toISOString()}
+  `.trim();
+
+  try {
+    const result = await resend.emails.send({
+      from: emailFrom,
+      to: emailTo,
+      subject: `New Website Audit Request from ${data.name}`,
+      text: emailBody,
+      replyTo: data.email,
+    });
+
+    if (result.error) {
+      throw new Error(result.error.message || 'Unknown error');
+    }
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : 'Unknown error');
+  }
+}
+
 export async function sendContactEmail(data: ContactFormData): Promise<void> {
   // Get Resend configuration from environment variables
   const resendApiKey = process.env.RESEND_API_KEY;

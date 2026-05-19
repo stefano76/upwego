@@ -22,10 +22,11 @@
  */
 'use client';
 import { useEffect, useState } from 'react';
-import { renderMarkdown } from '../utils/text';
-import '../styles/services.css';
+import { renderMarkdown } from '@/app/utils/text';
+import '@/app/styles/services.css';
 import Image from 'next/image';
-import ContactSection from '../components/ContactSection';
+import ContactSection from '@/app/components/ContactSection';
+import Button from '@/app/components/Button';
 
 // Type definitions for content structure
 interface Feature {
@@ -124,7 +125,7 @@ export default function Services() {
         <div className="container relative z-1">
           {/* Render each service block (typically: data, web, combined) */}
           {blocks && blocks["services-areas"] && Object.entries(blocks["services-areas"].blocks).map(([blockId, block]: [string, Block]) => (
-            <div key={blockId} className={`box box-${block.slug} p-8 desktop:p-12 mb-10 max-w-screen-small mx-auto ${block.slug === 'combined' ? 'neon-border-secondary' : ''}`}>
+            <div key={blockId} className={`box box-${block.slug} p-8 desktop:p-12 mb-10 max-w-screen-small mx-auto ${block.slug === 'combined' ? 'neon-border-secondary' : ''} ${block.slug === 'audit' ? 'neon-border-yellow' : ''}`}>
               <div className="content flex flex-col desktop:flex-row gap-12 justify-between">
                 {/* Left side: Service intro (title, description, icon) */}
                 <div className={`intro desktop:w-1/3 relative ${block.slug === 'combined' ? 'pt-24' : 'pt-20'} desktop:pt-0`}>
@@ -132,8 +133,11 @@ export default function Services() {
                   <h2 className="text-4xl medium-large:text-5xl font-bold text-brand-secondary mb-8" 
                   dangerouslySetInnerHTML={{ __html: block.title || '' }}></h2>
                   {/* Service description */}
-                  <div className="text text-xl text-bodyText" dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
-                  
+                  <div className="text text-xl text-bodyText">
+                    <div dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
+                    {block.slug === 'audit' && <Button href="/website-audit" className="inline-block !px-[34px] !mt-8">Discover the Audit</Button>}
+                  </div>
+
                   {/* Service icon(s) */}
                   {block.slug === 'combined' ? (
                     // Combined service shows both icons (data + web)

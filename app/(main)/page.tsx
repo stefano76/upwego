@@ -11,7 +11,7 @@ import { getTagline } from "@/lib/tagline";
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import HomeClient from './HomeClient';
+import HomeClient from '@/app/HomeClient';
 
 export const metadata: Metadata = generatePageMetadata('/');
 

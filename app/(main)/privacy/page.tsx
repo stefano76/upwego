@@ -16,8 +16,8 @@
  */
 'use client';
 import { useEffect, useState } from 'react';
-import { renderMarkdown } from '../utils/text';
-import '../styles/privacy.css';
+import { renderMarkdown } from '@/app/utils/text';
+import '@/app/styles/privacy.css';
 
 export default function Privacy() {
   // State for privacy policy content (markdown text)
