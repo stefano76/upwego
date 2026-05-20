@@ -4,10 +4,13 @@ import { headers } from 'next/headers';
 import Button from '../components/Button';
 
 export const metadata: Metadata = {
-  title: 'Most websites have problems their owners never find out about | Upwego Digital',
-  description: 'Get a clear picture of what’s holding your website back, and a straightforward plan to put it right.',
+  title: "Most websites have problems their owners never find out about | Upwego Digital",
+  description: "Get a clear picture of what’s holding your website back, and a straightforward plan to put it right.",
   alternates: {
     canonical: '/website-audit',
+  },
+  openGraph: {
+    images: ['/img/landing/website-audit.png'],
   },
 };
 import AuditCard from '../components/AuditCard';
