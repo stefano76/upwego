@@ -91,9 +91,13 @@ ul li {
   @apply pl-2 mt-3;
 }
 
+ul.trust-signals li {
+  @apply px-0;
+}
+
 @media (min-width: theme("screens.desktop")) {
-  ul.trust-signals li {
-    @apply pl-10 bg-[url('/img/landing/yellow-tick.svg')] bg-no-repeat bg-[left_top_3px] bg-[length:auto_20px];
+  ul.trust-signals li::before {
+    @apply content-['✓'] text-yellow text-3xl mr-4;
   }
 }
 

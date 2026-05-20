@@ -47,10 +47,10 @@ export default async function AuditPage() {
               height={32}
               className="logo d-block mx-auto tablet:mx-0 mb-8"
             />
-            <div className="texts small:w-[520px] order-3 flex flex-col gap-y-8 justify-start self-end">
+            <div className="texts small:w-[520px] order-3 flex flex-col gap-y-8 items-center tablet:items-start">
               <h1 className="text-3xl text-center tablet:text-left desktop:text-[40px] desktop:leading-[1.2] font-semibold white">Most websites have problems their owners never find out about</h1>
               <h2 className="text-lg font-light white text-center tablet:text-left">Get a clear picture of what’s holding your website back, and a straightforward plan to put it right.</h2>
-              <Button className="justify-self-end"></Button>
+              <Button></Button>
             </div>
             <div className="image w-full flex items-start tablet:items-center justify-center tablet:justify-end order-2 row-span-2">
               <Image
