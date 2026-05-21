@@ -40,8 +40,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       return pathname;
     });
 
-  // Add static pages that might not be in menu (legal pages)
-  const staticPages = ['/privacy', '/cookies'];
+  // Add static pages that might not be in menu (legal pages, landing pages)
+  const staticPages = ['/privacy', '/cookies', '/website-audit'];
   
   // Combine and deduplicate
   const allPages = [...new Set([...internalPages, ...staticPages])];
@@ -51,7 +51,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Determine page type for priority and change frequency
     const isHomepage = pathname === '/';
     const isLegalPage = pathname === '/privacy' || pathname === '/cookies';
-    const isMainPage = ['/about', '/services', '/process'].includes(pathname);
+    const isMainPage = ['/about', '/services', '/process', '/website-audit'].includes(pathname);
     
     // Set priority: Homepage (1.0) > Main pages (0.9) > Legal pages (0.5)
     let priority: number;
