@@ -1,6 +1,7 @@
 # Developer Guide - Upwego Website
 
 ## Table of Contents
+
 1. [Overview](#overview)
 2. [Architecture](#architecture)
 3. [Content Management System](#content-management-system)
@@ -20,7 +21,8 @@
 This is a Next.js website built with React and TypeScript. The site uses a markdown-based content management system, allowing non-developers to update content without touching code.
 
 **Key Technologies:**
-- **Framework:** Next.js 14+ (App Router)
+
+- **Framework:** Next.js 15+ (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS + Custom CSS
 - **Content:** Markdown files with frontmatter
@@ -63,6 +65,7 @@ content/
 ### Example Flow
 
 1. **Page File** (`content/pages/about.md`):
+
    ```yaml
    ---
    title: "About Us"
@@ -75,6 +78,7 @@ content/
    ```
 
 2. **Section File** (`content/sections/about-intro.md`):
+
    ```yaml
    ---
    title: "Introduction"
@@ -96,22 +100,25 @@ content/
 **Function:** `lib/content.ts` → `getAllBlocksData(pageName)`
 
 **Process:**
+
 1. Reads `content/pages/{pageName}.md` to get section list
 2. For each section, reads `content/sections/{sectionId}.md` to get block list
 3. For each block, reads `content/blocks/{blockId}.md` to get content
 4. Returns nested JSON structure
 
 **Usage in Pages:**
+
 ```typescript
 // In app/about/page.tsx
 useEffect(() => {
-  const response = await fetch('/api/about');
+  const response = await fetch("/api/about");
   const blocks = await response.json();
   setBlocks(blocks);
 }, []);
 ```
 
 **Why This Approach?**
+
 - ✅ Non-developers can edit content without touching code
 - ✅ Content is version-controlled (git)
 - ✅ Easy to add new pages/sections/blocks
@@ -127,6 +134,7 @@ useEffect(() => {
 **Purpose:** Main landing page with multiple sections and animations.
 
 **Sections:**
+
 1. **Intro** - Hero section with tagline and animated logo strips
 2. **About** - Company logo and description
 3. **Challenge** - Two challenge cards (web/data) with complex animations
@@ -135,11 +143,13 @@ useEffect(() => {
 6. **Contact** - Call-to-action section
 
 **Data Sources:**
+
 - `/api/home` - Page content blocks
 - `/api/tagline` - Main tagline text
 - `/api/generic-texts` - Reusable text strings
 
 **Key Features:**
+
 - Multiple animation hooks for scroll-based effects
 - `ScrollDisabler` prevents scrolling until animations complete
 - Responsive design with mobile/desktop breakpoints
@@ -153,6 +163,7 @@ useEffect(() => {
 **Purpose:** Displays company information and team profiles.
 
 **Sections:**
+
 1. **Intro** - Hero section with main title
 2. **Owners** - Team member profiles (Stefano, Nadja) with hover effects
 3. **Values** - Mission and vision statements
@@ -162,6 +173,7 @@ useEffect(() => {
 **Data Source:** `/api/about`
 
 **Key Features:**
+
 - Scroll-based visibility detection for animations
 - Image hover effects (black & white → color)
 - CTA processing (handles single or array of CTAs)
@@ -175,6 +187,7 @@ useEffect(() => {
 **Purpose:** Shows the company's workflow in a step-by-step format.
 
 **Sections:**
+
 1. **Intro** - Hero section with background image
 2. **Steps** - Sequential process steps displayed in boxes
 3. **Contact** - Call-to-action section
@@ -182,6 +195,7 @@ useEffect(() => {
 **Data Source:** `/api/process`
 
 **Key Features:**
+
 - Steps sorted by `number` field
 - Vertical connecting line between steps
 - `ProcessStepBox` components for each step
@@ -195,6 +209,7 @@ useEffect(() => {
 **Purpose:** Displays services and offerings.
 
 **Sections:**
+
 1. **Intro** - Hero section with title and description
 2. **Areas** - Service cards with features lists
 3. **Contact** - Call-to-action section
@@ -202,6 +217,7 @@ useEffect(() => {
 **Data Source:** `/api/services`
 
 **Key Features:**
+
 - Service cards with icons (data, web, combined)
 - Special styling for "combined" service (neon border)
 - Features list rendering
@@ -217,6 +233,7 @@ useEffect(() => {
 **Data Source:** `/api/privacy`
 
 **Key Features:**
+
 - Simple markdown rendering
 - Fallback content if API fails
 - Responsive layout
@@ -230,6 +247,7 @@ useEffect(() => {
 **Purpose:** 404 error page displayed when route doesn't exist.
 
 **Key Features:**
+
 - Automatically used by Next.js for 404 errors
 - Friendly error message
 - "Go Back Home" button
@@ -249,12 +267,14 @@ All API routes follow the same pattern: load content from markdown files and ret
 **Function:** `getAllBlocksData(pageName)` from `lib/content.ts`
 
 **Routes:**
+
 - `/api/home` → `getAllBlocksData('home')`
 - `/api/about` → `getAllBlocksData('about')`
 - `/api/process` → `getAllBlocksData('process')`
 - `/api/services` → `getAllBlocksData('services')`
 
 **Response Format:**
+
 ```json
 {
   "section-id": {
@@ -276,16 +296,19 @@ All API routes follow the same pattern: load content from markdown files and ret
 ### Contact API (`app/api/contact/route.ts`)
 
 **GET `/api/contact`**
+
 - Returns contact links (email, phone, LinkedIn, etc.)
 - Used by Footer and other components
 
 **POST `/api/contact`**
+
 - Processes contact form submissions
 - Validates form data (name, email, message required)
 - Sends email via Resend API
 - Returns success/error response
 
 **Environment Variables Required:**
+
 - `RESEND_API_KEY` - Resend API key
 - `EMAIL_FROM` - Sender email address
 - `CONTACT_EMAIL_TO` - Recipient email address
@@ -313,6 +336,7 @@ All API routes follow the same pattern: load content from markdown files and ret
 **Purpose:** Main layout component that wraps all pages.
 
 **Features:**
+
 - Authentication (password protection, bypasses on localhost)
 - Header and Footer (shown on all pages)
 - Contact modal (accessible from anywhere)
@@ -320,6 +344,7 @@ All API routes follow the same pattern: load content from markdown files and ret
 - Page-specific CSS classes on body element
 
 **Authentication Logic:**
+
 - Localhost: Automatically authenticated
 - Production: Checks `sessionStorage` for authentication
 - Shows `PasswordForm` if not authenticated
@@ -333,6 +358,7 @@ All API routes follow the same pattern: load content from markdown files and ret
 **Purpose:** Reusable contact form component.
 
 **Features:**
+
 - Form validation (name, email, message required)
 - Email format validation
 - Loading states during submission
@@ -341,6 +367,7 @@ All API routes follow the same pattern: load content from markdown files and ret
 - Auto-clears form on successful submission
 
 **Data Flow:**
+
 1. Loads text content from `/api/contact-form-texts`
 2. User fills out form
 3. Validates data
@@ -356,6 +383,7 @@ All API routes follow the same pattern: load content from markdown files and ret
 **Purpose:** Reusable section component for contact CTAs.
 
 **Features:**
+
 - Displays title and text (supports markdown)
 - Two default CTAs: "Contact Us" (opens modal) and "Book a meeting" (external link)
 - Can accept custom CTAs via props
@@ -382,18 +410,21 @@ All API routes follow the same pattern: load content from markdown files and ret
 ### Text Utilities (`app/utils/text.ts`)
 
 **`renderMarkdown(markdownString, noParagraphs)`**
+
 - Converts markdown to HTML for React rendering
 - Uses `marked` library
 - Custom renderer converts `<strong>` to `<b>` for styling consistency
 - `noParagraphs` parameter: if true, uses inline parsing (no `<p>` tags)
 
 **Usage:**
+
 ```typescript
 <h1 dangerouslySetInnerHTML={renderMarkdown(block.title, true)}></h1>
 <div dangerouslySetInnerHTML={renderMarkdown(block.text)}></div>
 ```
 
 **`parseMarkdownListItems(markdownString)`**
+
 - Extracts list items from markdown text
 - Returns array of strings
 - Useful for rendering structured lists
@@ -405,14 +436,16 @@ All API routes follow the same pattern: load content from markdown files and ret
 ### Visibility Utilities (`app/utils/visibility.ts`)
 
 **`isElementVisible(element, threshold)`**
+
 - Checks if element is visible in viewport
 - Used for scroll-based animations
 - `threshold`: 0-1 (0.1 = 10% visible, 1.0 = 100% visible)
 
 **Usage:**
+
 ```typescript
 if (isElementVisible(element, 1.0)) {
-  element.classList.add('visible');
+  element.classList.add("visible");
 }
 ```
 
@@ -427,6 +460,7 @@ if (isElementVisible(element, 1.0)) {
 **Decision:** Use markdown files instead of a database or headless CMS.
 
 **Reasons:**
+
 1. **Version Control** - Content changes are tracked in git
 2. **No Database** - Simpler deployment, no database setup needed
 3. **Developer-Friendly** - Easy to review content changes in PRs
@@ -435,6 +469,7 @@ if (isElementVisible(element, 1.0)) {
 6. **Cost** - No CMS subscription fees
 
 **Trade-offs:**
+
 - ❌ Requires code deployment for content changes (but can be automated)
 - ❌ No visual editor (but markdown is simple)
 - ❌ Content changes require git access
@@ -443,9 +478,10 @@ if (isElementVisible(element, 1.0)) {
 
 ### Why Next.js App Router?
 
-**Decision:** Use Next.js 14+ App Router instead of Pages Router.
+**Decision:** Use Next.js 15+ App Router instead of Pages Router.
 
 **Reasons:**
+
 1. **Modern** - Latest Next.js features
 2. **Server Components** - Better performance (though we use client components for interactivity)
 3. **File-based Routing** - Easy to understand
@@ -458,6 +494,7 @@ if (isElementVisible(element, 1.0)) {
 **Decision:** Use TypeScript instead of plain JavaScript.
 
 **Reasons:**
+
 1. **Type Safety** - Catches errors at compile time
 2. **Better IDE Support** - Autocomplete, refactoring
 3. **Documentation** - Types serve as documentation
@@ -470,6 +507,7 @@ if (isElementVisible(element, 1.0)) {
 **Decision:** Use Resend API instead of SMTP or other services.
 
 **Reasons:**
+
 1. **Simple API** - Easy to integrate
 2. **Reliable** - Good deliverability
 3. **Developer-Friendly** - Clear documentation
@@ -484,6 +522,7 @@ if (isElementVisible(element, 1.0)) {
 **Decision:** Use Intersection Observer for scroll-triggered animations.
 
 **Reasons:**
+
 1. **Performance** - Only animates when elements are visible
 2. **User Experience** - Animations don't play off-screen
 3. **Modern** - Uses browser APIs efficiently
@@ -498,6 +537,7 @@ if (isElementVisible(element, 1.0)) {
 **Decision:** Add password protection to the site.
 
 **Reasons:**
+
 1. **Privacy** - Site may contain sensitive information
 2. **Development** - Can show work-in-progress to clients
 3. **Simple** - No complex authentication system needed
@@ -580,18 +620,21 @@ if (isElementVisible(element, 1.0)) {
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone <repository-url>
    cd upwego
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
    Create `.env.local` file:
+
    ```env
    RESEND_API_KEY=your_resend_api_key
    EMAIL_FROM=noreply@yourdomain.com
@@ -600,6 +643,7 @@ if (isElementVisible(element, 1.0)) {
    ```
 
 4. **Run development server**
+
    ```bash
    npm run dev
    ```
