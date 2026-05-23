@@ -4,7 +4,7 @@ A modern, responsive website for Upwego Digital built with Next.js 15, featuring
 
 ## 🚀 Tech Stack
 
-- **Framework**: Next.js 15.5.2 (App Router)
+- **Framework**: Next.js 15.5.7 (App Router)
 - **Language**: TypeScript 5
 - **Styling**: Tailwind CSS 3.4
 - **Animations**: Framer Motion 12.23
@@ -180,19 +180,6 @@ The build process will:
 2. Start the server: `npm start`
 3. Ensure Node.js 18+ is available
 4. Set all required environment variables
-
-### Pre-Launch Checklist
-
-Before making the site public:
-
-- [ ] Update `robots.txt` to `Allow: /` (currently `Disallow: /`)
-- [ ] Update metadata robots in `app/layout.tsx` to `index: true, follow: true`
-- [ ] Verify all environment variables are set in production
-- [ ] Test contact form submission
-- [ ] Verify HTTPS is configured (required for HSTS header)
-- [ ] Test all pages and navigation
-- [ ] Run accessibility audit
-- [ ] Test on multiple devices/browsers
 
 ## 📚 Documentation
 
