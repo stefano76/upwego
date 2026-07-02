@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import type { JSX } from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import Logo from "./components/Logo";
 
 type MenuItem = {
@@ -34,7 +34,7 @@ type FooterProps = {
 export default function Footer({ onContactClick }: FooterProps): JSX.Element {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [tagline, setTagline] = useState<string>('');
-  const [contactLinks, setContactLinks] = useState<ContactLink[]>([]);
+  const [, setContactLinks] = useState<ContactLink[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
