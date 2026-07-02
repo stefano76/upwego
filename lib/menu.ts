@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { getLinkedInLink } from './contact';
+// import { getLinkedInLink } from './contact';
 
 interface MenuItemFields {
   title: string;
