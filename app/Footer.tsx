@@ -79,53 +79,52 @@ export default function Footer({ onContactClick }: FooterProps): JSX.Element {
               <Logo width={180} height={31} className="w-[180px] h-[31px]" />
               <p className="text-base text-blueExtraLight">{stripHtmlTags(tagline)}</p>
             </div>
+          </div>
 
-            {/* Navigation Links */}
-            <nav className="section-menu flex flex-col mobile-large:flex-row flex-wrap justify-center items-center gap-8 tablet:gap-6 text-brand-tertiary">
-              {menuItems.map((item) => {
-                  // Determine href based on slug type
-                  const href = item.slug;
-                  const target = undefined;
-                  const rel = undefined;
-                  let className = "";
-                  const hiddenItems = item.title === "Linkedin" || item.slug === '/' || item.slug === '';
+          {/* Navigation Links */}
+          <nav className="section-menu flex flex-col mobile-large:flex-row flex-wrap justify-center items-end gap-8 tablet:gap-6 text-brand-tertiary">
+            {menuItems.map((item) => {
+                // Determine href based on slug type
+                const href = item.slug;
+                const target = undefined;
+                const rel = undefined;
+                let className = "";
+                const hiddenItems = item.title === "Linkedin" || item.slug === '/' || item.slug === '';
 
-                  // Hide LinkedIn link in footer
-                  if (hiddenItems) {
-                    className = "hidden";
-                  }
+                // Hide LinkedIn link in footer
+                if (hiddenItems) {
+                  className = "hidden";
+                }
 
-                  // Handle contact link specially
-                  if (item.slug === '#contact' && onContactClick) {
-                    return (
-                      <button
-                        key={item.slug}
-                        onClick={onContactClick}
-                        className={`menu-item-footer w-fit ${className}`}
-                      >
-                        {item.title}
-                      </button>
-                    );
-                  }
-
+                // Handle contact link specially
+                if (item.slug === '#contact' && onContactClick) {
                   return (
-                    <a
+                    <button
                       key={item.slug}
-                      href={href}
-                      target={target}
-                      rel={rel}
+                      onClick={onContactClick}
                       className={`menu-item-footer w-fit ${className}`}
                     >
                       {item.title}
-                    </a>
+                    </button>
                   );
-                })}
-            </nav>
-          </div>
+                }
 
+                return (
+                  <a
+                    key={item.slug}
+                    href={href}
+                    target={target}
+                    rel={rel}
+                    className={`menu-item-footer w-fit ${className}`}
+                  >
+                    {item.title}
+                  </a>
+                );
+              })}
+          </nav>
 
           {/* Contact Links */}
-          <div className="section-contacts text-brand-tertiary text-sm font-light text-center md:text-right flex flex-col justify-end">
+          {/* <div className="section-contacts text-brand-tertiary text-sm font-light text-center md:text-right flex flex-col justify-end">
             <div className="flex flex-col gap-6">
               {contactLinks.map((contact, index) => (
                 <div key={index} className="text-base font-light text-brand-tertiary">
@@ -136,7 +135,7 @@ export default function Footer({ onContactClick }: FooterProps): JSX.Element {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom Border */}

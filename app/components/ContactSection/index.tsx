@@ -121,7 +121,7 @@ export default function ContactSection({
         }
       }
     },
-    {
+    /* {
       text: contactTexts.bookText,
       cta: {
         linkText: contactTexts.bookCTA,
@@ -131,7 +131,7 @@ export default function ContactSection({
           window.open('https://outlook.office.com/book/Free30minutemeeting@upwegodigital.com/?ismsaljsauthenabled', '_blank');
         }
       }
-    }
+    } */
   ];
 
   return (

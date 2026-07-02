@@ -24,7 +24,8 @@ export async function getMenuItems(): Promise<MenuItemFields[]> {
     );
     
     // Dynamically inject LinkedIn menu item from contact links (single source of truth: content/contact/links.md)
-    const linkedInLink = getLinkedInLink();
+    // const linkedInLink = getLinkedInLink();
+    const linkedInLink = false;
     if (linkedInLink) {
       itemsWithoutLinkedIn.push({
         title: "Linkedin",
@@ -44,7 +45,7 @@ export async function getMenuItems(): Promise<MenuItemFields[]> {
       { title: "About", slug: "about", order: 2 },
       { title: "Process", slug: "process", order: 3 },
       { title: "Services", slug: "services", order: 4 },
-      { title: "Linkedin", slug: linkedInLink?.url || "", order: 5 },
+      // { title: "Linkedin", slug: linkedInLink?.url || "", order: 5 },
       { title: "Contact us", slug: "#contact", order: 6 }
     ];
     return fallbackItems.sort((a: MenuItemFields, b: MenuItemFields) => a.order - b.order);
