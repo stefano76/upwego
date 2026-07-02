@@ -39,7 +39,7 @@ export async function getMenuItems(): Promise<MenuItemFields[]> {
   } catch (error) {
     console.error('Error fetching menu items:', error);
     // Fallback: return basic menu items, add LinkedIn if available
-    const linkedInLink = getLinkedInLink();
+    // const linkedInLink = getLinkedInLink();
     const fallbackItems: MenuItemFields[] = [
       { title: "Home", slug: "/", order: 1 },
       { title: "About", slug: "about", order: 2 },
